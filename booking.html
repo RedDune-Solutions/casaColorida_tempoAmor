@@ -326,6 +326,9 @@ so we can check availability for you.</p>
         <span class="help"><b>Need help?</b>Andrea (+351) 967 443 791<br>Mató (+351) 961 470 100</span>
       </div>
 
+      <!-- honeypot anti-spam (Web3Forms): invisível para humanos -->
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
+
       <div class="bk-cta">
         <button type="submit" class="btn-danger full">Check Availability</button>
       </div>
@@ -354,24 +357,27 @@ so we can check availability for you.</p>
 
 <script>
 /* ╔══════════════════════════════════════════════════════════════╗
-   ENVIO DO PEDIDO DE RESERVA
-   Sem pagamento online. Ao submeter, o pedido é enviado por email
-   aos donos. Esta versão usa um mailto: (abre o cliente de email do
-   utilizador) — funciona sem servidor.
-
-   EM PRODUÇÃO: trocar por um POST a um serviço de email/formulário
-   (ex.: Formspree, um endpoint próprio, ou Resend/SendGrid via uma
-   função serverless). Substituir OWNER_EMAIL e o bloco mailto pela
-   chamada fetch() ao endpoint.
+   ENVIO DO PEDIDO DE RESERVA — Web3Forms (sem servidor próprio)
+   POST para a API do Web3Forms; o email cai na caixa registada
+   (reddunesolutions@gmail.com). A access_key NÃO é segredo: vive no
+   frontend por design. Quem controla o destino é o email registado.
+   Site estático → a key fica inline (não há build para injectar env).
    ╚══════════════════════════════════════════════════════════════╝ */
 (function () {
-  var OWNER_EMAIL = 'reservas@tempoeamor.pt'; /* ← substituir pelo email real dos donos */
+  var ACCESS_KEY = '2287bca5-a4e7-4ac5-80cf-770b55d500a7';
   var form = document.getElementById('requestForm');
   if (!form) return;
+
+  var btn = form.querySelector('button[type="submit"]');
+  var btnText = btn ? btn.textContent : '';
 
   function val(name) {
     var el = form.elements[name];
     return el ? (el.value || '').trim() : '';
+  }
+  function checked(name) {
+    var el = form.elements[name];
+    return !!(el && el.checked);
   }
 
   form.addEventListener('submit', function (e) {
@@ -391,35 +397,47 @@ so we can check availability for you.</p>
     });
     if (firstInvalid) { firstInvalid.focus(); return; }
 
-    /* monta o corpo do email */
-    var lines = [
-      'NOVO PEDIDO DE RESERVA',
-      '',
-      '— Estadia —',
-      'Datas: ' + val('dates'),
-      'Hóspedes: ' + val('guests'),
-      'Casa: ' + val('house'),
-      'Baby Extras: ' + (form.elements['baby'] && form.elements['baby'].checked ? 'Sim' : 'Não'),
-      'Pet Extras: ' + (form.elements['pet'] && form.elements['pet'].checked ? 'Sim' : 'Não'),
-      '',
-      '— Contacto —',
-      'Nome: ' + val('name'),
-      'Email: ' + val('email'),
-      'Telemóvel: ' + val('phone'),
-      'NIF: ' + (val('nif') || '(não indicado)'),
-      'Como soube de nós: ' + (val('source') || '(não indicado)')
-    ];
-    var subject = 'Pedido de reserva — ' + (val('name') || 'novo cliente');
-    var href = 'mailto:' + OWNER_EMAIL +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines.join('\n'));
+    /* anti-spam: honeypot preenchido → ignora silenciosamente */
+    if (checked('botcheck')) return;
 
-    /* dispara o email e mostra confirmação */
-    window.location.href = href;
+    var payload = {
+      access_key: ACCESS_KEY,
+      subject: 'Pedido de reserva — ' + (val('name') || 'novo cliente'),
+      from_name: 'Casa Colorida · Tempo & Amor',
+      name: val('name'),
+      email: val('email'),
+      replyto: val('email'),
+      phone: val('phone'),
+      nif: val('nif') || '(não indicado)',
+      datas: val('dates'),
+      hospedes: val('guests'),
+      casa: val('house'),
+      baby_extras: checked('baby') ? 'Sim' : 'Não',
+      pet_extras: checked('pet') ? 'Sim' : 'Não',
+      como_soube: val('source') || '(não indicado)'
+    };
 
-    form.hidden = true;
-    var ok = document.getElementById('rf-success');
-    if (ok) ok.hidden = false;
+    if (btn) { btn.disabled = true; btn.textContent = 'A enviar…'; }
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.success) {
+          form.hidden = true;
+          var ok = document.getElementById('rf-success');
+          if (ok) ok.hidden = false;
+        } else {
+          throw new Error(data && data.message ? data.message : 'Falha no envio');
+        }
+      })
+      .catch(function (err) {
+        if (btn) { btn.disabled = false; btn.textContent = btnText; }
+        alert('Não foi possível enviar o pedido (' + err.message + '). Tente novamente ou contacte-nos por telefone.');
+      });
   });
 
   /* limpa o estado de erro ao escrever */

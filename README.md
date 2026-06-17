@@ -23,9 +23,11 @@ python -m http.server 4555
 ```
 Abrir http://127.0.0.1:4555/
 
+## Formulário de reserva
+`booking.html` envia via **Web3Forms** (POST a `https://api.web3forms.com/submit`) — sem servidor próprio. Email cai em `reddunesolutions@gmail.com`. Inclui honeypot anti-spam. A `access_key` está inline no JS (não é segredo: vive no frontend por design). Nota: site estático não lê `.env.local`; esse ficheiro é só registo para uma futura versão com build (Vite/Next).
+
 ## Por fazer (produção)
-- **Reservas/pagamento:** o formulário usa `mailto:` (sem servidor). Para produção, trocar por um POST a um endpoint (Formspree / serverless + Resend) e, se houver pagamento, integrar provedor externo (Stripe/Adyen/Mollie — Mollie cobre Bizum/MB WAY/SEPA).
-- **Email dos donos:** substituir `OWNER_EMAIL` em `booking.html`.
+- **Pagamento:** se for preciso cobrar online, integrar provedor externo (Stripe/Adyen/Mollie — Mollie cobre Bizum/MB WAY/SEPA). Atualmente não há pagamento (só pedido de disponibilidade).
 - **Disponibilidade/preços:** sazonalidade e mínimo de noites por implementar no backend.
 - **Imagens responsivas:** servir `srcset` e formatos modernos (webp/avif).
 - **i18n:** copy PT-first com acentos EN; estruturar para toggle PT/EN se necessário.
