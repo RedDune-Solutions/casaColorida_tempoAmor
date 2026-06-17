@@ -331,6 +331,13 @@ so we can check availability for you.</p>
       <!-- honeypot anti-spam (Web3Forms): invisível para humanos -->
       <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
 
+      <!-- consentimento RGPD -->
+      <label class="check" id="consent-row" style="margin-top:8px;align-items:flex-start">
+        <input type="checkbox" name="consent" id="rf-consent" required />
+        <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+        <span class="lbl" style="font-size:13px;color:var(--slate);line-height:1.45">Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" style="color:var(--sage-deep);text-decoration:underline;text-underline-offset:2px">Política de Privacidade</a>.</span>
+      </label>
+
       <div class="bk-cta">
         <button type="submit" class="btn-danger full">Check Availability</button>
       </div>
@@ -353,7 +360,7 @@ so we can check availability for you.</p>
 
 <!-- ===================== RODAPÉ (mínimo) ===================== -->
 <footer class="foot-min">
-  <span>© 2026 Casa Colorida / Tempo &amp; Amor · Powered by RedDune Solutions</span>
+  <span>© 2026 Casa Colorida / Tempo &amp; Amor · Powered by <a href="https://www.reddune.com" target="_blank" rel="noopener noreferrer">RedDune Solutions</a> · <a href="privacidade.html" style="text-decoration:underline;text-underline-offset:3px">Privacidade</a></span>
   <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
 </footer>
 
@@ -415,6 +422,14 @@ so we can check availability for you.</p>
     }
     if (firstInvalid) { firstInvalid.focus(); return; }
 
+    /* consentimento RGPD obrigatório */
+    if (!checked('consent')) {
+      var row = document.getElementById('consent-row');
+      if (row) { row.style.outline = '2px solid #C00F0C'; row.style.outlineOffset = '6px'; row.style.borderRadius = '6px'; }
+      var c = form.elements['consent']; if (c) c.focus();
+      return;
+    }
+
     var payload = {
       access_key: ACCESS_KEY,
       subject: 'Pedido de reserva — ' + (val('name') || 'novo cliente'),
@@ -429,7 +444,8 @@ so we can check availability for you.</p>
       casa: val('house'),
       baby_extras: checked('baby') ? 'Sim' : 'Não',
       pet_extras: checked('pet') ? 'Sim' : 'Não',
-      como_soube: val('source') || '(não indicado)'
+      como_soube: val('source') || '(não indicado)',
+      consentimento_rgpd: 'Sim — aceitou a Política de Privacidade'
     };
 
     if (btn) { btn.disabled = true; btn.textContent = 'A enviar…'; }
