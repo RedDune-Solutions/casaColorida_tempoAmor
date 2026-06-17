@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Pedido de Reserva · Slow Stays Vila do Bispo</title>
 <meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -294,14 +296,14 @@ so we can check availability for you.</p>
         <p class="bk-legend">Leave your contact and we'll get back to you to confirm your reservation.</p>
 
         <div class="field-row" style="grid-template-columns:1fr">
-          <div class="field"><label for="rf-name">Full Name</label><input class="inp" id="rf-name" name="name" type="text" required /></div>
+          <div class="field"><label for="rf-name">Full Name</label><input class="inp" id="rf-name" name="name" type="text" required maxlength="80" autocomplete="name" /></div>
         </div>
         <div class="field-row r2">
-          <div class="field"><label for="rf-email">Email</label><input class="inp" id="rf-email" name="email" type="email" required /></div>
-          <div class="field"><label for="rf-phone">Phone Number</label><input class="inp" id="rf-phone" name="phone" type="tel" required /><span class="sub">Include country code (e.g. +351)</span></div>
+          <div class="field"><label for="rf-email">Email</label><input class="inp" id="rf-email" name="email" type="email" required maxlength="120" autocomplete="email" /></div>
+          <div class="field"><label for="rf-phone">Phone Number</label><input class="inp" id="rf-phone" name="phone" type="tel" required maxlength="24" autocomplete="tel" pattern="[0-9 +()\-]{6,24}" /><span class="sub">Include country code (e.g. +351)</span></div>
         </div>
         <div class="field-row r2">
-          <div class="field"><label for="rf-nif">NIF <span class="opt">(optional)</span></label><input class="inp" id="rf-nif" name="nif" type="text" inputmode="numeric" /></div>
+          <div class="field"><label for="rf-nif">NIF <span class="opt">(optional)</span></label><input class="inp" id="rf-nif" name="nif" type="text" inputmode="numeric" maxlength="9" pattern="[0-9]{9}" /></div>
           <div class="field"><label for="rf-source">How did you hear about us?</label>
             <div class="control icon-end"><select id="rf-source" name="source">
               <option value="">Select an option</option>
@@ -383,22 +385,35 @@ so we can check availability for you.</p>
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    /* validação simples dos obrigatórios */
-    var required = ['name', 'email', 'phone'];
-    var firstInvalid = null;
-    required.forEach(function (n) {
-      var el = form.elements[n];
-      if (el && !el.value.trim()) {
-        el.style.borderColor = '#C00F0C';
-        if (!firstInvalid) firstInvalid = el;
-      } else if (el) {
-        el.style.borderColor = '';
-      }
-    });
-    if (firstInvalid) { firstInvalid.focus(); return; }
-
     /* anti-spam: honeypot preenchido → ignora silenciosamente */
     if (checked('botcheck')) return;
+
+    /* anti-spam: cooldown de 30s entre envios (por browser) */
+    try {
+      var last = +localStorage.getItem('cc_last_submit') || 0;
+      if (Date.now() - last < 30000) {
+        alert('Acabou de enviar um pedido. Aguarde um momento antes de enviar de novo.');
+        return;
+      }
+    } catch (e) { /* localStorage indisponível → ignora */ }
+
+    /* validação dos obrigatórios + formato */
+    function mark(el, bad) { if (el) el.style.borderColor = bad ? '#C00F0C' : ''; }
+    var firstInvalid = null;
+    ['name', 'email', 'phone'].forEach(function (n) {
+      var el = form.elements[n];
+      if (el && !el.value.trim()) { mark(el, true); if (!firstInvalid) firstInvalid = el; }
+      else mark(el, false);
+    });
+    var emailEl = form.elements['email'];
+    if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      mark(emailEl, true); if (!firstInvalid) firstInvalid = emailEl;
+    }
+    var phoneEl = form.elements['phone'];
+    if (phoneEl && phoneEl.value.trim() && (phoneEl.value.replace(/[^0-9]/g, '').length < 6)) {
+      mark(phoneEl, true); if (!firstInvalid) firstInvalid = phoneEl;
+    }
+    if (firstInvalid) { firstInvalid.focus(); return; }
 
     var payload = {
       access_key: ACCESS_KEY,
@@ -427,6 +442,7 @@ so we can check availability for you.</p>
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data && data.success) {
+          try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (e) {}
           form.hidden = true;
           var ok = document.getElementById('rf-success');
           if (ok) ok.hidden = false;
