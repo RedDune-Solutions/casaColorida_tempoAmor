@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pedido de Reserva · Slow Stays Vila do Bispo</title>
+<meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ============================================================
+   RESERVAR — reconstruída fiel ao frame "10" do Figma.
+   Página única: faixa de fotos → painel branco com título,
+   stepper vermelho e secções Choose Dates / Guest Info / Payment.
+   ============================================================ */
+body { background: var(--cloud); }
+
+/* ----- HEADER (barra sage, igual à home) ----- */
+.bar { position: sticky; top: 0; z-index: 60; background: var(--watercolor); color: var(--on-watercolor); border-bottom: 1px solid rgba(94,146,143,.20); }
+.bar-inner {
+  max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+}
+.bar .home { display: inline-flex; align-items: center; }
+.bar .home svg { width: 22px; height: 22px; }
+.bar nav { display: flex; gap: clamp(20px,4vw,56px); }
+.bar nav a {
+  color: var(--on-watercolor); font-size: 14px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; opacity: .92; transition: opacity .2s;
+}
+.bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+
+/* ----- botão Danger (vermelho) ----- */
+.btn-danger {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: rgb(192,15,12); color: rgb(254,233,231);
+  box-shadow: inset 0 0 0 1px rgb(144,11,9);
+  border-radius: 8px; padding: 16px 22px;
+  font-size: 16px; font-weight: 500; letter-spacing: .01em;
+  transition: background .2s ease, transform .2s ease;
+}
+.btn-danger:hover { background: rgb(168,12,10); transform: translateY(-1px); }
+.btn-danger.full { width: 100%; }
+
+/* ----- faixa de fotos no topo (3 placeholders / fotos) ----- */
+.bk-strip {
+  max-width: 1440px; margin-inline: auto; padding: 0 clamp(0px,1.4vw,20px);
+  display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: clamp(8px,1.2vw,18px);
+  height: clamp(200px, 28vw, 404px);
+}
+.bk-strip > div {
+  background-color: rgb(217,217,217); border-radius: 6px;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+
+/* ----- painel branco ----- */
+.bk-panel {
+  position: relative; z-index: 2;
+  max-width: 1196px; margin: clamp(28px,4vw,52px) auto clamp(48px,7vw,96px);
+  background: #fff; border-radius: 16px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: clamp(40px,6vw,90px) clamp(24px,8vw,200px) clamp(40px,6vw,72px);
+}
+.bk-form { max-width: 790px; margin-inline: auto; }
+
+/* ----- cabeçalho do painel ----- */
+.bk-eyebrow {
+  display: block; text-align: center;
+  font-size: clamp(22px,2.4vw,32px); font-weight: 500; letter-spacing: .05em;
+  color: var(--sage-soft); text-transform: lowercase;
+  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1.5px;
+}
+.bk-title {
+  margin-top: 14px; text-align: center; white-space: pre-line;
+  font-size: clamp(36px,5vw,64px); font-weight: 700; letter-spacing: .05em;
+  line-height: 1.15; color: var(--sage); text-transform: lowercase;
+}
+
+/* ----- stepper vermelho ----- */
+.stepper {
+  margin: clamp(28px,4vw,46px) 0 0;
+  background: rgb(192,15,12); color: #fff; border-radius: 8px;
+  padding: 18px 20px; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: clamp(12px,2.6vw,40px); font-size: clamp(13px,1.5vw,20px); font-weight: 600;
+  letter-spacing: -.01em;
+}
+.stepper span { white-space: nowrap; opacity: .72; }
+.stepper span.on { opacity: 1; }
+
+/* ----- secções ----- */
+.bk-section { margin-top: clamp(40px,5vw,64px); }
+.bk-section > h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.bk-legend { margin-top: 8px; font-size: 16px; font-weight: 400; color: #303030; line-height: 1.4; white-space: pre-line; }
+.bk-rule { height: 1px; background: var(--line); margin-top: clamp(28px,4vw,40px); }
+
+/* ----- campos ----- */
+.field-row { display: grid; gap: 16px; margin-top: 26px; }
+.field-row.r3 { grid-template-columns: 1fr 1fr 1fr; }
+.field-row.r2 { grid-template-columns: 1fr 1fr; }
+.field-row.r-pcc { grid-template-columns: 305fr 224fr 230fr; }   /* passport / exp / nationality */
+.field-row.r-pe  { grid-template-columns: 305fr 468fr; }          /* phone / email */
+.field-row.r-cardno { grid-template-columns: 544fr 230fr; }       /* card number / country */
+.field {  display: flex; flex-direction: column; gap: 8px; }
+.field > label { font-size: 16px; font-weight: 400; color: var(--ink); }
+.field .sub { font-size: 12px; color: var(--slate); margin-top: -2px; }
+.inp {
+  height: 44px; width: 100%; box-sizing: border-box;
+  padding: 12px 16px; font: inherit; font-size: 16px; color: var(--ink);
+  background: #fff; border: 1px solid rgb(217,217,217); border-radius: 8px;
+  transition: border-color .18s, box-shadow .18s;
+}
+.inp::placeholder { color: rgb(179,179,179); }
+.inp:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(130,184,181,.18); }
+/* select / date como "control" com ícone */
+.control {
+  height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 0 14px; background: #fff; border: 1px solid rgb(217,217,217); border-radius: 8px;
+  font-size: 16px; color: var(--ink); cursor: pointer; position: relative;
+}
+.control:hover { border-color: var(--sage); }
+.control select {
+  appearance: none; -webkit-appearance: none; border: none; background: none;
+  font: inherit; font-size: 16px; color: var(--ink); width: 100%; height: 100%; cursor: pointer; outline: none;
+}
+.control svg { width: 18px; height: 18px; color: var(--slate); flex: none; pointer-events: none; }
+.control.icon-end select { padding-right: 4px; }
+
+/* ----- checkboxes ----- */
+.checks { display: flex; gap: clamp(20px,5vw,48px); flex-wrap: wrap; margin-top: 24px; }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.check .box {
+  flex: none; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
+  box-shadow: inset 0 0 0 1.5px var(--line); background: #fff;
+  display: grid; place-items: center; transition: background .15s, box-shadow .15s;
+}
+.check .box svg { width: 13px; height: 13px; color: #fff; opacity: 0; }
+.check input:checked + .box { background: var(--sage); box-shadow: inset 0 0 0 1.5px var(--sage); }
+.check input:checked + .box svg { opacity: 1; }
+.check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+.check .lbl small { font-size: 12.5px; color: var(--slate); }
+
+/* ----- subtítulos de hóspede ----- */
+.guest-tag { font-size: 20px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.guest-tag.g1 { color: var(--sage); }
+.guest-tag.g2 { color: #9E9E9E; margin-top: clamp(30px,4vw,44px); }
+.check-note { margin-top: 16px; text-align: right; font-size: 12px; color: var(--slate); }
+
+/* ----- pagamento ----- */
+.pay-methods { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.pay-tile {
+  position: relative; min-width: 96px; height: 56px; padding: 0 18px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: #fff; border: 1.5px solid rgb(222,222,222); border-radius: 10px;
+  cursor: pointer; transition: border-color .18s, box-shadow .18s;
+  font-size: 15px; font-weight: 700; color: #1a1a1a;
+}
+.pay-tile:hover { border-color: #bdbdbd; }
+.pay-tile.sel { border-color: var(--terracotta); box-shadow: 0 0 0 1px var(--terracotta); }
+.pay-tile .star {
+  position: absolute; top: 6px; left: 7px; width: 12px; height: 12px; color: var(--terracotta);
+}
+.pay-tile.sel .star { display: block; }
+.pay-tile .star { display: none; }
+.pay-tile .apple { font-size: 18px; }
+.pay-tile .gpay-g { color: #4285F4; font-weight: 700; }
+.pay-tile .mc { display: inline-flex; }
+.pay-tile .mc i { display: block; width: 18px; height: 18px; border-radius: 50%; }
+.pay-tile .mc i:first-child { background: #EB001B; }
+.pay-tile .mc i:last-child { background: #F79E1B; margin-left: -7px; mix-blend-mode: multiply; }
+.pay-tile .bizum { color: #00C5C9; letter-spacing: -.01em; }
+.pay-tile .visa { font-style: italic; color: #1A1F71; letter-spacing: .02em; }
+.card-details-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: clamp(28px,4vw,38px); }
+.card-details-title { font-size: 16px; color: var(--ink); }
+.provider-hint { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--slate); }
+.provider-hint svg { width: 14px; height: 14px; color: var(--sage-deep); flex: none; }
+
+/* ----- nota / SSL ----- */
+.bk-note {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px 40px;
+  margin-top: 22px; font-size: 14px; color: var(--slate); line-height: 1.5;
+}
+.bk-note .help b { display: block; color: var(--ink-soft); font-weight: 600; margin-bottom: 6px; }
+.bk-cta { margin-top: 28px; }
+.ssl {
+  margin-top: 18px; text-align: center; line-height: 1.5;
+  font-size: 11px; letter-spacing: .04em; color: #9AA09C;
+}
+.ssl b { display: block; font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--slate); text-transform: uppercase; }
+
+/* ----- etiqueta opcional + textarea ----- */
+.opt { color: var(--slate); font-weight: 400; font-size: 13px; }
+textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1.5; min-height: 96px; }
+
+/* ----- estado de sucesso ----- */
+.bk-success { text-align: center; padding: clamp(28px,5vw,56px) 0; }
+.bk-success .check-ring {
+  width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center;
+  margin: 0 auto 24px; background: rgba(130,184,181,.18);
+}
+.bk-success .check-ring svg { width: 34px; height: 34px; color: var(--sage); }
+.bk-success h2 { font-size: clamp(28px,3.4vw,42px); font-weight: 700; letter-spacing: .03em; color: var(--sage); text-transform: lowercase; }
+.bk-success p { margin: 14px auto 0; max-width: 480px; font-size: 17px; font-weight: 300; color: #303030; line-height: 1.55; }
+.bk-success .home-link { margin-top: 28px; }
+
+/* ----- responsivo ----- */
+@media (max-width: 760px) {
+  .bk-strip { grid-template-columns: 1fr 1fr; }
+  .bk-strip > div:nth-child(3) { display: none; }
+  .field-row.r3, .field-row.r-pcc, .field-row.r-pe, .field-row.r-cardno, .field-row.r2 { grid-template-columns: 1fr; }
+  .bk-note { flex-direction: column; }
+  .check-note { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="bar">
+  <div class="bar-inner">
+    <a class="home" href="index.html" aria-label="Início">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    </a>
+    <nav aria-label="Principal">
+      <a href="index.html#tempo">Tempo &amp; Amor</a>
+      <a href="index.html#colorida">Casa Colorida</a>
+      <a href="index.html#local">Local</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== PAINEL ===================== -->
+<main class="bk-panel">
+  <div class="bk-form">
+
+    <span class="bk-eyebrow">you're almost here</span>
+    <h1 class="bk-title">your Algarve escape
+starts here</h1>
+
+    <form id="requestForm" novalidate>
+
+      <!-- ============ 1 · YOUR STAY ============ -->
+      <section class="bk-section">
+        <h2>Your Stay</h2>
+        <p class="bk-legend">Tell us about the stay you have in mind
+so we can check availability for you.</p>
+
+        <div class="field-row r3">
+          <div class="field">
+            <label for="dates">Check-In / Check-Out</label>
+            <div class="control icon-end">
+              <input class="control-input" id="dates" name="dates" value="09 Sep - 13 Sep" style="appearance:none;border:none;background:none;font:inherit;font-size:16px;color:var(--ink);width:100%;outline:none" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <span class="sub">*3 nights minimum</span>
+          </div>
+          <div class="field">
+            <label for="guests">Guests Number</label>
+            <div class="control icon-end">
+              <select id="guests" name="guests"><option>2</option><option>1</option><option>3</option><option>4</option><option>5</option></select>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="field">
+            <label for="house">Requested House</label>
+            <div class="control icon-end">
+              <select id="house" name="house"><option>T1 - Tempo &amp; Amor</option><option>T2 - Casa Colorida</option></select>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="checks">
+          <label class="check">
+            <input type="checkbox" name="baby" />
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+            <span class="lbl"><b>Baby Extras</b><small>High chair &amp; baby cot available.</small></span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="pet" />
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+            <span class="lbl"><b>Pet Extras (20€ extra cost)</b><small>Bed &amp; food bowls available.</small></span>
+          </label>
+        </div>
+      </section>
+
+      <div class="bk-rule"></div>
+
+      <!-- ============ 2 · YOUR DETAILS ============ -->
+      <section class="bk-section">
+        <h2>Your Details</h2>
+        <p class="bk-legend">Leave your contact and we'll get back to you to confirm your reservation.</p>
+
+        <div class="field-row" style="grid-template-columns:1fr">
+          <div class="field"><label for="rf-name">Full Name</label><input class="inp" id="rf-name" name="name" type="text" required /></div>
+        </div>
+        <div class="field-row r2">
+          <div class="field"><label for="rf-email">Email</label><input class="inp" id="rf-email" name="email" type="email" required /></div>
+          <div class="field"><label for="rf-phone">Phone Number</label><input class="inp" id="rf-phone" name="phone" type="tel" required /><span class="sub">Include country code (e.g. +351)</span></div>
+        </div>
+        <div class="field-row r2">
+          <div class="field"><label for="rf-nif">NIF <span class="opt">(optional)</span></label><input class="inp" id="rf-nif" name="nif" type="text" inputmode="numeric" /></div>
+          <div class="field"><label for="rf-source">How did you hear about us?</label>
+            <div class="control icon-end"><select id="rf-source" name="source">
+              <option value="">Select an option</option>
+              <option>Instagram</option>
+              <option>Facebook</option>
+              <option>Google</option>
+              <option>Friends &amp; Family</option>
+              <option>Booking / Airbnb</option>
+              <option>Other</option>
+            </select>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="bk-rule"></div>
+
+      <!-- nota + envio -->
+      <div class="bk-note">
+        <span>No payment now — we'll call you or reply by email with availability and the next steps.</span>
+        <span class="help"><b>Need help?</b>Andrea (+351) 967 443 791<br>Mató (+351) 961 470 100</span>
+      </div>
+
+      <div class="bk-cta">
+        <button type="submit" class="btn-danger full">Check Availability</button>
+      </div>
+
+      <p class="ssl"><b>Your privacy</b>We'll only use your details to reply about your stay.</p>
+
+    </form>
+
+    <!-- ===================== ESTADO DE SUCESSO ===================== -->
+    <div class="bk-success" id="rf-success" hidden>
+      <div class="check-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>
+      </div>
+      <h2>request sent</h2>
+      <p>Thank you! Your booking request is on its way to Andrea &amp; Mató. We'll get back to you by email as soon as we've checked availability.</p>
+      <div class="home-link"><a class="btn-danger" href="index.html">BACK TO HOME</a></div>
+    </div>
+  </div>
+</main>
+
+<!-- ===================== RODAPÉ (mínimo) ===================== -->
+<footer class="foot-min">
+  <span>© 2026 Casa Colorida / Tempo &amp; Amor · Powered by RedDune Solutions</span>
+  <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
+</footer>
+
+<script>
+/* ╔══════════════════════════════════════════════════════════════╗
+   ENVIO DO PEDIDO DE RESERVA
+   Sem pagamento online. Ao submeter, o pedido é enviado por email
+   aos donos. Esta versão usa um mailto: (abre o cliente de email do
+   utilizador) — funciona sem servidor.
+
+   EM PRODUÇÃO: trocar por um POST a um serviço de email/formulário
+   (ex.: Formspree, um endpoint próprio, ou Resend/SendGrid via uma
+   função serverless). Substituir OWNER_EMAIL e o bloco mailto pela
+   chamada fetch() ao endpoint.
+   ╚══════════════════════════════════════════════════════════════╝ */
+(function () {
+  var OWNER_EMAIL = 'reservas@tempoeamor.pt'; /* ← substituir pelo email real dos donos */
+  var form = document.getElementById('requestForm');
+  if (!form) return;
+
+  function val(name) {
+    var el = form.elements[name];
+    return el ? (el.value || '').trim() : '';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    /* validação simples dos obrigatórios */
+    var required = ['name', 'email', 'phone'];
+    var firstInvalid = null;
+    required.forEach(function (n) {
+      var el = form.elements[n];
+      if (el && !el.value.trim()) {
+        el.style.borderColor = '#C00F0C';
+        if (!firstInvalid) firstInvalid = el;
+      } else if (el) {
+        el.style.borderColor = '';
+      }
+    });
+    if (firstInvalid) { firstInvalid.focus(); return; }
+
+    /* monta o corpo do email */
+    var lines = [
+      'NOVO PEDIDO DE RESERVA',
+      '',
+      '— Estadia —',
+      'Datas: ' + val('dates'),
+      'Hóspedes: ' + val('guests'),
+      'Casa: ' + val('house'),
+      'Baby Extras: ' + (form.elements['baby'] && form.elements['baby'].checked ? 'Sim' : 'Não'),
+      'Pet Extras: ' + (form.elements['pet'] && form.elements['pet'].checked ? 'Sim' : 'Não'),
+      '',
+      '— Contacto —',
+      'Nome: ' + val('name'),
+      'Email: ' + val('email'),
+      'Telemóvel: ' + val('phone'),
+      'NIF: ' + (val('nif') || '(não indicado)'),
+      'Como soube de nós: ' + (val('source') || '(não indicado)')
+    ];
+    var subject = 'Pedido de reserva — ' + (val('name') || 'novo cliente');
+    var href = 'mailto:' + OWNER_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+
+    /* dispara o email e mostra confirmação */
+    window.location.href = href;
+
+    form.hidden = true;
+    var ok = document.getElementById('rf-success');
+    if (ok) ok.hidden = false;
+  });
+
+  /* limpa o estado de erro ao escrever */
+  form.addEventListener('input', function (e) {
+    if (e.target && e.target.style) e.target.style.borderColor = '';
+  });
+})();
+</script>
+
+</body>
+</html>

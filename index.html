@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Casa Colorida &amp; Tempo &amp; Amor · Vila do Bispo</title>
+<meta name="description" content="Duas casas acolhedoras e típicas no coração de Vila do Bispo. Stay slow, feel at home." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ============================================================
+   HOME — reconstruída fiel ao frame "12" do Figma
+   Canvas de referência: 1440px. Tokens reais do ficheiro.
+   ============================================================ */
+
+/* ----- escala de página (frame de 1440 → fluido) ----- */
+.page { max-width: 1196px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 60px); }
+
+/* eyebrow real: pequenas maiúsculas espaçadas, cinza-sage */
+.kicker {
+  font-size: 15px; font-weight: 600; letter-spacing: .24em;
+  text-transform: uppercase; color: #B7C9C1;
+}
+/* heading real: Inter 700, lowercase, +0.05em, sage */
+.fig-title {
+  font-weight: 700; letter-spacing: .05em; color: var(--sage);
+  line-height: 1.15; text-transform: lowercase;
+  font-size: clamp(40px, 5.4vw, 64px);
+}
+
+/* botão Danger — coral/laranja (como o mockup do Figma) */
+.btn-danger {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: rgb(240,138,36); color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(144,11,9);
+  border-radius: 8px; padding: 16px 22px;
+  font-size: 16px; font-weight: 500; letter-spacing: .01em;
+  transition: background .2s ease, transform .2s ease;
+}
+.btn-danger:hover { background: rgb(222,124,28); transform: translateY(-1px); }
+.btn-danger.full { width: 100%; }
+
+/* botão BOOK NOW do hero — coral (frame 11) */
+.btn-book {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgb(240,138,36); color: #fff;
+  border-radius: 8px; padding: 0 clamp(28px,3vw,48px); height: 44px;
+  font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  white-space: nowrap; transition: background .2s ease, transform .2s ease;
+}
+.btn-book:hover { background: rgb(222,124,28); transform: translateY(-1px); }
+
+/* ================= HEADER (barra sage) ================= */
+.bar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--watercolor); color: var(--on-watercolor);
+  border-bottom: 1px solid rgba(94,146,143,.20);
+}
+.bar-inner {
+  max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+}
+.bar .home { display: inline-flex; align-items: center; }
+.bar .home svg { width: 22px; height: 22px; }
+.bar nav { display: flex; gap: clamp(20px, 4vw, 56px); }
+.bar nav a {
+  color: var(--on-watercolor); font-size: 14px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; opacity: .92; transition: opacity .2s;
+}
+.bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+
+/* ================= HERO ================= */
+.hero {
+  position: relative; min-height: clamp(560px, 64vw, 760px);
+  display: flex; align-items: flex-start;
+  background: url("assets/fig/photo-b.jpg") center / cover no-repeat;
+}
+.hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.14) 0%, rgba(20,18,14,.05) 28%, rgba(20,18,14,0) 52%, rgba(253,253,253,.55) 84%, var(--paper) 100%); }
+.hero-wrap {
+  position: relative; z-index: 2; width: 100%;
+  max-width: 1196px; margin-inline: auto;
+  padding: clamp(28px,5vw,54px) clamp(20px,5vw,60px) 0;
+}
+
+/* widget de reserva — barra horizontal */
+.booking-bar {
+  width: 100%; position: relative;
+  background: rgba(255,255,255,.97); border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(30,30,30,.22);
+  padding: clamp(18px,2vw,24px) clamp(20px,2.4vw,30px);
+  display: flex; flex-direction: column; gap: clamp(14px,1.6vw,18px);
+}
+.bar-fields { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); }
+.bar-extras { display: flex; align-items: center; gap: clamp(20px,3vw,40px); flex-wrap: wrap; }
+.bar-extras .btn-book { margin-left: auto; }
+.field-fig { display: flex; flex-direction: column; gap: 6px; }
+.field-fig > label {
+  font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -.01em;
+}
+.control {
+  height: 44px; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 0 14px; background: #fff;
+  border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 15px; color: #555; cursor: pointer;
+}
+.control:hover { box-shadow: inset 0 0 0 1px var(--sage); }
+.control svg { width: 18px; height: 18px; color: var(--slate); flex: none; }
+.control select { appearance: none; -webkit-appearance: none; border: none; background: none; font: inherit; font-size: 15px; color: var(--ink); width: 100%; height: 100%; cursor: pointer; outline: none; }
+.hint { font-size: 12px; color: var(--slate); margin-top: -2px; }
+
+.checks { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.bar-extras .check { align-items: center; }
+.check .box {
+  flex: none; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
+  box-shadow: inset 0 0 0 1.5px var(--line); background: #fff;
+  display: grid; place-items: center; transition: background .15s, box-shadow .15s;
+}
+.check .box svg { width: 13px; height: 13px; color: #fff; opacity: 0; }
+.check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.check input:checked + .box { background: rgb(240,138,36); box-shadow: inset 0 0 0 1.5px rgb(240,138,36); }
+.check input:checked + .box svg { opacity: 1; }
+.check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+.check .lbl small { font-size: 12.5px; color: var(--slate); }
+
+/* calendário (popover — abre para cima no hero) */
+.date-field { position: static; }
+.cal {
+  position: absolute; top: calc(100% + 16px); left: 0; z-index: 40;
+  width: 318px; max-width: calc(100vw - 40px);
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 16px; padding: 16px;
+  box-shadow: 0 18px 50px rgba(30,30,30,.22);
+}
+.cal[hidden] { display: none; }
+.control[aria-expanded="true"] { box-shadow: inset 0 0 0 1px rgb(240,138,36); }
+.cal-head { display: flex; align-items: center; justify-content: space-between; height: 36px; }
+.cal-head .mlabel { font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+.cal-nav {
+  width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center;
+  color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); transition: background .15s;
+}
+.cal-nav:hover { background: #FCEADC; }
+.cal-nav svg { width: 18px; height: 18px; }
+.cal-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-grid .dow { font-size: 12px; font-weight: 600; color: var(--slate); text-align: center; padding-bottom: 6px; }
+.cal-grid .day {
+  aspect-ratio: 1; display: grid; place-items: center;
+  font-size: 13px; color: var(--ink); border-radius: 8px; cursor: pointer;
+}
+.cal-grid .day:hover { background: #FCEADC; }
+.cal-grid .day.muted { color: #C9C9C9; cursor: default; }
+.cal-grid .day.muted:hover { background: none; }
+.cal-grid .day.range { background: #FCEADC; border-radius: 0; }
+.cal-grid .day.active { background: rgb(240,138,36); color: #fff; font-weight: 600; }
+
+/* chevron scroll cue */
+.cue {
+  display: grid; place-items: center; margin: 26px auto 0; color: var(--sage);
+  animation: bob 2.4s ease-in-out infinite;
+}
+.cue svg { width: 48px; height: 48px; }
+@keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(8px);} }
+@media (prefers-reduced-motion: reduce){ .cue { animation: none; } }
+
+/* ================= WELCOME / INTRO ================= */
+.welcome { text-align: center; padding: clamp(64px,8vw,104px) 0 clamp(40px,5vw,72px); }
+.welcome .kicker {
+  display: inline-block; font-size: clamp(22px,2.4vw,32px); font-weight: 500;
+  letter-spacing: .05em; color: var(--sage-soft); text-transform: lowercase;
+  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1.5px;
+}
+.welcome h1 { margin-top: 18px; }
+.welcome p {
+  max-width: 620px; margin: 30px auto 0;
+  font-size: clamp(19px,2vw,24px); font-weight: 300; line-height: 1.4; color: #1a1a1a;
+}
+.welcome p .br { display: block; height: .8em; }
+
+/* ================= CASAS (mural de azulejos) ================= */
+.houses { position: relative; padding-block: clamp(40px,5vw,72px); }
+.houses::before {
+  content:""; position: absolute; inset: 0;
+  background: url("assets/fig/photo-c.jpg") center top / cover no-repeat;
+}
+.houses-panel {
+  position: relative; max-width: 1196px; margin-inline: auto;
+  background: rgba(255,255,255,.94); border-radius: 16px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: clamp(28px,4vw,52px) clamp(24px,5vw,76px) clamp(56px,7vw,96px);
+}
+.houses-photo {
+  width: 100%; height: clamp(280px, 44vw, 636px);
+  background: url("assets/fig/photo-a.jpg") center / cover no-repeat;
+  border-radius: 4px;
+}
+.house-block {
+  margin-top: clamp(56px,8vw,120px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(28px,4vw,60px); align-items: center;
+}
+.house-block .house-text { max-width: 564px; }
+.house-block.right .house-text { order: 2; justify-self: end; }
+.house-block .body {
+  margin: 22px 0 30px; font-size: clamp(17px,1.6vw,20px); font-weight: 300;
+  line-height: 1.5; color: #1a1a1a; white-space: pre-line;
+}
+.house-block .fig-title { margin-top: 6px; }
+.houses-panel .house-block:first-of-type { margin-top: 0; }
+.house-photo {
+  width: 100%; aspect-ratio: 4 / 3; border-radius: 8px;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  box-shadow: 0 18px 50px rgba(30,30,30,.16);
+}
+
+/* ================= RESERVA (passo embutido) ================= */
+.reserve { padding-block: clamp(48px,6vw,80px); }
+.stepper {
+  background: rgb(192,15,12); color: #fff; border-radius: 8px;
+  padding: 18px 20px; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: clamp(14px,3vw,40px); font-size: clamp(14px,1.5vw,20px); font-weight: 600;
+  letter-spacing: -.01em;
+}
+.stepper span { white-space: nowrap; opacity: .7; }
+.stepper span.on { opacity: 1; }
+.reserve h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); margin-top: 36px; }
+.reserve .legend { margin-top: 10px; font-size: 16px; font-weight: 300; color: #303030; line-height: 1.4; max-width: 520px; }
+.reserve-row {
+  margin-top: 26px; display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 18px;
+}
+.reserve-checks { margin-top: 22px; display: flex; gap: 40px; flex-wrap: wrap; }
+
+/* ================= DISCOVER ================= */
+.discover { padding-block: clamp(56px,7vw,96px); }
+.discover .body { margin-top: 18px; max-width: 520px; font-size: clamp(17px,1.6vw,20px); font-weight: 300; color: #1a1a1a; line-height: 1.5; }
+/* mosaico fiel ao Figma: 6 retângulos uniformes 304×404, cinza rgb(217,217,217) */
+.mosaic {
+  margin-top: clamp(36px,5vw,56px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px,1.6vw,24px);
+}
+.tile {
+  aspect-ratio: 304 / 404; border-radius: 8px; overflow: hidden;
+  background-color: rgb(217,217,217);
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+
+.collection {
+  margin-top: clamp(40px,5vw,64px); margin-left: auto; max-width: 434px; text-align: right;
+}
+.collection p { font-size: clamp(18px,1.8vw,24px); font-weight: 300; line-height: 1.4; color: #000; }
+.collection .sig {
+  display: block; margin-top: 14px; font-family: var(--font-script);
+  font-size: 36px; letter-spacing: -.03em; color: var(--sage);
+}
+
+/* ================= FAQ ================= */
+.faq { padding-block: clamp(40px,5vw,80px) clamp(64px,8vw,120px); }
+.faq-list { max-width: 640px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+.acc {
+  border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden;
+}
+.acc summary {
+  list-style: none; cursor: pointer; padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  font-size: 16px; font-weight: 600; color: var(--ink);
+}
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary .chev { width: 20px; height: 20px; color: var(--slate); transition: transform .25s; flex: none; }
+.acc[open] summary .chev { transform: rotate(180deg); }
+.acc .ans { padding: 0 20px 18px; font-size: 15px; font-weight: 300; color: #303030; line-height: 1.55; }
+.acc.open-first[open] { box-shadow: inset 0 0 0 1px var(--sage); }
+
+/* ================= RODAPÉ MÍNIMO ================= */
+.foot-min {
+  background: var(--watercolor); color: var(--on-watercolor);
+  padding: 22px clamp(20px,5vw,60px);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 10px 28px; font-size: 14px; letter-spacing: .01em;
+}
+.foot-min span:last-child { opacity: .9; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 980px) {
+  .bar-fields { grid-template-columns: 1fr; }
+  .reserve-row { grid-template-columns: 1fr; }
+  .mosaic { grid-template-columns: repeat(2, 1fr); }
+  .house-block { grid-template-columns: 1fr; gap: 24px; }
+  .house-block.right .house-text { order: 0; justify-self: start; }
+  .house-block .house-text { max-width: none; }
+  .collection { margin-right: auto; }
+}
+@media (max-width: 560px) {
+  .booking-bar { padding: 20px 18px; }
+  .bar-extras { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .bar-extras .btn-book { margin-left: 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="bar">
+  <div class="bar-inner">
+    <a class="home" href="index.html" aria-label="Início">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    </a>
+    <nav aria-label="Principal">
+      <a href="#tempo">Tempo &amp; Amor</a>
+      <a href="#colorida">Casa Colorida</a>
+      <a href="#local">Local</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-wrap">
+    <!-- widget de reserva — barra horizontal -->
+    <form class="booking-bar" onsubmit="return false">
+      <div class="bar-fields">
+        <div class="field-fig date-field">
+          <label>Check-In / Check-Out</label>
+          <button type="button" class="control" id="dateTrigger" aria-haspopup="dialog" aria-expanded="false">
+            <span id="dateValue">Choose dates</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </button>
+
+          <!-- calendário (abre ao clicar no campo — como no frame 11) -->
+          <div class="cal" id="calPop" role="dialog" aria-label="Escolher datas" hidden>
+            <div class="cal-head">
+              <button class="cal-nav" type="button" aria-label="Mês anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <span class="mlabel">Sep 2025</span>
+              <button class="cal-nav" type="button" aria-label="Mês seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+            <div class="cal-grid">
+              <div class="dow">Mo</div><div class="dow">Tu</div><div class="dow">We</div><div class="dow">Th</div><div class="dow">Fr</div><div class="dow">Sa</div><div class="dow">Su</div>
+              <div class="day muted">25</div><div class="day muted">26</div><div class="day muted">27</div><div class="day muted">28</div><div class="day muted">29</div><div class="day muted">30</div><div class="day muted">31</div>
+              <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div>
+              <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+              <div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div>
+              <div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-fig">
+          <label>Guests Number</label>
+          <div class="control">
+            <select aria-label="Guests Number"><option>0-5</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="field-fig">
+          <label>Requested House</label>
+          <div class="control">
+            <select aria-label="Requested House"><option>T1 - Tempo &amp; Amor</option><option>T2 - Casa Colorida</option></select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="bar-extras">
+        <label class="check">
+          <input type="checkbox" />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+          <span class="lbl"><b>Baby Extras</b><small>High chair &amp; baby cot available.</small></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" checked />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+          <span class="lbl"><b>Pet Extras (20€ extra cost)</b><small>Pet bed &amp; food bowls available.</small></span>
+        </label>
+        <a class="btn-book" href="booking.html">BOOK NOW</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<a class="cue" href="#welcome" aria-label="Descer">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+</a>
+
+<!-- ===================== WELCOME ===================== -->
+<section class="welcome page" id="welcome">
+  <span class="kicker">welcome</span>
+  <h1 class="fig-title">stay slow, feel at home</h1>
+  <p>Feel at home with us and discover two cozy and typical houses in Vila do Bispo.<span class="br"></span>Each space has been carefully prepared to offer comfort, privacy, and a genuine experience of the southwest Algarve.</p>
+</section>
+
+<!-- ===================== CASAS ===================== -->
+<section class="houses" id="casas">
+  <div class="houses-panel">
+
+    <article class="house-block" id="tempo">
+      <div class="house-text">
+        <span class="kicker">one bedroom</span>
+        <h2 class="fig-title">tempo &amp; amor</h2>
+        <p class="body">A peaceful retreat to slow down.
+Designed for those who value simplicity, comfort, and moments of true disconnection.</p>
+        <a class="btn-danger" href="booking.html" style="border-radius: 8px">RESERVE NOW</a>
+      </div>
+      <div class="house-photo" role="img" aria-label="Casa Tempo &amp; Amor" style="background-image:url('assets/fig/photo-b.jpg')"></div>
+    </article>
+
+    <article class="house-block right" id="colorida">
+      <div class="house-text">
+        <span class="kicker">two bedroom</span>
+        <h2 class="fig-title">colorida</h2>
+        <p class="body">A space to gather, relax, and create memories.
+Ideal for those looking to gather around for a relaxing stay close to nature.</p>
+        <a class="btn-danger" href="booking.html">RESERVE NOW</a>
+      </div>
+      <div class="house-photo" role="img" aria-label="Casa Colorida" style="background-image:url('assets/fig/photo-c.jpg')"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== DISCOVER ===================== -->
+<section class="discover page" id="local">
+  <h2 class="fig-title" style="text-transform:none">Discover</h2>
+  <p class="body" style="color:#1a1a1a;font-weight:300;font-size:clamp(17px,1.6vw,20px);max-width:520px;margin-top:14px;line-height:1.5">Discover beaches, restaurants, cafes, and experiences that are part of everyday life in our region.</p>
+
+  <div class="mosaic">
+    <div class="tile" style="background-image:url('assets/fig/photo-b.jpg')"></div>
+    <div class="tile"></div>
+    <div class="tile" style="background-image:url('assets/fig/photo-a.jpg')"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+    <div class="tile"></div>
+  </div>
+
+  <div class="collection">
+    <p>A collection of places, experiences and small moments that make our region so welcoming and typical.
+      <span class="sig">Andrea Love&nbsp;&nbsp;_</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="faq page">
+  <div class="faq-list">
+    <details class="acc open-first" open>
+      <summary>How do I book a stay?
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="ans">Answer the frequently asked question in a simple sentence, a longish paragraph, or even in a list.</div>
+    </details>
+    <details class="acc"><summary>What is the minimum stay?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans">A minimum of 3 nights is required for every reservation.</div></details>
+    <details class="acc"><summary>Are pets allowed?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans">Yes — pets are welcome with a 20€ extra cost. Bed &amp; food bowls are available.</div></details>
+    <details class="acc"><summary>What are the check-in and check-out times?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans">Check-in from 3 PM, check-out until 11 AM.</div></details>
+    <details class="acc"><summary>Is there free cancellation?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans">Free cancellation up to 7 days before your arrival.</div></details>
+  </div>
+</section>
+
+<!-- ===================== RODAPÉ (mínimo) ===================== -->
+<footer class="foot-min">
+  <span>© 2026 Casa Colorida / Tempo &amp; Amor · Powered by RedDune Solutions</span>
+  <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
+</footer>
+
+<script>
+/* Calendário popover — abre ao clicar no campo de datas (modelo do frame 11) */
+(function () {
+  var trigger = document.getElementById('dateTrigger');
+  var pop = document.getElementById('calPop');
+  var val = document.getElementById('dateValue');
+  if (!trigger || !pop || !val) return;
+
+  function open()  { pop.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+  function close() { pop.hidden = true;  trigger.setAttribute('aria-expanded', 'false'); }
+
+  trigger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    pop.hidden ? open() : close();
+  });
+  pop.addEventListener('click', function (e) { e.stopPropagation(); });
+  document.addEventListener('click', function (e) {
+    if (!pop.hidden && !pop.contains(e.target) && !trigger.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+  var days = Array.prototype.slice.call(pop.querySelectorAll('.day:not(.muted)'));
+  var month = 'Sep';
+  var start = null, end = null;
+
+  function fmt(d) { return (d < 10 ? '0' + d : '' + d) + ' ' + month; }
+  function paint() {
+    days.forEach(function (x) {
+      var v = parseInt(x.textContent, 10);
+      x.classList.remove('active', 'range');
+      if (start != null && end != null) {
+        if (v === start || v === end) x.classList.add('active');
+        else if (v > start && v < end) x.classList.add('range');
+      } else if (start != null && v === start) {
+        x.classList.add('active');
+      }
+    });
+  }
+
+  days.forEach(function (d) {
+    d.addEventListener('click', function () {
+      var n = parseInt(d.textContent, 10);
+      if (start == null || end != null) { start = n; end = null; }
+      else if (n < start) { end = start; start = n; }
+      else if (n === start) { return; }
+      else { end = n; }
+      paint();
+      if (start != null && end != null) {
+        val.textContent = fmt(start) + ' - ' + fmt(end);
+        val.style.color = 'var(--ink)';
+        setTimeout(close, 120);
+      } else {
+        val.textContent = fmt(start) + ' - …';
+        val.style.color = 'var(--ink)';
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

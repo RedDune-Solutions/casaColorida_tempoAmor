@@ -1,0 +1,9 @@
+# Tooling local
+.claude/
+_design_src/
+*.crdownload
+node_modules/
+
+# OS
+Thumbs.db
+.DS_Store
