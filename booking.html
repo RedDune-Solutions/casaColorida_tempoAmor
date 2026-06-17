@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.hcaptcha.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Pedido de Reserva · Slow Stays Vila do Bispo</title>
 <meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
@@ -215,7 +215,11 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
   .bk-note { flex-direction: column; }
   .check-note { text-align: left; }
 }
+/* hCaptcha widget */
+.h-captcha { margin-top: 24px; }
+#captcha-row.invalid { outline: 2px solid #C00F0C; outline-offset: 6px; border-radius: 6px; }
 </style>
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
 
@@ -338,6 +342,9 @@ so we can check availability for you.</p>
         <span class="lbl" style="font-size:13px;color:var(--slate);line-height:1.45">Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" style="color:var(--sage-deep);text-decoration:underline;text-underline-offset:2px">Política de Privacidade</a>.</span>
       </label>
 
+      <!-- hCaptcha (Web3Forms) -->
+      <div id="captcha-row"><div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div></div>
+
       <div class="bk-cta">
         <button type="submit" class="btn-danger full">Check Availability</button>
       </div>
@@ -430,6 +437,16 @@ so we can check availability for you.</p>
       return;
     }
 
+    /* hCaptcha obrigatório */
+    var capEl = form.elements['h-captcha-response'];
+    var capToken = capEl ? (capEl.value || '').trim() : '';
+    var capRow = document.getElementById('captcha-row');
+    if (!capToken) {
+      if (capRow) capRow.classList.add('invalid');
+      return;
+    }
+    if (capRow) capRow.classList.remove('invalid');
+
     var payload = {
       access_key: ACCESS_KEY,
       subject: 'Pedido de reserva — ' + (val('name') || 'novo cliente'),
@@ -445,7 +462,8 @@ so we can check availability for you.</p>
       baby_extras: checked('baby') ? 'Sim' : 'Não',
       pet_extras: checked('pet') ? 'Sim' : 'Não',
       como_soube: val('source') || '(não indicado)',
-      consentimento_rgpd: 'Sim — aceitou a Política de Privacidade'
+      consentimento_rgpd: 'Sim — aceitou a Política de Privacidade',
+      'h-captcha-response': capToken
     };
 
     if (btn) { btn.disabled = true; btn.textContent = 'A enviar…'; }
@@ -468,6 +486,7 @@ so we can check availability for you.</p>
       })
       .catch(function (err) {
         if (btn) { btn.disabled = false; btn.textContent = btnText; }
+        if (window.hcaptcha) { try { window.hcaptcha.reset(); } catch (e) {} }
         alert('Não foi possível enviar o pedido (' + err.message + '). Tente novamente ou contacte-nos por telefone.');
       });
   });
