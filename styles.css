@@ -231,3 +231,50 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .nav-links { display: none; }
   .footer-top { grid-template-columns: 1fr; }
 }
+
+/* ================= HAMBURGER MENU ================= */
+.nav-toggle {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 8px;
+  color: var(--on-watercolor); flex-shrink: 0;
+}
+.nav-toggle:hover { background: rgba(0,0,0,.07); }
+.nav-toggle svg { width: 22px; height: 22px; }
+
+/* Drawer — oculto por defeito, visível só em mobile com .open */
+.mobile-drawer {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0; z-index: 59;
+  background: var(--watercolor);
+  border-bottom: 1px solid rgba(94,146,143,.20);
+  padding: 8px 0 16px;
+  box-shadow: 0 12px 32px rgba(30,30,30,.12);
+}
+.mobile-drawer nav { display: flex; flex-direction: column; }
+.mobile-drawer nav a {
+  display: block; padding: 14px clamp(20px,5vw,40px);
+  font-size: 15px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--on-watercolor);
+  border-bottom: 1px solid rgba(94,146,143,.12);
+  transition: background .15s;
+}
+.mobile-drawer nav a:hover { background: rgba(94,146,143,.08); }
+.mobile-drawer nav a:last-child { border-bottom: none; }
+
+@media (max-width: 640px) {
+  .bar nav    { display: none !important; }
+  .nav-toggle { display: flex; }
+  .mobile-drawer.open { display: block; }
+
+  /* Mosaico → 1 coluna */
+  .mosaic { grid-template-columns: 1fr; }
+
+  /* Colecção centra em vez de alinhar à direita */
+  .collection { text-align: center; margin-inline: auto; max-width: none; }
+
+  /* Booking strip → 1 foto em ecrãs estreitos */
+  .bk-strip { grid-template-columns: 1fr; }
+  .bk-strip > div:nth-child(2),
+  .bk-strip > div:nth-child(3) { display: none; }
+}

@@ -245,8 +245,20 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
       <a href="index.html#colorida">Casa Colorida</a>
       <a href="index.html#local">Local</a>
     </nav>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Abrir menu" aria-controls="mobileMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </header>
+
+<div class="mobile-drawer" id="mobileMenu">
+  <nav aria-label="Menu mobile">
+    <a href="index.html#tempo">Tempo &amp; Amor</a>
+    <a href="index.html#colorida">Casa Colorida</a>
+    <a href="index.html#local">Local</a>
+    <a href="booking.html">Reservar →</a>
+  </nav>
+</div>
 
 <!-- ===================== PAINEL ===================== -->
 <main class="bk-panel" id="main">
@@ -527,6 +539,8 @@ so we can check availability for you.</p>
   } catch (e) {}
 })();
 </script>
+
+<script src="site.js" defer></script>
 
 </body>
 </html>
