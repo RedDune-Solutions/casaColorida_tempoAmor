@@ -7,6 +7,16 @@
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Casa Colorida &amp; Tempo &amp; Amor · Vila do Bispo</title>
 <meta name="description" content="Duas casas acolhedoras e típicas no coração de Vila do Bispo. Stay slow, feel at home." />
+<link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<meta name="theme-color" content="#82B8B5" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
+<meta property="og:title" content="Casa Colorida &amp; Tempo &amp; Amor · Vila do Bispo" />
+<meta property="og:description" content="Duas casas acolhedoras e típicas no coração de Vila do Bispo. Stay slow, feel at home." />
+<meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preload" as="image" href="assets/fig/photo-b.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
@@ -302,6 +312,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#welcome">Saltar para o conteúdo</a>
+
 <!-- ===================== HEADER ===================== -->
 <header class="bar">
   <div class="bar-inner">
@@ -336,14 +348,7 @@
               <span class="mlabel">Sep 2025</span>
               <button class="cal-nav" type="button" aria-label="Mês seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
             </div>
-            <div class="cal-grid">
-              <div class="dow">Mo</div><div class="dow">Tu</div><div class="dow">We</div><div class="dow">Th</div><div class="dow">Fr</div><div class="dow">Sa</div><div class="dow">Su</div>
-              <div class="day muted">25</div><div class="day muted">26</div><div class="day muted">27</div><div class="day muted">28</div><div class="day muted">29</div><div class="day muted">30</div><div class="day muted">31</div>
-              <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div>
-              <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
-              <div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div>
-              <div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div>
-            </div>
+            <div class="cal-grid"></div>
           </div>
         </div>
         <div class="field-fig">
@@ -372,7 +377,7 @@
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b>Pet Extras (20€ extra cost)</b><small>Pet bed &amp; food bowls available.</small></span>
         </label>
-        <a class="btn-book" href="booking.html">BOOK NOW</a>
+        <a class="btn-book" id="bookBtn" href="booking.html">BOOK NOW</a>
       </div>
     </form>
   </div>
@@ -461,63 +466,149 @@ Ideal for those looking to gather around for a relaxing stay close to nature.</p
 </footer>
 
 <script>
-/* Calendário popover — abre ao clicar no campo de datas (modelo do frame 11) */
+/* Calendário popover — dinâmico: mês actual, navegação prev/next, passa datas ao booking via URL params */
 (function () {
   var trigger = document.getElementById('dateTrigger');
-  var pop = document.getElementById('calPop');
-  var val = document.getElementById('dateValue');
+  var pop     = document.getElementById('calPop');
+  var val     = document.getElementById('dateValue');
+  var bookBtn = document.getElementById('bookBtn');
   if (!trigger || !pop || !val) return;
 
-  function open()  { pop.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+  var MONTHS  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var now     = new Date();
+  var viewYear  = now.getFullYear();
+  var viewMonth = now.getMonth();
+  var selStart  = null;
+  var selEnd    = null;
+
+  var mlabel  = pop.querySelector('.mlabel');
+  var grid    = pop.querySelector('.cal-grid');
+  var prevBtn = pop.querySelector('.cal-nav[aria-label="Mês anterior"]');
+  var nextBtn = pop.querySelector('.cal-nav[aria-label="Mês seguinte"]');
+
+  function sameDay(a, b) {
+    return a && b &&
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth()    === b.getMonth()    &&
+      a.getDate()     === b.getDate();
+  }
+  function fmtDisplay(d) {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + MONTHS[d.getMonth()];
+  }
+  function fmtISO(d) {
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+  }
+
+  function render() {
+    mlabel.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+    var firstDow    = (new Date(viewYear, viewMonth, 1).getDay() + 6) % 7;
+    var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    var prevDays    = new Date(viewYear, viewMonth, 0).getDate();
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var html = '<div class="dow">Mo</div><div class="dow">Tu</div><div class="dow">We</div>' +
+               '<div class="dow">Th</div><div class="dow">Fr</div><div class="dow">Sa</div><div class="dow">Su</div>';
+    for (var i = firstDow - 1; i >= 0; i--) {
+      html += '<div class="day muted">' + (prevDays - i) + '</div>';
+    }
+    for (var d = 1; d <= daysInMonth; d++) {
+      var dt  = new Date(viewYear, viewMonth, d);
+      var cls = 'day';
+      if (dt < today) {
+        cls += ' muted';
+      } else if ((selStart && sameDay(dt, selStart)) || (selEnd && sameDay(dt, selEnd))) {
+        cls += ' active';
+      } else if (selStart && selEnd && dt > selStart && dt < selEnd) {
+        cls += ' range';
+      }
+      html += '<div class="' + cls + '" data-iso="' + fmtISO(dt) + '">' + d + '</div>';
+    }
+    var total    = firstDow + daysInMonth;
+    var trailing = (7 - (total % 7)) % 7;
+    for (var t = 1; t <= trailing; t++) {
+      html += '<div class="day muted">' + t + '</div>';
+    }
+    grid.innerHTML = html;
+    var clickable = Array.prototype.slice.call(grid.querySelectorAll('.day:not(.muted)'));
+    clickable.forEach(function (el) {
+      el.addEventListener('click', function () {
+        var dt = new Date(el.dataset.iso + 'T12:00:00');
+        if (!selStart || (selStart && selEnd)) { selStart = dt; selEnd = null; }
+        else if (dt < selStart) { selEnd = selStart; selStart = dt; }
+        else if (sameDay(dt, selStart)) { return; }
+        else { selEnd = dt; }
+        render();
+        updateVal();
+        if (selStart && selEnd) setTimeout(close, 120);
+      });
+    });
+  }
+
+  function updateVal() {
+    if (selStart && selEnd) {
+      val.textContent  = fmtDisplay(selStart) + ' — ' + fmtDisplay(selEnd);
+      val.style.color  = 'var(--ink)';
+      if (bookBtn) bookBtn.href = 'booking.html?checkin=' + fmtISO(selStart) + '&checkout=' + fmtISO(selEnd);
+    } else if (selStart) {
+      val.textContent = fmtDisplay(selStart) + ' — …';
+      val.style.color = 'var(--ink)';
+    }
+  }
+
+  function open()  { render(); pop.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
   function close() { pop.hidden = true;  trigger.setAttribute('aria-expanded', 'false'); }
 
-  trigger.addEventListener('click', function (e) {
-    e.stopPropagation();
-    pop.hidden ? open() : close();
-  });
+  trigger.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden ? open() : close(); });
   pop.addEventListener('click', function (e) { e.stopPropagation(); });
   document.addEventListener('click', function (e) {
     if (!pop.hidden && !pop.contains(e.target) && !trigger.contains(e.target)) close();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 
-  var days = Array.prototype.slice.call(pop.querySelectorAll('.day:not(.muted)'));
-  var month = 'Sep';
-  var start = null, end = null;
-
-  function fmt(d) { return (d < 10 ? '0' + d : '' + d) + ' ' + month; }
-  function paint() {
-    days.forEach(function (x) {
-      var v = parseInt(x.textContent, 10);
-      x.classList.remove('active', 'range');
-      if (start != null && end != null) {
-        if (v === start || v === end) x.classList.add('active');
-        else if (v > start && v < end) x.classList.add('range');
-      } else if (start != null && v === start) {
-        x.classList.add('active');
-      }
-    });
-  }
-
-  days.forEach(function (d) {
-    d.addEventListener('click', function () {
-      var n = parseInt(d.textContent, 10);
-      if (start == null || end != null) { start = n; end = null; }
-      else if (n < start) { end = start; start = n; }
-      else if (n === start) { return; }
-      else { end = n; }
-      paint();
-      if (start != null && end != null) {
-        val.textContent = fmt(start) + ' - ' + fmt(end);
-        val.style.color = 'var(--ink)';
-        setTimeout(close, 120);
-      } else {
-        val.textContent = fmt(start) + ' - …';
-        val.style.color = 'var(--ink)';
-      }
-    });
+  if (prevBtn) prevBtn.addEventListener('click', function () {
+    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } render();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render();
   });
 })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Casa Colorida & Tempo & Amor",
+  "description": "Duas casas acolhedoras e típicas no coração de Vila do Bispo, Algarve. Stay slow, feel at home.",
+  "url": "https://reddune-solutions.github.io/casaColorida_tempoAmor/",
+  "image": "https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Vila do Bispo",
+    "addressRegion": "Algarve",
+    "addressCountry": "PT"
+  },
+  "telephone": "+351967443791",
+  "petsAllowed": true,
+  "checkinTime": "15:00",
+  "checkoutTime": "11:00",
+  "containsPlace": [
+    {
+      "@type": "Accommodation",
+      "name": "Tempo & Amor",
+      "description": "T1 tranquilo até 2 hóspedes, com extras para animais.",
+      "occupancy": { "@type": "QuantitativeValue", "maxValue": 2 },
+      "petsAllowed": true
+    },
+    {
+      "@type": "Accommodation",
+      "name": "Casa Colorida",
+      "description": "T2 até 4 hóspedes, ideal para famílias.",
+      "occupancy": { "@type": "QuantitativeValue", "maxValue": 4 },
+      "petsAllowed": true
+    }
+  ]
+}
 </script>
 
 </body>

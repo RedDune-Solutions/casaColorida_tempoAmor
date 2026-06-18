@@ -7,6 +7,15 @@
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Pedido de Reserva · Slow Stays Vila do Bispo</title>
 <meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
+<link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/booking.html" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<meta name="theme-color" content="#82B8B5" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/booking.html" />
+<meta property="og:title" content="Pedido de Reserva · Casa Colorida &amp; Tempo &amp; Amor" />
+<meta property="og:description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade." />
+<meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
@@ -223,6 +232,8 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
 </head>
 <body>
 
+<a class="skip-link" href="#main">Saltar para o conteúdo</a>
+
 <!-- ===================== HEADER ===================== -->
 <header class="bar">
   <div class="bar-inner">
@@ -238,7 +249,7 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
 </header>
 
 <!-- ===================== PAINEL ===================== -->
-<main class="bk-panel">
+<main class="bk-panel" id="main">
   <div class="bk-form">
 
     <span class="bk-eyebrow">you're almost here</span>
@@ -495,6 +506,25 @@ so we can check availability for you.</p>
   form.addEventListener('input', function (e) {
     if (e.target && e.target.style) e.target.style.borderColor = '';
   });
+})();
+</script>
+
+<script>
+/* pré-preenche datas a partir de URL params enviados pelo calendário da home */
+(function () {
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var cin = p.get('checkin'), cout = p.get('checkout');
+    if (cin && cout) {
+      var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      function fmt(s) {
+        var d = new Date(s + 'T12:00:00');
+        return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + M[d.getMonth()];
+      }
+      var el = document.getElementById('dates');
+      if (el) el.value = fmt(cin) + ' — ' + fmt(cout);
+    }
+  } catch (e) {}
 })();
 </script>
 

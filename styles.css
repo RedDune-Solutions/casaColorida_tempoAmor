@@ -64,6 +64,14 @@ body {
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
+/* Skip link (acessibilidade — visível só em foco de teclado) */
+.skip-link {
+  position: absolute; left: -9999px; top: 8px; z-index: 9999;
+  background: var(--sage-deep); color: #fff;
+  padding: 8px 18px; border-radius: 6px;
+  font-size: 14px; font-weight: 600; letter-spacing: .01em;
+}
+.skip-link:focus { left: 8px; }
 ul { list-style: none; padding: 0; }
 
 /* ---------- Typography ---------- */
