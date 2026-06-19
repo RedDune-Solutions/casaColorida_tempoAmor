@@ -183,6 +183,8 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   gap: 10px 28px; font-size: 14px; letter-spacing: .01em;
 }
 .foot-min span:last-child { opacity: .9; }
+.reddune-link { transition: color .2s; }
+.reddune-link:hover { color: #A8201A; }
 
 /* ---------- Pills / chips ---------- */
 .chip {
