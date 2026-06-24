@@ -215,6 +215,27 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
 .bk-success h2 { font-size: clamp(28px,3.4vw,42px); font-weight: 700; letter-spacing: .03em; color: var(--sage); text-transform: lowercase; }
 .bk-success p { margin: 14px auto 0; max-width: 480px; font-size: 17px; font-weight: 300; color: #303030; line-height: 1.55; }
 .bk-success .home-link { margin-top: 28px; }
+.bk-summary {
+  margin: 24px auto 0;
+  max-width: 400px;
+  background: rgba(130,184,181,.10);
+  border: 1px solid rgba(94,146,143,.20);
+  border-radius: 12px;
+  padding: 4px 0;
+  text-align: left;
+}
+.bk-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(94,146,143,.12);
+  font-size: 14px;
+}
+.bk-summary-row:last-child { border-bottom: none; }
+.bk-summary-row span { color: var(--slate); white-space: nowrap; }
+.bk-summary-row strong { color: var(--ink); font-weight: 600; text-align: right; word-break: break-word; }
 
 /* ----- responsivo ----- */
 @media (max-width: 760px) {
@@ -383,6 +404,14 @@ so we can check availability for you.</p>
       </div>
       <h2>request sent</h2>
       <p>Thank you! Your booking request is on its way to Andrea &amp; Mató. We'll get back to you by email as soon as we've checked availability.</p>
+      <div class="bk-summary" id="rf-summary">
+        <div class="bk-summary-row"><span>Nome</span><strong id="sum-name">—</strong></div>
+        <div class="bk-summary-row"><span>Datas</span><strong id="sum-dates">—</strong></div>
+        <div class="bk-summary-row"><span>Casa</span><strong id="sum-house">—</strong></div>
+        <div class="bk-summary-row"><span>Hóspedes</span><strong id="sum-guests">—</strong></div>
+        <div class="bk-summary-row" id="sum-extras-row" hidden><span>Extras</span><strong id="sum-extras">—</strong></div>
+        <div class="bk-summary-row"><span>Resposta para</span><strong id="sum-email">—</strong></div>
+      </div>
       <div class="home-link"><a class="btn-danger" href="index.html">BACK TO HOME</a></div>
     </div>
   </div>
@@ -500,6 +529,22 @@ so we can check availability for you.</p>
       .then(function (data) {
         if (data && data.success) {
           try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (e) {}
+          /* preenche resumo da reserva antes de mostrar ecrã de sucesso */
+          function setSum(id, text) { var el = document.getElementById(id); if (el) el.textContent = text; }
+          setSum('sum-name', val('name') || '—');
+          setSum('sum-dates', val('dates') || '—');
+          setSum('sum-house', val('house') || '—');
+          var g = val('guests');
+          setSum('sum-guests', g ? g + (g === '1' ? ' hóspede' : ' hóspedes') : '—');
+          setSum('sum-email', val('email') || '—');
+          var extras = [];
+          if (checked('baby')) extras.push('Baby extras');
+          if (checked('pet')) extras.push('Pet extras (+20€)');
+          if (extras.length) {
+            setSum('sum-extras', extras.join(', '));
+            var er = document.getElementById('sum-extras-row');
+            if (er) er.hidden = false;
+          }
           form.hidden = true;
           var ok = document.getElementById('rf-success');
           if (ok) ok.hidden = false;
