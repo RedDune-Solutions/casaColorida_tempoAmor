@@ -111,6 +111,14 @@
       sync();
       syncers.push(sync);
 
+      function positionHero() {
+        const bar = control.closest('.booking-bar');
+        if (!bar || window.innerWidth <= 980) { pop.style.top = ''; return; } // booking/mobile: CSS default
+        pop.style.top = '0px';
+        const r0 = pop.getBoundingClientRect();
+        pop.style.top = (bar.getBoundingClientRect().bottom + 14 - r0.top) + 'px';
+      }
+
       function toggleOpen(e) {
         e.stopPropagation();
         const willOpen = pop.hidden;
@@ -119,6 +127,7 @@
           pop.hidden = false;
           control.setAttribute('aria-expanded', 'true');
           openCtl = control;
+          positionHero();
         }
       }
       control.addEventListener('click', toggleOpen);
@@ -131,6 +140,7 @@
 
     document.addEventListener('click', (e) => { if (openCtl && !openCtl.contains(e.target)) closeOpen(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeOpen(); });
+    window.addEventListener('resize', closeOpen);
     window.addEventListener('langchange', () => syncers.forEach((f) => f()));
   })();
 })();
