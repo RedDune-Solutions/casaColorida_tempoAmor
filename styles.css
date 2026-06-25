@@ -295,3 +295,31 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .bk-strip > div:nth-child(2),
   .bk-strip > div:nth-child(3) { display: none; }
 }
+
+/* ================= DROPDOWNS PERSONALIZADOS (popover, estilo calendário) ================= */
+.cs-control { position: relative; cursor: pointer; }
+.cs-control svg { transition: transform .2s ease; }
+.cs-control[aria-expanded="true"] { box-shadow: inset 0 0 0 1px rgb(240,138,36); }
+.cs-control[aria-expanded="true"] > svg { transform: rotate(180deg); }
+.cs-native {
+  position: absolute; left: 0; top: 0; width: 1px; height: 1px;
+  opacity: 0; pointer-events: none; margin: 0; padding: 0; border: 0;
+}
+.cs-value {
+  flex: 1; min-width: 0; text-align: left;
+  font-size: 15px; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cs-pop {
+  position: absolute; top: calc(100% + 10px); left: 0; right: 0; z-index: 45;
+  background: #fff; border: 1px solid var(--line); border-radius: 14px;
+  padding: 6px; box-shadow: 0 18px 50px rgba(30,30,30,.22);
+  max-height: 264px; overflow-y: auto;
+}
+.cs-pop[hidden] { display: none; }
+.cs-opt {
+  padding: 10px 12px; border-radius: 8px; font-size: 14.5px;
+  color: var(--ink); cursor: pointer; transition: background .12s, color .12s;
+}
+.cs-opt:hover { background: #FCEADC; }
+.cs-opt.sel { background: rgb(240,138,36); color: #fff; font-weight: 600; }
