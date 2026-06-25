@@ -182,7 +182,15 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 10px 28px; font-size: 14px; letter-spacing: .01em;
 }
-.foot-min span:last-child { opacity: .9; }
+.foot-min > span { flex: 1 1 0; min-width: 0; }       /* laterais com largura igual → Privacidade ao centro */
+.foot-min > span:first-child { text-align: left; }
+.foot-min > span:last-child { opacity: .9; text-align: right; }
+.foot-priv {
+  flex: 0 0 auto; text-align: center; white-space: nowrap;
+  color: var(--on-watercolor); opacity: .9;
+  text-decoration: underline; text-underline-offset: 3px; transition: opacity .2s;
+}
+.foot-priv:hover { opacity: 1; }
 .reddune-link { transition: color .2s; }
 .reddune-link:hover { color: #A8201A; }
 
@@ -309,8 +317,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .bk-strip > div:nth-child(2),
   .bk-strip > div:nth-child(3) { display: none; }
 
-  /* Rodapé empilha: contactos em cima, © por baixo */
+  /* Rodapé empilha: contactos em cima, Privacidade ao meio, © por baixo */
   .foot-min { flex-direction: column-reverse; align-items: center; justify-content: center; text-align: center; gap: 6px; }
+  .foot-min > span { flex: none; text-align: center; }
 }
 
 /* ================= DROPDOWNS PERSONALIZADOS (popover, estilo calendário) ================= */
