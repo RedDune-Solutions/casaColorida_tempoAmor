@@ -22,6 +22,7 @@
       'menu.open': 'Abrir menu',
       'home.aria': 'Casa Colorida e Tempo & Amor — Início',
       'lang.aria': 'Idioma / Language',
+      'lang.label': 'Idioma',
       'foot.powered': 'Desenvolvido por',
       'foot.privacidade': 'Privacidade',
 
@@ -149,6 +150,7 @@
       'menu.open': 'Open menu',
       'home.aria': 'Casa Colorida & Tempo & Amor — Home',
       'lang.aria': 'Idioma / Language',
+      'lang.label': 'Language',
       'foot.powered': 'Built by',
       'foot.privacidade': 'Privacy',
 

@@ -248,6 +248,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .mobile-drawer {
   display: none;
   position: fixed; top: 64px; left: 0; right: 0; z-index: 59;
+  max-height: calc(100vh - 64px); overflow-y: auto;
   background: var(--watercolor);
   border-bottom: 1px solid rgba(94,146,143,.20);
   padding: 8px 0 16px;
@@ -279,9 +280,22 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .lang-opt:hover { opacity: 1; }
 .lang-opt[aria-pressed="true"] { opacity: 1; background: var(--sage); color: #fff; }
 
+/* Switch de idioma dentro do menu mobile */
+.drawer-lang {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 6px; padding: 16px clamp(20px,5vw,40px) 6px;
+  border-top: 1px solid rgba(94,146,143,.14);
+}
+.drawer-lang-lbl {
+  font-size: 12px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--on-watercolor); opacity: .55;
+}
+.drawer-lang .lang-opt { padding: 8px 18px; font-size: 13px; }
+
 @media (max-width: 640px) {
   .bar nav    { display: none !important; }
   .nav-toggle { display: flex; }
+  .bar-right .lang-switch { display: none; }   /* switch passa para dentro do menu */
   .mobile-drawer.open { display: block; }
 
   /* Mosaico → 1 coluna */
