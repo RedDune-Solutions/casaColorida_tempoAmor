@@ -6,7 +6,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="robots" content="noindex" />
-<title>Política de Privacidade · Casa Colorida · Tempo &amp; Amor</title>
+<title data-i18n="page.title.priv">Política de Privacidade · Casa Colorida · Tempo &amp; Amor</title>
+<script src="i18n.js"></script>
 <meta name="description" content="Como tratamos os dados pessoais do formulário de pedido de reserva." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/privacidade.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -36,7 +37,7 @@
 </head>
 <body>
 
-<a class="skip-link" href="#main">Saltar para o conteúdo</a>
+<a class="skip-link" href="#main" data-i18n="skip">Saltar para o conteúdo</a>
 
 <header class="bar">
   <div class="bar-inner">
@@ -44,59 +45,65 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
     </a>
     <nav aria-label="Principal">
-      <a href="index.html#tempo">Tempo &amp; Amor</a>
-      <a href="index.html#colorida">Casa Colorida</a>
-      <a href="index.html#local">Local</a>
+      <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+      <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+      <a href="index.html#local" data-i18n="nav.local">Local</a>
     </nav>
-    <button class="nav-toggle" aria-expanded="false" aria-label="Abrir menu" aria-controls="mobileMenu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
+    <div class="bar-right">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.aria">
+        <button type="button" class="lang-opt" data-setlang="pt" aria-pressed="true">PT</button>
+        <button type="button" class="lang-opt" data-setlang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="nav-toggle" aria-expanded="false" data-i18n-attr="aria-label:menu.open" aria-label="Abrir menu" aria-controls="mobileMenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
 <div class="mobile-drawer" id="mobileMenu">
   <nav aria-label="Menu mobile">
-    <a href="index.html#tempo">Tempo &amp; Amor</a>
-    <a href="index.html#colorida">Casa Colorida</a>
-    <a href="index.html#local">Local</a>
-    <a href="booking.html">Reservar →</a>
+    <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+    <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+    <a href="index.html#local" data-i18n="nav.local">Local</a>
+    <a href="booking.html" data-i18n="nav.reservar">Reservar →</a>
   </nav>
 </div>
 
 <main class="legal" id="main">
-  <h1>política de privacidade</h1>
-  <p class="updated">Última atualização: 17 de junho de 2026</p>
+  <h1 data-i18n="priv.h1">política de privacidade</h1>
+  <p class="updated" data-i18n="priv.updated">Última atualização: 17 de junho de 2026</p>
 
-  <p>Esta política explica como tratamos os dados pessoais recolhidos através do formulário de pedido de reserva deste site, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
+  <p data-i18n="priv.intro">Esta política explica como tratamos os dados pessoais recolhidos através do formulário de pedido de reserva deste site, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
 
-  <h2>1. Responsável pelo tratamento</h2>
-  <p>As casas <strong>Casa Colorida</strong> e <strong>Tempo &amp; Amor</strong>, em Vila do Bispo (Algarve), geridas por Andrea e Mató. Site mantido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a>.<br>
+  <h2 data-i18n="priv.h2.1">1. Responsável pelo tratamento</h2>
+  <p data-i18n-html="priv.p.1">As casas <strong>Casa Colorida</strong> e <strong>Tempo &amp; Amor</strong>, em Vila do Bispo (Algarve), geridas por Andrea e Mató. Site mantido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a>.<br>
   Contacto: <a href="mailto:reddunesolutions@gmail.com">reddunesolutions@gmail.com</a> · Andrea (+351) 967 443 791 · Mató (+351) 961 470 100.</p>
 
-  <h2>2. Que dados recolhemos</h2>
+  <h2 data-i18n="priv.h2.2">2. Que dados recolhemos</h2>
   <ul>
-    <li>Nome completo, email e telefone (obrigatórios para podermos responder);</li>
-    <li>NIF (opcional);</li>
-    <li>Detalhes do pedido: datas, número de hóspedes, casa pretendida, extras (bebé/animal) e como soube de nós.</li>
+    <li data-i18n="priv.li.1">Nome completo, email e telefone (obrigatórios para podermos responder);</li>
+    <li data-i18n="priv.li.2">NIF (opcional);</li>
+    <li data-i18n="priv.li.3">Detalhes do pedido: datas, número de hóspedes, casa pretendida, extras (bebé/animal) e como soube de nós.</li>
   </ul>
 
-  <h2>3. Finalidade e base legal</h2>
-  <p>Os dados são usados <strong>exclusivamente</strong> para responder ao seu pedido de reserva e verificar disponibilidade. A base legal é o seu <strong>consentimento</strong> e as <strong>diligências pré-contratuais</strong> a seu pedido. Não fazemos marketing nem partilha com terceiros para esse fim.</p>
+  <h2 data-i18n="priv.h2.3">3. Finalidade e base legal</h2>
+  <p data-i18n-html="priv.p.3">Os dados são usados <strong>exclusivamente</strong> para responder ao seu pedido de reserva e verificar disponibilidade. A base legal é o seu <strong>consentimento</strong> e as <strong>diligências pré-contratuais</strong> a seu pedido. Não fazemos marketing nem partilha com terceiros para esse fim.</p>
 
-  <h2>4. Como são enviados</h2>
-  <p>O formulário é processado pelo serviço <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms</a>, que reencaminha a submissão por email para os responsáveis. A ligação é cifrada (HTTPS).</p>
+  <h2 data-i18n="priv.h2.4">4. Como são enviados</h2>
+  <p data-i18n-html="priv.p.4">O formulário é processado pelo serviço <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms</a>, que reencaminha a submissão por email para os responsáveis. A ligação é cifrada (HTTPS).</p>
 
-  <h2>5. Conservação</h2>
-  <p>Guardamos os dados apenas o tempo necessário para tratar o pedido e a eventual estadia. Pode pedir a eliminação a qualquer momento.</p>
+  <h2 data-i18n="priv.h2.5">5. Conservação</h2>
+  <p data-i18n="priv.p.5">Guardamos os dados apenas o tempo necessário para tratar o pedido e a eventual estadia. Pode pedir a eliminação a qualquer momento.</p>
 
-  <h2>6. Os seus direitos</h2>
-  <p>Tem direito de aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados, e de retirar o consentimento. Para exercer, contacte-nos pelos meios acima. Tem ainda o direito de apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
+  <h2 data-i18n="priv.h2.6">6. Os seus direitos</h2>
+  <p data-i18n-html="priv.p.6">Tem direito de aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados, e de retirar o consentimento. Para exercer, contacte-nos pelos meios acima. Tem ainda o direito de apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
 
-  <a class="back" href="booking.html" style="color:var(--sage-deep);font-weight:600">&larr; Voltar ao pedido de reserva</a>
+  <a class="back" href="booking.html" style="color:var(--sage-deep);font-weight:600" data-i18n="priv.back">&larr; Voltar ao pedido de reserva</a>
 </main>
 
 <footer class="foot-min">
-  <span>© 2026 Casa Colorida / Tempo &amp; Amor · Desenvolvido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a></span>
+  <span>© 2026 Casa Colorida / Tempo &amp; Amor · <span data-i18n="foot.powered">Desenvolvido por</span> <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a></span>
   <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
 </footer>
 

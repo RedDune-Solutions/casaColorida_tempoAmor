@@ -264,6 +264,21 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .mobile-drawer nav a:hover { background: rgba(94,146,143,.08); }
 .mobile-drawer nav a:last-child { border-bottom: none; }
 
+/* ================= SWITCH DE IDIOMA (PT/EN) ================= */
+.bar-right { display: flex; align-items: center; gap: clamp(10px,2vw,16px); }
+.lang-switch {
+  display: inline-flex; align-items: center; flex-shrink: 0;
+  border: 1px solid rgba(94,146,143,.38); border-radius: 999px;
+  overflow: hidden; background: rgba(255,255,255,.45);
+}
+.lang-opt {
+  padding: 5px 11px; font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  color: var(--on-watercolor); opacity: .55; cursor: pointer;
+  transition: background .15s, opacity .15s, color .15s;
+}
+.lang-opt:hover { opacity: 1; }
+.lang-opt[aria-pressed="true"] { opacity: 1; background: var(--sage); color: #fff; }
+
 @media (max-width: 640px) {
   .bar nav    { display: none !important; }
   .nav-toggle { display: flex; }
