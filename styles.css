@@ -308,6 +308,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .bk-strip { grid-template-columns: 1fr; }
   .bk-strip > div:nth-child(2),
   .bk-strip > div:nth-child(3) { display: none; }
+
+  /* Rodapé empilha: contactos em cima, © por baixo */
+  .foot-min { flex-direction: column-reverse; align-items: center; justify-content: center; text-align: center; gap: 6px; }
 }
 
 /* ================= DROPDOWNS PERSONALIZADOS (popover, estilo calendário) ================= */
