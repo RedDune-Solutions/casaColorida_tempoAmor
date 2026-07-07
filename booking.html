@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const H=new URLSearchParams(location.search).get("theme");if(H==="light"||H==="dark"){document.documentElement.dataset.theme=H}}{const H=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const A=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(A&&A!=="normal")return;const M=(L)=>{if(!L)return null;const F=getComputedStyle(L).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!F)return null;const Y=F[4]==null?1:parseFloat(F[4])/(F[4].endsWith("%")?100:1);if(Y<0.99)return null;return[+F[1],+F[2],+F[3]]};const j=M(document.body)||M(document.documentElement);if(!j)return;const x=(L)=>{const F=L/255;return F<=0.04045?F/12.92:((F+0.055)/1.055)**2.4};const G=0.2126*x(j[0])+0.7152*x(j[1])+0.0722*x(j[2]);document.documentElement.style.setProperty("color-scheme",G<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")H();else window.addEventListener("load",H)}var S=[];var v=false;var P=30000;var h=3000;document.addEventListener("DOMContentLoaded",()=>{const H=window.Babel;const A="om-src-id";if(H&&H.registerPlugin&&!(H.availablePlugins&&H.availablePlugins[A])){H.registerPlugin(A,({types:G})=>({visitor:{JSXOpeningElement(L,F){const Y=L.node;if(Y.name&&Y.name.type==="JSXMemberExpression")return;for(let J=0;J<Y.attributes.length;J++){const V=Y.attributes[J];if(V.type==="JSXAttribute"&&V.name&&V.name.name==="data-om-id")return}const B=F.file&&F.file.opts&&F.file.opts.filename||"?";const w=Y.loc&&Y.loc.start;const z=`jsx:${B}:${Y.start??0}:${w?w.line:0}:${w?w.column+1:0}`;Y.attributes.push(G.jsxAttribute(G.jsxIdentifier("data-om-id"),G.stringLiteral(z)))}}}))}const M="om-text-extract";let j=false;if(v&&H&&H.registerPlugin&&!(H.availablePlugins&&H.availablePlugins[M])){const G=window.React;if(G&&G.useSyncExternalStore&&G.createElement){j=true;const L={};const F=new Set;let Y=0;window.__omTextO=L;window.__omTextSet=(z)=>{for(const J in z){const V=z[J];if(V==null)delete L[J];else L[J]=V}Y++;F.forEach((J)=>J())};const B=(z)=>{F.add(z);return()=>F.delete(z)};const w=()=>Y;window.__OmT=function z(J){G.useSyncExternalStore(B,w,w);return G.createElement("span",{"data-om-text":J.i,className:"__om-t"},J.i in L?L[J.i]:J.children)};H.registerPlugin(M,({types:z})=>{const J={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const V={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const W=(Z,q)=>z.logicalExpression("??",z.memberExpression(z.logicalExpression("||",z.memberExpression(z.identifier("window"),z.identifier("__omTextO")),z.objectExpression([])),z.stringLiteral(Z),true),q);const Q=(Z)=>Z.file&&Z.file.opts&&Z.file.opts.filename||"?";const C=(Z)=>Z.file&&Z.file.code||"";const K=(Z,q)=>{const U=($)=>$&&$.start!=null&&$.end!=null&&($.type==="StringLiteral"||$.type==="TemplateLiteral"&&$.expressions.length===0)?[$.start,$.end]:null;const N=U(q);if(N)return N;if(q&&q.type==="Identifier"){const $=Z.scope.getBinding(q.name);if($&&$.constant&&$.path.node.type==="VariableDeclarator"){return U($.path.node.init)}}return null};const E=(Z,q,U)=>{const N=Z.node;let $=false;const R=(D,k)=>{$=true;return z.jsxElement(z.jsxOpeningElement(z.jsxIdentifier("__OmT"),[z.jsxAttribute(z.jsxIdentifier("i"),z.stringLiteral(D))],false),z.jsxClosingElement(z.jsxIdentifier("__OmT")),[k],false)};const X=N.children.map((D)=>{if(D.type==="JSXText"){if(D.start==null||D.end==null)return D;const k=U.slice(D.start,D.end);const f=k.length-k.trimStart().length;const I=k.length-k.trimEnd().length;if(f+I>=k.length)return D;return R(`txt:${q}:${D.start+f}:${D.end-I}`,D)}if(D.type==="JSXExpressionContainer"){const k=K(Z,D.expression);if(k)return R(`str:${q}:${k[0]}:${k[1]}`,D)}return D});if($)N.children=X};return{visitor:{JSXOpeningElement(Z,q){const U=Z.node;const N=Q(q);const $={};for(let R=0;R<U.attributes.length;R++){const X=U.attributes[R];if(X.type!=="JSXAttribute"||!X.name)continue;const D=X.name.name;if(!V[D])continue;if(!X.value||X.value.type!=="StringLiteral")continue;if(X.value.start==null||X.value.end==null)continue;const k=`txt:${N}:${X.value.start}:${X.value.end}`;$[D]=k;X.value=z.jsxExpressionContainer(W(k,z.stringLiteral(X.value.value)))}if(Object.keys($).length){U.attributes.push(z.jsxAttribute(z.jsxIdentifier("data-om-text-attrs"),z.stringLiteral(JSON.stringify($))))}},JSXElement(Z,q){const U=Z.node.openingElement;const N=U&&U.name&&U.name.name;if(N==="__OmT")return;if(typeof N==="string"&&J[N])return;E(Z,Q(q),C(q))},JSXFragment(Z,q){E(Z,Q(q),C(q))}}}})}}const x=j?["transform-react-jsx-source",A,M]:["transform-react-jsx-source",A];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((G,L)=>{const F=G.getAttribute("data-plugins")||"";const Y=x.filter((B)=>F.indexOf(B)<0);if(Y.length){G.setAttribute("data-plugins",F?`${F},${Y.join(",")}`:Y.join(","))}if(!G.hasAttribute("data-filename")){G.setAttribute("data-filename",G.getAttribute("src")||`inline-${L}`)}})});var _=window.parent;if(_&&_!==window){const H=(z,J)=>{try{_.postMessage({__omelette_log:true,type:z,data:J},"*")}catch{}};["log","warn","error"].forEach((z)=>{const J=console[z];console[z]=(...V)=>{const W=V.map((Q)=>{try{return typeof Q==="object"?JSON.stringify(Q):String(Q)}catch{try{return String(Q)}catch{return"[unstringifiable]"}}}).join(" ");H(z,W);J.apply(console,V)}});window.addEventListener("error",(z)=>{const J=z.target;if(J&&J!==window&&J.tagName){const V=J.src||J.href||"";H("resource_error",`${J.tagName} failed to load: ${V}`)}else{H("error",`${z.message||"Unknown error"} at ${z.filename||"?"}:${z.lineno||0}:${z.colno||0}`)}},true);window.addEventListener("unhandledrejection",(z)=>{const J=z.reason;const V=J instanceof Error?`${J.message} ${J.stack}`:String(J);H("error",`Unhandled rejection: ${V}`)});window.addEventListener("click",(z)=>{if(z.defaultPrevented||z.button!==0)return;if(z.metaKey||z.ctrlKey||z.shiftKey||z.altKey)return;const J=z.composedPath?z.composedPath():[];const V=["button","input","select","textarea","summary","label"];let W=null;for(const E of J){if(!(E instanceof Element))continue;if(E.localName==="a"){if(!(E instanceof HTMLAnchorElement))return;W=E;break}if(V.indexOf(E.localName)!==-1)return}if(!W)return;if(W.isContentEditable)return;const Q=W.closest("[contenteditable]");if(Q&&Q.getAttribute("contenteditable")!=="false")return;const C=(W.getAttribute("target")||"_self").toLowerCase();if(C!=="_self"&&C!=="_top"&&C!=="_parent")return;let K;try{K=new URL(W.href)}catch{return}if(K.protocol!=="http:"&&K.protocol!=="https:")return;if(location.origin==="null")return;if(K.origin===location.origin)return;z.preventDefault();window.open(K.href,"_blank","noopener,noreferrer")});const A=()=>{try{_.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(A).observe(document.documentElement);const M=()=>{A();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const z=()=>document.getElementById("root")||document.querySelector("body > div[id]");const J=z()?.firstElementChild??null;let V=0;const W=()=>{const Q=z();if(Q&&Q.firstElementChild!==J||++V>30){A();return}setTimeout(W,100)};setTimeout(W,100)};if(document.readyState==="complete")M();else window.addEventListener("load",M);const j={};let x=0;const G=(z)=>new Promise((J,V)=>{if(!S.length){V(new Error("claude.complete: no parent origin"));return}const W=`c${++x}`;const Q=()=>setTimeout(()=>{delete j[W];V(new Error(`claude.complete: no data for ${P/1000}s`))},P);const C=Q();j[W]={resolve:J,reject:V,text:"",t:C,arm:Q};try{for(const K of S){_.postMessage({__om_api:true,id:W,body:z},K)}}catch(K){clearTimeout(C);delete j[W];V(K)}});const L=8;const F=async(z,J)=>{if(!Array.isArray(z.messages)){throw new Error("claude.complete: tools require a messages array")}const V=z.messages.slice();const W={...z,tools:z.tools.map((K)=>{if(K===null||typeof K!=="object")return K;const E={};for(const Z of Object.keys(K)){if(typeof K[Z]!=="function")E[Z]=K[Z]}return E})};const Q=W.tool_choice;const C=Q!=null&&(Q.type==="any"||Q.type==="tool")?{...W,tool_choice:Q.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:Q.disable_parallel_tool_use}:{type:"auto"}}:W;for(let K=0;K<L;K++){const E=await G({...K===0?W:C,messages:V});const Z=E.message;const q=Z&&Array.isArray(Z.content)?Z.content:null;const U=q?q.filter(($)=>$?.type==="tool_use"):[];if(Z?.stop_reason!=="tool_use"||U.length===0){return E.text}const N=[];for(const $ of U){const R=J.get($.name);if(!R){N.push({type:"tool_result",tool_use_id:$.id,content:`no handler for tool "${$.name}"`,is_error:true});continue}try{const X=await R($.input);const D=typeof X==="string"?X:w(X)??"";N.push({type:"tool_result",tool_use_id:$.id,content:D})}catch(X){N.push({type:"tool_result",tool_use_id:$.id,content:String(X?.message??X??"tool handler failed"),is_error:true})}}V.push({role:"assistant",content:q},{role:"user",content:N})}throw new Error(`claude.complete: exceeded ${L} tool turns`)};window.claude={complete(z){const J=z;if(J!==null&&typeof J==="object"&&Array.isArray(J.tools)&&J.tools.some((V)=>V!==null&&typeof V==="object"&&typeof V.run==="function")){const V=new Map;for(const W of J.tools){if(W!==null&&typeof W==="object"&&typeof W.run==="function"){V.set(String(W.name),W.run)}}return F(J,V)}return G(z).then((V)=>V.text)}};const Y={};let B=0;window.omelette={writeFile:(z,J)=>new Promise((V,W)=>{if(!S.length){V();return}const Q=`f${++B}`;const C=setTimeout(()=>{delete Y[Q];V()},h);Y[Q]={resolve:V,reject:W,t:C};try{for(const K of S){_.postMessage({__om_file:true,id:Q,op:"write",path:z,content:J},K)}}catch{clearTimeout(C);delete Y[Q];V()}})};const w=(z)=>{try{return JSON.stringify(z)}catch{return JSON.stringify(String(z))}};window.addEventListener("message",(z)=>{if(S.indexOf(z.origin)<0)return;if(z.source!==_)return;const J=z.data;if(!J)return;if(J.type==="omelette-preview-refresh"){if(typeof J.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(J.token))return;const Q=Math.max(1,Math.floor((J.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+J.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+Q;return}if(J.__om_file_r){const Q=Y[J.id];if(!Q)return;clearTimeout(Q.t);delete Y[J.id];if(J.ok)Q.resolve();else Q.reject(new Error(J.error||"write failed"));return}if(J.__om_api_r){const Q=j[J.id];if(!Q)return;if(J.error!=null){clearTimeout(Q.t);delete j[J.id];Q.reject(new Error(J.error));return}if(J.chunk!=null){clearTimeout(Q.t);Q.t=Q.arm();Q.text+=J.chunk;return}if(J.done){clearTimeout(Q.t);delete j[J.id];Q.resolve({text:J.text!=null?J.text:Q.text,message:J.message});return}return}if(!J.__om_eval)return;const V=J;const W=(Q)=>{z.source.postMessage({...Q,__om_eval_r:1,id:V.id},z.origin)};try{const Q=(0,eval)(V.code);if(Q&&typeof Q.then==="function"){Q.then((C)=>W({ok:1,v:w(C)}),(C)=>W({ok:0,e:String(C)}))}else{W({ok:1,v:w(Q)})}}catch(Q){W({ok:0,e:String(Q)})}})}})();
+</script>
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.hcaptcha.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.booking">Pedido de Reserva · Casa Colorida · Tempo &amp; Amor</title>
-<script src="i18n.js?v=20260706"></script>
+<script src="i18n.js?v=20260707"></script>
 <meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/booking.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -20,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260628" />
+<link rel="stylesheet" href="styles.css?v=20260707" />
 <style>
 /* ============================================================
    RESERVAR — reconstruída fiel ao frame "10" do Figma.
@@ -32,7 +35,7 @@ body { background: var(--cloud); }
 /* ----- HEADER (barra sage, igual à home) ----- */
 .bar { position: sticky; top: 0; z-index: 60; background: var(--watercolor); color: var(--on-watercolor); border-bottom: 1px solid rgba(94,146,143,.20); }
 .bar-inner {
-  max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  max-width: 1196px; margin-inline: auto; padding: 0 clamp(32px,8vw,60px);
   height: 64px; display: flex; align-items: center; justify-content: space-between;
 }
 .bar .home { display: inline-flex; align-items: center; gap: 11px; }
@@ -51,7 +54,6 @@ body { background: var(--cloud); }
 .btn-danger {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   background: rgb(192,15,12); color: rgb(254,233,231);
-  box-shadow: inset 0 0 0 1px rgb(144,11,9);
   border-radius: 8px; padding: 16px 22px;
   font-size: 16px; font-weight: 500; letter-spacing: .01em;
   transition: background .2s ease, transform .2s ease;
@@ -73,7 +75,7 @@ body { background: var(--cloud); }
 /* ----- painel branco ----- */
 .bk-panel {
   position: relative; z-index: 2;
-  max-width: 1196px; margin: clamp(28px,4vw,52px) auto clamp(48px,7vw,96px);
+  width: min(1196px, calc(100% - 2*clamp(16px,4vw,40px))); margin: clamp(28px,4vw,52px) auto clamp(48px,7vw,96px);
   background: #fff; border-radius: 16px;
   box-shadow: inset 0 0 0 1px var(--line);
   padding: clamp(40px,6vw,90px) clamp(24px,8vw,200px) clamp(40px,6vw,72px);
@@ -92,6 +94,7 @@ body { background: var(--cloud); }
   font-size: clamp(36px,5vw,64px); font-weight: 700; letter-spacing: .05em;
   line-height: 1.15; color: var(--sage); text-transform: lowercase;
 }
+.bk-title::first-letter { text-transform: uppercase; }
 
 /* ----- stepper vermelho ----- */
 .stepper {
@@ -217,6 +220,7 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
 }
 .bk-success .check-ring svg { width: 34px; height: 34px; color: var(--sage); }
 .bk-success h2 { font-size: clamp(28px,3.4vw,42px); font-weight: 700; letter-spacing: .03em; color: var(--sage); text-transform: lowercase; }
+.bk-success h2::first-letter { text-transform: uppercase; }
 .bk-success p { margin: 14px auto 0; max-width: 480px; font-size: 17px; font-weight: 300; color: #303030; line-height: 1.55; }
 .bk-success .home-link { margin-top: 28px; }
 .bk-summary {
@@ -317,7 +321,7 @@ começa aqui</h1>
     <form id="requestForm" novalidate>
 
       <!-- ============ 1 · YOUR STAY ============ -->
-      <section class="bk-section">
+      <section class="bk-section reveal">
         <h2 data-i18n="bk.stay.h">A sua estadia</h2>
         <p class="bk-legend" data-i18n="bk.stay.legend">Diga-nos a estadia que tem em mente
 para verificarmos a disponibilidade.</p>
@@ -364,7 +368,7 @@ para verificarmos a disponibilidade.</p>
       <div class="bk-rule"></div>
 
       <!-- ============ 2 · YOUR DETAILS ============ -->
-      <section class="bk-section">
+      <section class="bk-section reveal">
         <h2 data-i18n="bk.details.h">Os seus dados</h2>
         <p class="bk-legend" data-i18n="bk.details.legend">Deixe o seu contacto e responderemos para confirmar a reserva.</p>
 
@@ -428,7 +432,7 @@ para verificarmos a disponibilidade.</p>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>
       </div>
       <h2 data-i18n="bk.success.h">pedido enviado</h2>
-      <p data-i18n="bk.success.p">Obrigado! O seu pedido de reserva está a caminho da Andrea e do Mató. Respondemos por email assim que verificarmos a disponibilidade.</p>
+      <p data-i18n="bk.success.p">Obrigado! O seu pedido está a caminho da Andrea e do Mató — mal podemos esperar para o receber. Respondemos por email assim que verificarmos a disponibilidade.</p>
       <div class="bk-summary" id="rf-summary">
         <div class="bk-summary-row"><span data-i18n="bk.sum.name">Nome</span><strong id="sum-name">—</strong></div>
         <div class="bk-summary-row"><span data-i18n="bk.sum.dates">Datas</span><strong id="sum-dates">—</strong></div>
@@ -443,10 +447,38 @@ para verificarmos a disponibilidade.</p>
 </main>
 
 <!-- ===================== RODAPÉ (mínimo) ===================== -->
-<footer class="foot-min">
-  <span>© 2026 Casa Colorida / Tempo &amp; Amor · <span data-i18n="foot.powered">Desenvolvido por</span> Sacra Designer &amp; <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a></span>
-  <a class="foot-priv" href="privacidade.html" data-i18n="foot.privacidade">Privacidade</a>
-  <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
+<footer class="foot-site">
+  <div class="fs-grid">
+    <div class="fs-brand">
+      <svg class="fs-mark" viewBox="0 0 76 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 49 H71"></path>
+        <path d="M11 31 L23 19 L35 31"></path><path d="M15 31 V49"></path><path d="M31 31 V49"></path>
+        <path d="M37 31 L51 16 L65 31"></path><path d="M41 31 V49"></path><path d="M61 31 V49"></path>
+        <path d="M48 49 V40 H54 V49"></path>
+      </svg>
+      <div class="fs-name"><span class="l1">casa colorida</span><span class="l2">tempo &amp; amor</span></div>
+      <p class="fs-tag" data-i18n="foot.tag">Duas casas acolhedoras e típicas no coração de Vila do Bispo — abrande, sinta-se em casa.</p>
+    </div>
+    <nav class="fs-col" data-i18n-attr="aria-label:foot.nav" aria-label="Explorar">
+      <span class="fs-h" data-i18n="foot.nav">Explorar</span>
+      <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+      <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+      <a href="index.html#local" data-i18n="nav.local">Local</a>
+      <a href="booking.html" data-i18n="foot.book">Reservar</a>
+      <a href="privacidade.html" data-i18n="foot.privacidade">Política de Privacidade</a>
+    </nav>
+    <div class="fs-col">
+      <span class="fs-h" data-i18n="foot.contact">Contactos</span>
+      <a href="tel:+351967443791">Andrea · (+351) 967 443 791</a>
+      <a href="tel:+351961470100">Mató · (+351) 961 470 100</a>
+      <span>Vila do Bispo · Algarve</span>
+    </div>
+  </div>
+  <div class="fs-btm">
+    <div class="fs-btm-inner">
+      <span>© 2026 Casa Colorida / Tempo &amp; Amor · <span data-i18n="foot.powered">Desenvolvido por</span> <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a> &amp; Sacra Design</span>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -595,9 +627,14 @@ para verificarmos a disponibilidade.</p>
 <script>
 /* pré-preenche datas a partir de URL params (calendário da home) + amostra localizada */
 (function () {
+  var p = new URLSearchParams(window.location.search);
+  var hs = p.get('house'), hsel = document.getElementById('house');
+  if (hs && hsel) {
+    var hIdx = (hs === 'tempo') ? 0 : (hs === 'colorida' ? 1 : -1);
+    if (hIdx >= 0) hsel.selectedIndex = hIdx;
+  }
   var el = document.getElementById('dates');
   if (!el) return;
-  var p = new URLSearchParams(window.location.search);
   var cin = p.get('checkin'), cout = p.get('checkout');
   var touched = false;
   el.addEventListener('input', function () { touched = true; });
@@ -621,7 +658,7 @@ para verificarmos a disponibilidade.</p>
 })();
 </script>
 
-<script src="site.js?v=20260625" defer></script>
+<script src="site.js?v=20260707" defer></script>
 
 </body>
 </html>

@@ -175,6 +175,39 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   font-family: var(--font-script); color: var(--sage-soft); font-size: 20px; opacity: .9;
 }
 
+/* ---------- Rodapé completo ---------- */
+.foot-site { background: var(--watercolor); color: var(--on-watercolor); }
+.fs-grid {
+  max-width: 1196px; margin-inline: auto;
+  padding: clamp(40px,6vw,64px) clamp(32px,8vw,60px) clamp(30px,4vw,44px);
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+  gap: clamp(30px,5vw,70px); align-items: start;
+}
+.fs-mark { width: 52px; height: 38px; color: var(--sage-deep); }
+.fs-name { display: flex; flex-direction: column; line-height: 1.08; margin-top: 10px; }
+.fs-name .l1 { font-size: 17px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; }
+.fs-name .l2 { font-size: 14px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--clay); }
+.fs-tag { margin-top: 14px; max-width: 300px; font-size: 14.5px; font-weight: 300; line-height: 1.55; opacity: .85; }
+.fs-col { display: flex; flex-direction: column; gap: 2px; }
+.fs-h { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; opacity: .55; margin-bottom: 12px; }
+.fs-col a, .fs-col > span:not(.fs-h) { font-size: 14.5px; padding-block: 4px; color: var(--on-watercolor); opacity: .9; }
+.fs-col a { transition: opacity .2s; width: fit-content; }
+.fs-col a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.fs-btm { border-top: 1px solid rgba(94,146,143,.22); }
+.fs-btm-inner {
+  max-width: 1196px; margin-inline: auto;
+  padding: 16px clamp(32px,8vw,60px);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; text-align: center;
+  gap: 8px 24px; font-size: 13px;
+}
+.fs-btm-inner > span { opacity: .9; }
+.fs-btm-inner .fs-credits { width: 100%; font-size: 11.5px; opacity: .55; }
+.fs-btm-inner .fs-credits a { color: inherit; text-decoration: underline; }
+@media (max-width: 760px) {
+  .fs-grid { grid-template-columns: 1fr; gap: 30px; }
+  .fs-btm-inner { flex-direction: column; text-align: center; gap: 6px; }
+}
+
 /* ---------- Minimal footer ---------- */
 .foot-min {
   background: var(--watercolor); color: var(--on-watercolor);
@@ -242,6 +275,23 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .footer-top { grid-template-columns: 1fr; }
 }
 
+/* ================= SCROLLBAR PERSONALIZADA ================= */
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--sage-soft);
+  border-radius: 999px;
+  border: 3px solid var(--paper);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--sage); background-clip: padding-box; }
+::-webkit-scrollbar-thumb:active { background: var(--sage-deep); background-clip: padding-box; }
+/* Firefox (só quando não há suporte WebKit, para não anular o estilo acima) */
+@supports not selector(::-webkit-scrollbar) {
+  html { scrollbar-width: thin; scrollbar-color: var(--sage-soft) transparent; }
+}
+
 /* ================= HAMBURGER MENU ================= */
 .nav-toggle {
   display: none;
@@ -300,12 +350,15 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 }
 .drawer-lang .lang-opt { padding: 8px 18px; font-size: 13px; }
 
-@media (max-width: 640px) {
+/* Header colapsa para hamburger mais cedo — evita nav partido em larguras intermédias */
+@media (max-width: 900px) {
   .bar nav    { display: none !important; }
   .nav-toggle { display: flex; }
   .bar-right .lang-switch { display: none; }   /* switch passa para dentro do menu */
   .mobile-drawer.open { display: block; }
+}
 
+@media (max-width: 640px) {
   /* Mosaico → 1 coluna */
   .mosaic { grid-template-columns: 1fr; }
 
@@ -349,3 +402,76 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 }
 .cs-opt:hover { background: #FCEADC; }
 .cs-opt.sel { background: rgb(240,138,36); color: #fff; font-weight: 600; }
+
+/* ============================================================
+   Animações — calmas, no tom da marca; respeitam reduced-motion.
+   .reveal é ativado por site.js (IntersectionObserver → .in);
+   gate em html[data-lang] para nunca esconder conteúdo sem JS.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  /* reveal ao scroll */
+  html[data-lang] .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease-out, transform .7s ease-out; }
+  html[data-lang] .reveal.in { opacity: 1; transform: none; }
+  .ggrid .gcell:nth-child(even) { transition-delay: .12s; }
+  .mosaic .tile:nth-child(3n+2) { transition-delay: .1s; }
+  .mosaic .tile:nth-child(3n) { transition-delay: .2s; }
+
+  /* hero — zoom lento que assenta (Ken Burns, 1×) */
+  .hero-bg { animation: ccHeroZoom 16s ease-out both; }
+  .casa-hero { overflow: hidden; }
+  .casa-hero::before { content: ""; position: absolute; inset: 0; background: inherit; animation: ccHeroZoom 16s ease-out both; }
+
+  /* widget de reserva — entrada suave */
+  .booking-bar { animation: ccFadeUp .8s ease-out .15s both; }
+
+  /* botão coral — varrimento de brilho ocasional */
+  .btn-book { position: relative; overflow: hidden; }
+  .btn-book::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -70px; width: 46px;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-18deg);
+    animation: ccSheen 6.5s ease-in-out 2.5s infinite;
+  }
+}
+@keyframes ccHeroZoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+@keyframes ccFadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes ccSheen { 0% { left: -70px; } 9% { left: calc(100% + 30px); } 100% { left: calc(100% + 30px); } }
+
+/* ============================================================
+   Micro-animações — cards, dropdowns, calendário, menu, botões.
+   Calmas, no tom da marca; respeitam reduced-motion.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  /* FAQ — resposta desliza ao abrir; cartão levanta */
+  .acc { transition: box-shadow .3s ease; }
+  .acc[open] { box-shadow: 0 12px 32px rgba(30,30,30,.09); }
+  .acc[open] .ans { animation: ccAccOpen .35s ease-out both; }
+  .acc summary { transition: background .2s ease; }
+  .acc summary:hover { background: rgba(94,146,143,.06); }
+
+  /* dropdowns personalizados — pop-in */
+  .cs-menu { animation: ccPopIn .22s cubic-bezier(.2,.85,.3,1.1) both; transform-origin: top center; }
+
+  /* calendário — fade suave + dias reativos */
+  .cal { animation: ccFadeIn .22s ease-out both; }
+  .cal-grid .day { transition: background .15s ease, transform .15s ease; }
+  .cal-grid .day:not(.muted):hover { transform: scale(1.12); }
+
+  /* checkboxes — visto com "pop" */
+  .check input:checked + .box svg { animation: ccPop .28s cubic-bezier(.2,.9,.3,1.4) both; }
+
+  /* menu mobile — desliza para baixo */
+  .mobile-drawer.open { animation: ccDrawerIn .28s ease-out both; }
+
+  /* galeria das casas — levitar suave */
+  .gcell { transition: transform .35s ease, box-shadow .35s ease; }
+  .gcell:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(30,30,30,.16); }
+
+  /* botões — feedback ao pressionar */
+  .btn:active, .btn-danger:active, .btn-book:active { transform: translateY(0) scale(.97); }
+}
+@keyframes ccAccOpen { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes ccPopIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes ccFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ccPop { from { transform: scale(.3); } to { transform: scale(1); } }
+@keyframes ccDrawerIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
