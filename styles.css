@@ -201,8 +201,6 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   gap: 8px 24px; font-size: 13px;
 }
 .fs-btm-inner > span { opacity: .9; }
-.fs-btm-inner .fs-credits { width: 100%; font-size: 11.5px; opacity: .55; }
-.fs-btm-inner .fs-credits a { color: inherit; text-decoration: underline; }
 @media (max-width: 760px) {
   .fs-grid { grid-template-columns: 1fr; gap: 30px; }
   .fs-btm-inner { flex-direction: column; text-align: center; gap: 6px; }
