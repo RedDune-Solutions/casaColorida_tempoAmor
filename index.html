@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Vila do Bispo</title>
-<script src="i18n.js?v=20260626"></script>
+<script src="i18n.js?v=20260706"></script>
 <meta name="description" content="Duas casas acolhedoras e típicas no coração de Vila do Bispo. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -109,11 +109,12 @@
   display: flex; flex-direction: column; gap: clamp(14px,1.6vw,18px);
 }
 .bar-fields { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); }
-.bar-extras { display: flex; align-items: center; gap: clamp(20px,3vw,40px); flex-wrap: wrap; }
-.bar-extras .btn-book { margin-left: auto; }
+/* extras alinhados em colunas com os inputs de cima (checkbox sob cada campo, botão sob o 3º) */
+.bar-extras { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); align-items: start; margin-top: -6px; }
+.bar-extras .btn-book { width: 100%; min-width: 0; padding: 0 8px; letter-spacing: .05em; }
 .field-fig { display: flex; flex-direction: column; gap: 6px; }
 .field-fig > label {
-  font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -.01em;
+  font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -.01em;
 }
 .control {
   height: 44px; display: flex; align-items: center; justify-content: space-between;
@@ -128,7 +129,8 @@
 
 .checks { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
-.bar-extras .check { align-items: center; }
+/* caixa antes do título, alinhada ao topo da célula */
+.bar-extras .check { align-items: flex-start; }
 .check .box {
   flex: none; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
   box-shadow: inset 0 0 0 1.5px var(--line); background: #fff;
@@ -138,7 +140,7 @@
 .check input { position: absolute; opacity: 0; width: 0; height: 0; }
 .check input:checked + .box { background: rgb(240,138,36); box-shadow: inset 0 0 0 1.5px rgb(240,138,36); }
 .check input:checked + .box svg { opacity: 1; }
-.check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+.check .lbl b { display: block; font-size: 16px; font-weight: 600; color: var(--ink); }
 .check .lbl small { font-size: 12.5px; color: var(--slate); }
 
 /* calendário (popover — abre para cima no hero) */
@@ -304,6 +306,7 @@
 /* ================= RESPONSIVE ================= */
 @media (max-width: 980px) {
   .bar-fields { grid-template-columns: 1fr; }
+  .bar-extras { grid-template-columns: 1fr; }
   .reserve-row { grid-template-columns: 1fr; }
   .mosaic { grid-template-columns: repeat(2, 1fr); }
   .house-block { grid-template-columns: 1fr; gap: 24px; }
@@ -313,8 +316,7 @@
 }
 @media (max-width: 560px) {
   .booking-bar { padding: 20px 18px; }
-  .bar-extras { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .bar-extras .btn-book { margin-left: 0; width: 100%; }
+  .bar-extras { gap: 16px; }
 }
 </style>
 </head>
@@ -418,7 +420,7 @@
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b data-i18n="pet.t">Extras para animais (20€ adicional)</b><small data-i18n="pet.s">Cama e taças disponíveis.</small></span>
         </label>
-        <a class="btn-book" id="bookBtn" href="booking.html" data-i18n="hero.book">RESERVAR</a>
+        <a class="btn-book" id="bookBtn" href="booking.html" data-i18n="hero.book">VERIFICAR DISPONIBILIDADE</a>
       </div>
     </form>
   </div>
@@ -445,7 +447,7 @@
         <h2 class="fig-title">tempo &amp; amor</h2>
         <p class="body" data-i18n="house.tempo.body">Um refúgio tranquilo para abrandar.
 Pensado para quem valoriza a simplicidade, o conforto e momentos de verdadeira desconexão.</p>
-        <a class="btn-danger" href="booking.html" style="border-radius: 8px" data-i18n="house.reserve">RESERVAR</a>
+        <a class="btn-danger" href="booking.html" style="border-radius: 8px" data-i18n="house.reserve">VERIFICAR DISPONIBILIDADE</a>
       </div>
       <div class="house-photo" role="img" data-i18n-attr="aria-label:house.tempo.alt" aria-label="Casa Tempo &amp; Amor" style="background-image:url('assets/fig/photo-b.jpg')"></div>
     </article>
@@ -456,7 +458,7 @@ Pensado para quem valoriza a simplicidade, o conforto e momentos de verdadeira d
         <h2 class="fig-title">colorida</h2>
         <p class="body" data-i18n="house.colorida.body">Um espaço para reunir, relaxar e criar memórias.
 Ideal para quem procura juntar-se para uma estadia tranquila e perto da natureza.</p>
-        <a class="btn-danger" href="booking.html" data-i18n="house.reserve">RESERVAR</a>
+        <a class="btn-danger" href="booking.html" data-i18n="house.reserve">VERIFICAR DISPONIBILIDADE</a>
       </div>
       <div class="house-photo" role="img" data-i18n-attr="aria-label:house.colorida.alt" aria-label="Casa Colorida" style="background-image:url('assets/fig/photo-c.jpg')"></div>
     </article>
@@ -502,7 +504,7 @@ Ideal para quem procura juntar-se para uma estadia tranquila e perto da natureza
 
 <!-- ===================== RODAPÉ (mínimo) ===================== -->
 <footer class="foot-min">
-  <span>© 2026 Casa Colorida / Tempo &amp; Amor · <span data-i18n="foot.powered">Desenvolvido por</span> <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a></span>
+  <span>© 2026 Casa Colorida / Tempo &amp; Amor · <span data-i18n="foot.powered">Desenvolvido por</span> Sacra Designer &amp; <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a></span>
   <a class="foot-priv" href="privacidade.html" data-i18n="foot.privacidade">Privacidade</a>
   <span>Andrea · (+351) 967 443 791 &nbsp;—&nbsp; Mató · (+351) 961 470 100</span>
 </footer>
