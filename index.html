@@ -392,13 +392,18 @@ section[id], form[id] { scroll-margin-top: 80px; }
 .disc-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(255,255,255,.5); }
 .disc-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
 
-/* fotografia de largura total (onda) */
-/* a fotografia entra a desvanecer do branco da secção anterior, sem aresta dura */
+/* fotografia de largura total (onda) — o fill original do Figma, 2200px.
+   A `onda.jpg` que aqui estava era um recorte do render com o desvanecimento
+   já cozido dentro da imagem; agora a fotografia entra crua e o esbatimento
+   é feito aqui, a desvanecer para o branco das secções de cima e de baixo. */
 .photo-full { width: 100%; display: block; }
 .photo-full img {
   width: 100%; height: clamp(220px,30vw,470px); object-fit: cover; display: block;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.85) 3%, #000 7%);
-          mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.85) 3%, #000 7%);
+  --fade: linear-gradient(180deg,
+            transparent 0%, rgba(0,0,0,.55) 5%, #000 16%,
+            #000 82%, rgba(0,0,0,.55) 95%, transparent 100%);
+  -webkit-mask-image: var(--fade);
+          mask-image: var(--fade);
 }
 
 /* ---- carrossel de recomendações ---- */
@@ -764,7 +769,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
   </div>
 
   <!-- fotografia de largura total -->
-  <div class="photo-full reveal"><img src="assets/fig/onda.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+  <div class="photo-full reveal"><img src="assets/fig/onda.webp" alt="" aria-hidden="true" loading="lazy" /></div>
 
   <!-- segundo carrossel: comer e beber -->
   <div class="recs page reveal" id="recFood">
