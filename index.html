@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260731b" />
+<link rel="stylesheet" href="styles.css?v=20260811" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -246,8 +246,8 @@ img.amn-ico { filter: brightness(0) invert(1); }
 /* ================= FILA DE FOTOS (largura total) ================= */
 /* moldura branca igual dos quatro lados, como nos trios das casas */
 .strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding: 10px; background: var(--paper); }
-.strip .s-cell { position: relative; aspect-ratio: 3 / 2.35; overflow: hidden; background: rgb(230,230,228); cursor: zoom-in; border: 0; padding: 0; display: block; width: 100%; border-radius: 0; }
-.strip .s-cell:focus-visible { outline: 3px solid var(--peach); outline-offset: -3px; }
+.strip .s-cell { position: relative; aspect-ratio: 3 / 2.35; overflow: hidden; background: rgb(230,230,228); cursor: pointer; border: 0; padding: 0; display: block; width: 100%; border-radius: 0; }
+/* hover, foco e contador: partilhados com .trio-cell (ver secção do trio) */
 .strip .s-cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .9s ease; }
 .strip .s-cell img.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .strip .s-cell img { transition: none; } }
@@ -291,7 +291,7 @@ img.amn-ico { filter: brightness(0) invert(1); }
 .trio { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding: 10px; background: var(--paper); }
 .trio-cell {
   position: relative; aspect-ratio: 3 / 2.35; border-radius: 0; overflow: hidden;
-  cursor: zoom-in; background: rgb(230,230,228);
+  cursor: pointer; background: rgb(230,230,228);
 }
 .trio-cell img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
@@ -300,19 +300,20 @@ img.amn-ico { filter: brightness(0) invert(1); }
 .trio-cell img.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .trio-cell img { transition: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  .trio-cell { transition: transform .35s ease, box-shadow .35s ease; }
-  .trio-cell:hover { transform: scale(1.015); box-shadow: 0 14px 40px rgba(30,30,30,.18); }
+  .trio-cell, .strip .s-cell { transition: transform .35s ease, box-shadow .35s ease; }
+  .trio-cell:hover, .strip .s-cell:hover { transform: scale(1.015); box-shadow: 0 14px 40px rgba(30,30,30,.18); }
 }
-.trio-cell:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 3px; }
+.trio-cell:focus-visible, .strip .s-cell:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 3px; }
 /* contador discreto, só quando o rato está por cima */
-.trio-cell .tc-count {
+.trio-cell .tc-count, .strip .s-cell .tc-count {
   position: absolute; right: 8px; bottom: 8px; z-index: 2;
   padding: 3px 8px; border-radius: 999px;
   background: rgba(24,20,16,.55); color: #fff;
   font-size: 11px; font-weight: 600; letter-spacing: .06em;
   opacity: 0; transition: opacity .25s ease; pointer-events: none;
 }
-.trio-cell:hover .tc-count, .trio-cell:focus-visible .tc-count { opacity: 1; }
+.trio-cell:hover .tc-count, .trio-cell:focus-visible .tc-count,
+.strip .s-cell:hover .tc-count, .strip .s-cell:focus-visible .tc-count { opacity: 1; }
 
 /* lightbox dos trios — clique na foto abre grande; clicar na foto grande avança */
 .lb { position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; padding: 24px; }
@@ -339,7 +340,8 @@ img.amn-ico { filter: brightness(0) invert(1); }
 section[id], form[id] { scroll-margin-top: 80px; }
 @media (max-width: 720px) {
   .trio { grid-template-columns: 1fr 1fr; }
-  .trio img:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  /* as células são <button>, não <img>: o alvo é a célula (igual à tira de cima) */
+  .trio .trio-cell:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
 }
 
 .stay-info { text-align: center; padding: clamp(48px,7vw,92px) 0 clamp(40px,5vw,70px); }
@@ -358,10 +360,31 @@ section[id], form[id] { scroll-margin-top: 80px; }
 /* ================= DISCOVER — banda com foto + carrossel ================= */
 .disc-band {
   position: relative; isolation: isolate; overflow: hidden;
-  background: #2b3b3d url("assets/fig/surf-band.jpg") center / cover no-repeat;
+  background: #2b3b3d;
   padding: clamp(44px,6vw,86px) 0;
 }
-.disc-band::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(26,42,44,.58); }
+/* fotografia ao fundo.
+   O antigo surf-band.jpg era um export do Figma com o texto "descubra Vila do
+   Bispo" já impresso na imagem — aparecia duplicado por trás do texto real.
+   Numa banda tão larga (4,5:1) a fonte tem de ser larga, senão o `cover` amplia
+   e a foto fica demasiado aproximada: a onda.jpg (1440×480) reduz 0,88×, a
+   surf.jpg limpa do Figma (562×399) ampliava 2,3×.
+   A mesma foto aparece a toda a largura mais abaixo, por vezes no mesmo ecrã:
+   aqui recorta-se a parte de baixo (a onda, sem os surfistas) e espelha-se,
+   para não se ler como a mesma imagem repetida. */
+.disc-band::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: url("assets/fig/onda.jpg") center 82% / cover no-repeat;
+  transform: scaleX(-1);
+}
+/* escurecimento por cima da foto, para o texto ler bem. Mais forte do lado do
+   título (sage sobre espuma clara não chegava aos 3:1) e mais leve à direita,
+   onde o parágrafo é branco e a foto pode respirar. A onda.jpg é bem mais
+   clara do que o export antigo, daí subir de .58. */
+.disc-band::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(26,42,44,.80) 0%, rgba(26,42,44,.74) 42%, rgba(26,42,44,.62) 100%);
+}
 .disc-head {
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
@@ -917,43 +940,14 @@ function ccDateRange(ids) {
   /* o widget do hero tem stacking context próprio: sobe-o enquanto o
      calendário está aberto, senão abriria por baixo do header */
   var host = trigger.closest('.hero-wrap');
-  /* no widget do hero o calendário abre SEMPRE para cima, sobre a fotografia;
-     nos restantes escolhe o lado onde há espaço */
-  var prefereCima = !!trigger.closest('.booking-bar');
-  function place() {
-    /* medir depois do layout assentar, senão o rect do trigger ainda é o antigo */
-    pop.style.maxHeight = '';
-    /* o popover ancora no .field (label + campo + nota), não no botão: medir a referência real */
-    var anchor = pop.offsetParent || trigger;
-    var r = anchor.getBoundingClientRect();
-    var barH = (document.querySelector('.bar') || {}).offsetHeight || 0;
-    var needed = pop.offsetHeight || 330;
-    var below = window.innerHeight - r.bottom - 12;
-    var above = r.top - barH - 12;
-    var up = prefereCima ? (above > 200 || above > below) : (below < needed && above > below);
-    pop.classList.toggle('up', up);
-    /* se não cabe de nenhum dos lados, encolhe para o espaço que há (rola por dentro) */
-    var room = up ? above : below;
-    if (needed > room) pop.style.maxHeight = Math.max(room, 180) + 'px';
-
-    /* no hero assenta ACIMA do cartão inteiro — mesma base dos dropdowns,
-       calculada por `top` absoluto (igual a positionHero() do site.js) */
-    var bar = trigger.closest('.booking-bar');
-    pop.style.marginTop = '';
-    if (prefereCima && bar && window.innerWidth > 980 && up) {
-      pop.classList.remove('up');          /* desliga o `bottom` do CSS */
-      pop.style.bottom = 'auto';
-      pop.style.top = '0px';
-      var r0 = pop.getBoundingClientRect();
-      var alvo = bar.getBoundingClientRect().top - 14 - pop.offsetHeight;
-      pop.style.top = (alvo - r0.top) + 'px';
-    } else {
-      pop.style.top = '';
-      pop.style.bottom = '';
-    }
-  }
+  /* colocação delegada em site.js (window.ccPop): calendário e dropdowns
+     partilham âncora, ponto de viragem e limite do header */
+  function place() { if (window.ccPop) window.ccPop.place(trigger, pop); }
   function open()  {
     render(); pop.hidden = false; trigger.setAttribute('aria-expanded', 'true');
+    /* fechar o popover anterior primeiro: partilha o mesmo host e o close()
+       dele tirava o .pop-open que acabámos de pôr */
+    if (window.ccPop) window.ccPop.opened({ pop: pop, close: close });
     if (host) host.classList.add('pop-open');
     place(); requestAnimationFrame(place);
     /* o foco no campo pode provocar scroll: reposiciona enquanto estiver aberto */
@@ -965,6 +959,7 @@ function ccDateRange(ids) {
     if (host) host.classList.remove('pop-open');
     window.removeEventListener('scroll', place);
     window.removeEventListener('resize', place);
+    if (window.ccPop) { window.ccPop.reset(pop); window.ccPop.closed(pop); }
   }
 
   trigger.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden ? open() : close(); });
@@ -1056,7 +1051,9 @@ function ccDateRange(ids) {
 </script>
 
 <script>
-/* Fila de fotos a toda a largura (entre a banda pêssego e a 1ª casa) */
+/* Fila de fotos a toda a largura (entre a banda pêssego e a 1ª casa).
+   Mesma configuração dos trios das casas: 5s, cross-fade, contador no rato e
+   pausa com o rato/foco, fora do ecrã, com a lightbox aberta ou separador escondido. */
 (function () {
   var strip = document.querySelector('.strip[data-strip="intro"]');
   if (!strip) return;
@@ -1070,7 +1067,11 @@ function ccDateRange(ids) {
   ];
   var FB = { 'ph.living': 'Sala de estar', 'ph.bedroom': 'Quarto de casal', 'ph.kitchen': 'Cozinha equipada' };
   function label(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (FB[k] || ''); }
-  var cells = [], offset = 0;
+  /* a lightbox é a mesma dos trios: enquanto estiver aberta, a tira pára */
+  var lb = document.getElementById('trioLb');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cells = [], offset = 0, timer = null, hovered = false, onScreen = true;
+
   for (var n = 0; n < 3; n++) {
     var c = document.createElement('button');
     c.type = 'button';
@@ -1078,15 +1079,22 @@ function ccDateRange(ids) {
     var a = new Image(), b = new Image();
     a.className = 'on'; b.alt = ''; b.setAttribute('aria-hidden', 'true');
     c.appendChild(a); c.appendChild(b);
+    var cnt = document.createElement('span');
+    cnt.className = 'tc-count';
+    c.appendChild(cnt);
     strip.appendChild(c);
-    c._layers = [a, b]; c._top = 0; c._slot = n;
+    c._layers = [a, b]; c._top = 0; c._slot = n; c._count = cnt;
     cells.push(c);
   }
   function paint(c, fade) {
-    var s = SHOTS[(c._slot + offset) % SHOTS.length];
+    var i = (c._slot + offset) % SHOTS.length;
+    var s = SHOTS[i];
+    c._index = i;
+    c._count.textContent = (i + 1) + '/' + SHOTS.length;
     var next = fade ? 1 - c._top : c._top;
     var im = c._layers[next];
     im.src = s[0]; im.alt = label(s[1]);
+    im.setAttribute('data-i18n-attr', 'alt:' + s[1]);
     im.classList.add('on');
     if (fade) { c._layers[c._top].classList.remove('on'); c._top = next; }
     c._layers[1 - c._top].alt = '';
@@ -1095,19 +1103,37 @@ function ccDateRange(ids) {
   }
   cells.forEach(function (c) {
     paint(c, false);
-    c._layers[1 - c._top].src = SHOTS[(c._slot + 1) % SHOTS.length][0];
+    c._layers[1 - c._top].src = SHOTS[(c._index + 1) % SHOTS.length][0];
+    c.addEventListener('mouseenter', function () { hovered = true; });
+    c.addEventListener('mouseleave', function () { hovered = false; });
+    c.addEventListener('focusin',  function () { hovered = true; });
+    c.addEventListener('focusout', function () { hovered = false; });
     /* clicar abre em grande, tal como nos trios das casas */
     c.addEventListener('click', function () {
-      if (window.ccOpenStrip) window.ccOpenStrip(SHOTS, (c._slot + offset) % SHOTS.length, label);
+      if (window.ccOpenStrip) window.ccOpenStrip(SHOTS, c._index, label);
     });
   });
   SHOTS.forEach(function (s) { var im = new Image(); im.src = s[0]; });
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) setInterval(function () {
-    if (document.hidden) return;
+
+  function step() {
+    if (reduce || hovered || !onScreen || (lb && !lb.hidden)) return;
     offset = (offset + 1) % SHOTS.length;
     cells.forEach(function (c) { paint(c, true); });
-  }, 6000);
+  }
+  function start() { if (!timer && !reduce) timer = setInterval(step, 5000); }
+  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      onScreen = es.some(function (e) { return e.isIntersecting; });
+    }, { threshold: .15 });
+    io.observe(strip);
+  }
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  window.addEventListener('langchange', function () {
+    cells.forEach(function (c) { c._layers[c._top].alt = label(SHOTS[c._index][1]); });
+  });
+  start();
 })();
 </script>
 
@@ -1303,7 +1329,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260731" defer></script>
+<script src="site.js?v=20260811" defer></script>
 
 <script type="application/ld+json">
 {

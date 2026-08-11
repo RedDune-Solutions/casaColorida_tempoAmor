@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260731b" />
+<link rel="stylesheet" href="styles.css?v=20260811" />
 <style>
 /* ============================================================
    RESERVAR — fiel ao frame "you're almost here" do Figma.
@@ -482,6 +482,8 @@ body { background: var(--page-bg); padding-top: var(--bar-h); }
       var last = wrap.querySelector('.guest-block[data-guest="' + j + '"]');
       if (last) last.remove();
     }
+    /* converte os <select> novos no mesmo dropdown dos restantes campos */
+    if (window.ccPop && window.ccPop.enhanceSelects) window.ccPop.enhanceSelects(wrap);
   }
   gsel.addEventListener('change', sync);
   window.addEventListener('langchange', function () {
@@ -560,26 +562,15 @@ body { background: var(--page-bg); padding-top: var(--bar-h); }
     if (selStart && selEnd) input.value = fmtDisplay(selStart) + ' — ' + fmtDisplay(selEnd);
     else if (selStart)      input.value = fmtDisplay(selStart) + ' — …';
   }
-  /* escolhe o lado com espaço: nunca fica cortado nem escondido sob o header */
-  function place() {
-    /* medir depois do layout assentar, senão o rect do trigger ainda é o antigo */
-    pop.style.maxHeight = '';
-    /* o popover ancora no .field (label + campo + nota), não no botão: medir a referência real */
-    var anchor = pop.offsetParent || trigger;
-    var r = anchor.getBoundingClientRect();
-    var barH = (document.querySelector('.bar') || {}).offsetHeight || 0;
-    var needed = pop.offsetHeight || 330;
-    var below = window.innerHeight - r.bottom - 12;
-    var above = r.top - barH - 12;
-    var up = below < needed && above > below;
-    pop.classList.toggle('up', up);
-    /* se não cabe de nenhum dos lados, encolhe para o espaço que há (rola por dentro) */
-    var room = up ? above : below;
-    if (needed > room) pop.style.maxHeight = Math.max(room, 180) + 'px';
-  }
+  /* colocação delegada em site.js (window.ccPop): calendário e dropdowns
+     partilham âncora, ponto de viragem e limite do header */
+  function place() { if (window.ccPop) window.ccPop.place(trigger, pop); }
   var host = trigger.closest('.bk-card');
   function open()  {
     render(); pop.hidden = false; trigger.setAttribute('aria-expanded','true');
+    /* fechar o popover anterior primeiro: partilha o mesmo host e o close()
+       dele tirava o .pop-open que acabámos de pôr */
+    if (window.ccPop) window.ccPop.opened({ pop: pop, close: close });
     if (host) host.classList.add('pop-open');
     place(); requestAnimationFrame(place);
     /* o foco no campo pode provocar scroll: reposiciona enquanto estiver aberto */
@@ -591,6 +582,7 @@ body { background: var(--page-bg); padding-top: var(--bar-h); }
     if (host) host.classList.remove('pop-open');
     window.removeEventListener('scroll', place);
     window.removeEventListener('resize', place);
+    if (window.ccPop) { window.ccPop.reset(pop); window.ccPop.closed(pop); }
   }
 
   trigger.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden ? open() : close(); });
@@ -781,7 +773,7 @@ body { background: var(--page-bg); padding-top: var(--bar-h); }
 </script>
 
 <script src="https://hcaptcha.com/1/api.js" async defer></script>
-<script src="site.js?v=20260731" defer></script>
+<script src="site.js?v=20260811" defer></script>
 
 </body>
 </html>
