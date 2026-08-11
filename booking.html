@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-</script>
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.hcaptcha.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.booking">Pedido de Reserva · Casa Colorida · Tempo &amp; Amor</title>
-<script src="i18n.js?v=20260708" defer></script>
+<script src="i18n.js?v=20260731b" defer></script>
 <meta name="description" content="Peça a sua reserva em Vila do Bispo — diga-nos as datas e deixe o seu contacto. Respondemos com a disponibilidade. Sem pagamento online." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/booking.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -24,241 +22,208 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260708" />
+<link rel="stylesheet" href="styles.css?v=20260731b" />
 <style>
 /* ============================================================
-   RESERVAR — reconstruída fiel ao frame "10" do Figma.
-   Página única: faixa de fotos → painel branco com título,
-   stepper vermelho e secções Choose Dates / Guest Info / Payment.
+   RESERVAR — fiel ao frame "you're almost here" do Figma.
+   Fundo cinza, cartão branco, stepper sage, secções numeradas,
+   blocos por hóspede e bilhete de confirmação no fim.
    ============================================================ */
-body { background: var(--cloud); }
+:root { --step: #C3D8CF; --page-bg: #E5E5E5; --bar-h: clamp(76px, 6.8vw, 97px); }
+/* header é fixo: o conteúdo arranca abaixo dele (aqui não há hero por trás) */
+body { background: var(--page-bg); padding-top: var(--bar-h); }
 
-/* ----- HEADER (barra sage, igual à home) ----- */
-.bar { position: sticky; top: 0; z-index: 60; background: var(--watercolor); color: var(--on-watercolor); border-bottom: 1px solid rgba(94,146,143,.20); }
-.bar-inner {
-  max-width: 1196px; margin-inline: auto; padding: 0 clamp(32px,8vw,60px);
-  height: 64px; display: flex; align-items: center; justify-content: space-between;
+/* ----- HEADER (fixo; sem hero atrás, mantém fundo sólido para o texto branco ler bem) ----- */
+.bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  background: rgba(38,34,30,.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: #fff;
 }
-.bar .home { display: inline-flex; align-items: center; gap: 11px; }
-.bar .home .bar-mark { width: 42px; height: 31px; color: var(--sage-deep); flex: none; }
-.bar-brand { display: flex; flex-direction: column; line-height: 1.04; flex: none; white-space: nowrap; }
-.bar-brand .l1 { font-size: 15.5px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--on-watercolor); }
-.bar-brand .l2 { font-size: 13px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--clay); margin-top: 1px; }
-.bar nav { display: flex; gap: clamp(20px,4vw,56px); }
+.bar-inner {
+  position: relative; max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 18px;
+}
+.bar .home { display: inline-flex; align-items: center; }
+.mark-box {
+  width: clamp(56px,4.8vw,68px); height: auto; display: block;
+}
+.bar nav { display: flex; gap: clamp(20px, 4.6vw, 88px); }
 .bar nav a {
-  color: var(--on-watercolor); font-size: 14px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; opacity: .92; transition: opacity .2s;
+  color: #fff; font-size: clamp(11.5px,1vw,13.5px); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; opacity: .95; transition: opacity .2s;
 }
 .bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
 
-/* ----- botão Danger (vermelho) ----- */
-.btn-danger {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  background: rgb(192,15,12); color: rgb(254,233,231);
-  border-radius: 8px; padding: 16px 22px;
-  font-size: 16px; font-weight: 500; letter-spacing: .01em;
-  transition: background .2s ease, transform .2s ease;
+/* ----- voltar ----- */
+.bk-back { max-width: 1196px; margin: 0 auto; padding: clamp(22px,3vw,34px) clamp(20px,5vw,60px) 0; }
+.backlink {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: clamp(14px,1.3vw,17px); font-weight: 500; letter-spacing: .05em;
+  text-transform: uppercase; color: #6E6E6E; transition: color .2s;
 }
-.btn-danger:hover { background: rgb(168,12,10); transform: translateY(-1px); }
-.btn-danger.full { width: 100%; }
+.backlink:hover { color: var(--ink); }
+.backlink svg { width: 18px; height: 18px; }
 
-/* ----- faixa de fotos no topo (3 placeholders / fotos) ----- */
-.bk-strip {
-  max-width: 1440px; margin-inline: auto; padding: 0 clamp(0px,1.4vw,20px);
-  display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: clamp(8px,1.2vw,18px);
-  height: clamp(200px, 28vw, 404px);
-}
-.bk-strip > div {
-  background-color: rgb(217,217,217); border-radius: 6px;
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-}
-
-/* ----- painel branco ----- */
-.bk-panel {
-  position: relative; z-index: 2;
-  width: min(1196px, calc(100% - 2*clamp(16px,4vw,40px))); margin: clamp(28px,4vw,52px) auto clamp(48px,7vw,96px);
+/* ----- cartão ----- */
+.bk-wrap { max-width: 1196px; margin: 0 auto; padding: clamp(16px,2vw,26px) clamp(20px,5vw,60px) clamp(56px,7vw,90px); }
+.bk-card {
   background: #fff; border-radius: 16px;
-  box-shadow: inset 0 0 0 1px var(--line);
-  padding: clamp(40px,6vw,90px) clamp(24px,8vw,200px) clamp(40px,6vw,72px);
-}
-.bk-form { max-width: 790px; margin-inline: auto; }
-
-/* ----- cabeçalho do painel ----- */
-.bk-eyebrow {
-  display: block; text-align: center;
-  font-size: clamp(22px,2.4vw,32px); font-weight: 500; letter-spacing: .05em;
-  color: var(--sage-soft); text-transform: lowercase;
-  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1.5px;
+  padding: clamp(30px,5vw,70px) clamp(20px,5vw,74px) clamp(34px,5vw,58px);
+  box-shadow: 0 2px 30px rgba(30,30,30,.05);
 }
 .bk-title {
-  margin-top: 14px; text-align: center; white-space: pre-line;
-  font-size: clamp(36px,5vw,64px); font-weight: 700; letter-spacing: .05em;
-  line-height: 1.15; color: var(--sage); text-transform: lowercase;
+  text-align: center; font-size: clamp(38px,6vw,72px); font-weight: 300;
+  letter-spacing: -.01em; color: var(--step); line-height: 1.1; text-transform: lowercase;
 }
-.bk-title::first-letter { text-transform: uppercase; }
-
-/* ----- stepper vermelho ----- */
 .stepper {
-  margin: clamp(28px,4vw,46px) 0 0;
-  background: rgb(192,15,12); color: #fff; border-radius: 8px;
-  padding: 18px 20px; display: flex; flex-wrap: wrap; justify-content: center;
-  gap: clamp(12px,2.6vw,40px); font-size: clamp(13px,1.5vw,20px); font-weight: 600;
-  letter-spacing: -.01em;
+  margin: clamp(28px,4vw,52px) auto 0; background: var(--step); color: #fff;
+  border-radius: 8px; padding: 16px 22px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px,2.4vw,34px);
+  font-size: clamp(13px,1.3vw,17px); font-weight: 600; letter-spacing: .01em;
 }
-.stepper span { white-space: nowrap; opacity: .72; }
-.stepper span.on { opacity: 1; }
+.stepper span { white-space: nowrap; }
 
 /* ----- secções ----- */
-.bk-section { margin-top: clamp(40px,5vw,64px); }
-.bk-section > h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
-.bk-legend { margin-top: 8px; font-size: 16px; font-weight: 400; color: #303030; line-height: 1.4; white-space: pre-line; }
-.bk-rule { height: 1px; background: var(--line); margin-top: clamp(28px,4vw,40px); }
+.bk-section { margin-top: clamp(30px,4.4vw,54px); }
+.bk-section > h2 { font-size: clamp(19px,1.9vw,24px); font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+.bk-section > h2 .n { margin-right: 8px; }
+.bk-legend { margin-top: 8px; font-size: clamp(14px,1.3vw,16px); font-weight: 400; color: #6E6E6E; line-height: 1.5; }
+.bk-rule { height: 1px; background: var(--line); margin-top: clamp(24px,3.4vw,40px); }
 
-/* ----- campos ----- */
-.field-row { display: grid; gap: 16px; margin-top: 26px; }
+.field-row { margin-top: clamp(18px,2.4vw,28px); display: grid; gap: clamp(14px,2vw,26px); }
 .field-row.r3 { grid-template-columns: 1fr 1fr 1fr; }
 .field-row.r2 { grid-template-columns: 1fr 1fr; }
-.field-row.r-pcc { grid-template-columns: 305fr 224fr 230fr; }   /* passport / exp / nationality */
-.field-row.r-pe  { grid-template-columns: 305fr 468fr; }          /* phone / email */
-.field-row.r-cardno { grid-template-columns: 544fr 230fr; }       /* card number / country */
-.field {  display: flex; flex-direction: column; gap: 8px; }
-.field > label { font-size: 16px; font-weight: 400; color: var(--ink); }
-.field .sub { font-size: 12px; color: var(--slate); margin-top: -2px; }
-.inp {
-  height: 44px; width: 100%; box-sizing: border-box;
-  padding: 12px 16px; font: inherit; font-size: 16px; color: var(--ink);
-  background: #fff; border: 1px solid rgb(217,217,217); border-radius: 8px;
-  transition: border-color .18s, box-shadow .18s;
+.field-row.r1 { grid-template-columns: 1fr; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field > label { font-size: clamp(14px,1.3vw,16px); font-weight: 400; color: var(--ink); }
+.inp, .control {
+  height: 46px; width: 100%; background: #fff; border: 0;
+  border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line);
+  font: inherit; font-size: 16px; color: var(--ink); outline: none;
 }
-.inp::placeholder { color: rgb(179,179,179); }
-.inp:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(130,184,181,.18); }
-/* select / date como "control" com ícone */
-.control {
-  height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 0 14px; background: #fff; border: 1px solid rgb(217,217,217); border-radius: 8px;
-  font-size: 16px; color: var(--ink); cursor: pointer; position: relative;
+.inp { padding: 0 15px; }
+.inp:focus { box-shadow: inset 0 0 0 1px rgb(240,138,36); }
+.control { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 15px; cursor: pointer; }
+.control:hover { box-shadow: inset 0 0 0 1px var(--sage); }
+.control svg { width: 18px; height: 18px; color: var(--slate); flex: none; }
+.control select, .control input {
+  appearance: none; -webkit-appearance: none; border: 0; background: none;
+  font: inherit; font-size: 16px; color: var(--ink); width: 100%; height: 100%; outline: none; cursor: inherit;
 }
-.control:hover { border-color: var(--sage); }
-.control select {
-  appearance: none; -webkit-appearance: none; border: none; background: none;
-  font: inherit; font-size: 16px; color: var(--ink); width: 100%; height: 100%; cursor: pointer; outline: none;
-}
-.control svg { width: 18px; height: 18px; color: var(--slate); flex: none; pointer-events: none; }
-.control.icon-end select { padding-right: 4px; }
+.control select:invalid, .control select option[value=""] { color: #8A8A8A; }
+.sub { font-size: 12.5px; color: #8A8A8A; line-height: 1.4; }
 
-/* ----- checkboxes ----- */
-.checks { display: flex; gap: clamp(20px,5vw,48px); flex-wrap: wrap; margin-top: 24px; }
+/* checkboxes */
+.checks { margin-top: clamp(16px,2vw,24px); display: grid; grid-template-columns: 1fr 1fr; gap: 14px clamp(20px,3vw,44px); }
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
-.check input { position: absolute; opacity: 0; width: 0; height: 0; }
 .check .box {
-  flex: none; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
+  flex: none; width: 20px; height: 20px; border-radius: 4px; margin-top: 2px;
   box-shadow: inset 0 0 0 1.5px var(--line); background: #fff;
   display: grid; place-items: center; transition: background .15s, box-shadow .15s;
 }
 .check .box svg { width: 13px; height: 13px; color: #fff; opacity: 0; }
-.check input:checked + .box { background: var(--sage); box-shadow: inset 0 0 0 1.5px var(--sage); }
+.check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.check input:checked + .box { background: #2B2B2B; box-shadow: inset 0 0 0 1.5px #2B2B2B; }
 .check input:checked + .box svg { opacity: 1; }
-.check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
-.check .lbl small { font-size: 12.5px; color: var(--slate); }
+.check .lbl b { display: block; font-size: clamp(14px,1.3vw,16px); font-weight: 400; color: var(--ink); }
+.check .lbl small { font-size: 13.5px; color: #8A8A8A; }
 
-/* ----- subtítulos de hóspede ----- */
-.guest-tag { font-size: 20px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
-.guest-tag.g1 { color: var(--sage); }
-.guest-tag.g2 { color: #9E9E9E; margin-top: clamp(30px,4vw,44px); }
-.check-note { margin-top: 16px; text-align: right; font-size: 12px; color: var(--slate); }
+/* blocos por hóspede */
+.guest-block + .guest-block { margin-top: clamp(24px,3.4vw,40px); }
+.guest-h {
+  display: inline-block; margin-top: clamp(20px,2.6vw,32px);
+  font-size: clamp(15px,1.5vw,18px); font-weight: 600; color: var(--sage-deep);
+  text-decoration: underline; text-underline-offset: 5px;
+}
 
-/* ----- pagamento ----- */
-.pay-methods { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-.pay-tile {
-  position: relative; min-width: 96px; height: 56px; padding: 0 18px;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  background: #fff; border: 1.5px solid rgb(222,222,222); border-radius: 10px;
-  cursor: pointer; transition: border-color .18s, box-shadow .18s;
-  font-size: 15px; font-weight: 700; color: #1a1a1a;
+/* calendário popover */
+.date-field { position: relative; }
+.cal {
+  position: absolute; top: calc(100% + 10px); left: 0; z-index: 200;
+  width: 318px; max-width: calc(100vw - 40px);
+  /* em ecrãs baixos não cabe de nenhum dos lados: rola por dentro em vez de cortar */
+  max-height: calc(100vh - 120px); overflow: auto;
+  background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px;
+  box-shadow: 0 18px 50px rgba(30,30,30,.22);
 }
-.pay-tile:hover { border-color: #bdbdbd; }
-.pay-tile.sel { border-color: var(--terracotta); box-shadow: 0 0 0 1px var(--terracotta); }
-.pay-tile .star {
-  position: absolute; top: 6px; left: 7px; width: 12px; height: 12px; color: var(--terracotta);
-}
-.pay-tile.sel .star { display: block; }
-.pay-tile .star { display: none; }
-.pay-tile .apple { font-size: 18px; }
-.pay-tile .gpay-g { color: #4285F4; font-weight: 700; }
-.pay-tile .mc { display: inline-flex; }
-.pay-tile .mc i { display: block; width: 18px; height: 18px; border-radius: 50%; }
-.pay-tile .mc i:first-child { background: #EB001B; }
-.pay-tile .mc i:last-child { background: #F79E1B; margin-left: -7px; mix-blend-mode: multiply; }
-.pay-tile .bizum { color: #00C5C9; letter-spacing: -.01em; }
-.pay-tile .visa { font-style: italic; color: #1A1F71; letter-spacing: .02em; }
-.card-details-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: clamp(28px,4vw,38px); }
-.card-details-title { font-size: 16px; color: var(--ink); }
-.provider-hint { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--slate); }
-.provider-hint svg { width: 14px; height: 14px; color: var(--sage-deep); flex: none; }
+.cal[hidden] { display: none; }
+/* vira para cima quando não há espaço em baixo (fica sempre acima do header, z-index 200) */
+.cal.up { top: auto; bottom: calc(100% + 10px); }
+/* o cartão sobe acima do header enquanto o calendário está aberto */
+.pop-open { position: relative; z-index: 90; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; height: 36px; }
+.cal-head .mlabel { font-size: 16px; font-weight: 600; color: var(--ink); }
+.cal-nav { width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.cal-nav:hover { background: #FCEADC; }
+.cal-nav svg { width: 18px; height: 18px; }
+.cal-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.cal-grid .dow { font-size: 12px; font-weight: 600; color: var(--slate); text-align: center; padding-bottom: 6px; }
+.cal-grid .day { aspect-ratio: 1; display: grid; place-items: center; font-size: 13px; color: var(--ink); border-radius: 8px; cursor: pointer; }
+.cal-grid .day:hover { background: #FCEADC; }
+.cal-grid .day.muted { color: #C9C9C9; cursor: default; }
+.cal-grid .day.muted:hover { background: none; }
+.cal-grid .day.range { background: #FCEADC; border-radius: 0; }
+.cal-grid .day.active { background: rgb(240,138,36); color: #fff; font-weight: 600; }
 
-/* ----- nota / SSL ----- */
-.bk-note {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px 40px;
-  margin-top: 22px; font-size: 14px; color: var(--slate); line-height: 1.5;
+/* verificação + envio */
+.bk-verify { margin-top: clamp(20px,2.6vw,30px); text-align: right; font-size: clamp(13px,1.2vw,15px); color: #8A8A8A; }
+.btn-send {
+  width: 100%; margin-top: clamp(18px,2.4vw,26px);
+  background: var(--peach); color: #fff; border: 0; cursor: pointer;
+  border-radius: 8px; height: 58px;
+  font: inherit; font-size: clamp(15px,1.5vw,18px); font-weight: 600; letter-spacing: .01em;
+  transition: background .2s ease, transform .2s ease;
 }
-.bk-note .help b { display: block; color: var(--ink-soft); font-weight: 600; margin-bottom: 6px; }
-.bk-cta { margin-top: 28px; }
-.ssl {
-  margin-top: 18px; text-align: center; line-height: 1.5;
-  font-size: 11px; letter-spacing: .04em; color: #9AA09C;
-}
-.ssl b { display: block; font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--slate); text-transform: uppercase; }
+.btn-send:hover:not(:disabled) { background: #F79E63; transform: translateY(-1px); }
+.btn-send:disabled { opacity: .65; cursor: default; }
 
-/* ----- etiqueta opcional + textarea ----- */
-.opt { color: var(--slate); font-weight: 400; font-size: 13px; }
-textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1.5; min-height: 96px; }
+#captcha-row { margin-top: clamp(18px,2.4vw,26px); display: flex; justify-content: center; }
+#captcha-row.invalid { outline: 2px solid #C00F0C; outline-offset: 8px; border-radius: 6px; }
+#consent-row { margin-top: clamp(18px,2.4vw,26px); align-items: flex-start; }
 
-/* ----- estado de sucesso ----- */
-.bk-success { text-align: center; padding: clamp(28px,5vw,56px) 0; }
-.bk-success .check-ring {
-  width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center;
-  margin: 0 auto 24px; background: rgba(130,184,181,.18);
-}
-.bk-success .check-ring svg { width: 34px; height: 34px; color: var(--sage); }
-.bk-success h2 { font-size: clamp(28px,3.4vw,42px); font-weight: 700; letter-spacing: .03em; color: var(--sage); text-transform: lowercase; }
-.bk-success h2::first-letter { text-transform: uppercase; }
-.bk-success p { margin: 14px auto 0; max-width: 480px; font-size: 17px; font-weight: 300; color: #303030; line-height: 1.55; }
-.bk-success .home-link { margin-top: 28px; }
-.bk-summary {
-  margin: 24px auto 0;
-  max-width: 400px;
-  background: rgba(130,184,181,.10);
-  border: 1px solid rgba(94,146,143,.20);
-  border-radius: 12px;
-  padding: 4px 0;
-  text-align: left;
-}
-.bk-summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  padding: 10px 20px;
-  border-bottom: 1px solid rgba(94,146,143,.12);
-  font-size: 14px;
-}
-.bk-summary-row:last-child { border-bottom: none; }
-.bk-summary-row span { color: var(--slate); white-space: nowrap; }
-.bk-summary-row strong { color: var(--ink); font-weight: 600; text-align: right; word-break: break-word; }
+/* rodapé do cartão */
+.bk-foot { margin-top: clamp(40px,6vw,84px); padding-top: clamp(18px,2.4vw,26px); border-top: 1px solid var(--line); }
+.bk-foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; font-size: clamp(14px,1.4vw,17px); color: #6E6E6E; }
+.bk-help { margin-top: 12px; text-align: right; font-size: clamp(14px,1.4vw,17px); color: #6E6E6E; line-height: 1.5; }
+.bk-help a { color: inherit; }
+.bk-help a:hover { color: var(--ink); text-decoration: underline; }
 
-/* ----- responsivo ----- */
-@media (max-width: 760px) {
-  .bk-strip { grid-template-columns: 1fr 1fr; }
-  .bk-strip > div:nth-child(3) { display: none; }
-  .field-row.r3, .field-row.r-pcc, .field-row.r-pe, .field-row.r-cardno, .field-row.r2 { grid-template-columns: 1fr; }
-  .bk-note { flex-direction: column; }
-  .check-note { text-align: left; }
+/* ===== BILHETE de confirmação (Figma: "reserve now e aparece este bilhete") ===== */
+.ticket {
+  background: var(--cloud); border-radius: 16px;
+  padding: clamp(44px,7vw,92px) clamp(22px,6vw,86px);
+  text-align: center;
 }
-/* hCaptcha widget */
-.h-captcha { margin-top: 24px; }
-#captcha-row.invalid { outline: 2px solid #C00F0C; outline-offset: 6px; border-radius: 6px; }
+.ticket h2 {
+  max-width: 520px; margin-inline: auto;
+  font-size: clamp(24px,3.1vw,34px); font-weight: 700; letter-spacing: -.01em;
+  color: var(--sage-deep); line-height: 1.28;
+}
+.ticket p {
+  max-width: 540px; margin: clamp(22px,3vw,34px) auto 0;
+  font-size: clamp(16px,1.8vw,21px); font-weight: 300; line-height: 1.55; color: #7FB5B0;
+}
+.ticket .sig { display: block; margin-top: clamp(26px,4vw,44px); font-family: var(--font-script); font-size: clamp(22px,2.4vw,28px); color: var(--peach); }
+.ticket-sum {
+  max-width: 460px; margin: clamp(30px,4vw,46px) auto 0;
+  border-top: 1px solid var(--line); padding-top: 18px; text-align: left;
+}
+.ticket-sum .row { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; font-size: 15px; }
+.ticket-sum .row span { color: #8A8A8A; }
+.ticket-sum .row strong { color: var(--ink); font-weight: 600; text-align: right; }
+.ticket .home-link { margin-top: clamp(26px,3.4vw,40px); }
+.ticket .home-link a {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--peach); color: #fff; border-radius: 8px; height: 50px; padding: 0 34px;
+  font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.ticket .home-link a:hover { background: #F79E63; }
+
+@media (max-width: 860px) {
+  .field-row.r3, .field-row.r2, .checks { grid-template-columns: 1fr; }
+  .bk-verify, .bk-help { text-align: left; }
+}
 </style>
-<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
 
@@ -268,16 +233,7 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
 <header class="bar">
   <div class="bar-inner">
     <a class="home" href="index.html" data-i18n-attr="aria-label:home.aria" aria-label="Casa Colorida e Tempo &amp; Amor — Início">
-      <svg class="bar-mark" viewBox="0 0 76 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 49 H71"/>
-        <path d="M11 31 L23 19 L35 31"/><path d="M15 31 V49"/><path d="M31 31 V49"/>
-        <path d="M37 31 L51 16 L65 31"/><path d="M41 31 V49"/><path d="M61 31 V49"/>
-        <path d="M48 49 V40 H54 V49"/>
-      </svg>
-      <span class="bar-brand">
-        <span class="l1">casa colorida</span>
-        <span class="l2">tempo &amp; amor</span>
-      </span>
+      <img class="mark-box" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
     </a>
     <nav aria-label="Principal">
       <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
@@ -311,41 +267,59 @@ textarea.inp { height: auto; resize: vertical; padding-top: 12px; line-height: 1
   </div>
 </div>
 
-<!-- ===================== PAINEL ===================== -->
-<main class="bk-panel" id="main">
-  <div class="bk-form">
+<div class="bk-back">
+  <a class="backlink" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    <span>Casa CT&amp;A</span>
+  </a>
+</div>
 
-    <span class="bk-eyebrow" data-i18n="bk.eyebrow">falta pouco</span>
-    <h1 class="bk-title" data-i18n="bk.title">a sua escapadela no Algarve
-começa aqui</h1>
+<!-- ===================== CARTÃO ===================== -->
+<main class="bk-wrap" id="main">
+  <div class="bk-card" id="bkCard">
+
+    <h1 class="bk-title" data-i18n="bk2.title">está quase aqui</h1>
+
+    <div class="stepper">
+      <span data-i18n="bk2.step1">1. Escolher datas</span>
+      <span data-i18n="bk2.step2">2. Preencher dados</span>
+      <span data-i18n="bk2.step3">3. Aguardar aprovação</span>
+    </div>
 
     <form id="requestForm" novalidate>
 
-      <!-- ============ 1 · YOUR STAY ============ -->
-      <section class="bk-section reveal">
-        <h2 data-i18n="bk.stay.h">A sua estadia</h2>
-        <p class="bk-legend" data-i18n="bk.stay.legend">Diga-nos a estadia que tem em mente
-para verificarmos a disponibilidade.</p>
+      <!-- ============ 1 · ESCOLHER DATAS ============ -->
+      <section class="bk-section">
+        <h2><span class="n">1.</span><span data-i18n="bk2.dates.h">Escolher datas</span></h2>
+        <p class="bk-legend" data-i18n="bk2.dates.legend">Indique as suas preferências para a estadia, para o podermos receber da melhor forma.</p>
 
         <div class="field-row r3">
-          <div class="field">
-            <label for="dates" data-i18n="dates.label">Entrada / Saída</label>
-            <div class="control icon-end">
-              <input class="control-input" id="dates" name="dates" value="09 Set - 13 Set" style="appearance:none;border:none;background:none;font:inherit;font-size:16px;color:var(--ink);width:100%;outline:none" />
+          <div class="field date-field">
+            <label for="dates" data-i18n="bk2.checkinout">Entrada / Saída</label>
+            <div class="control" id="dateTrigger" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false">
+              <input class="control-input" id="dates" name="dates" readonly data-i18n-attr="placeholder:dates.placeholder" placeholder="Escolher datas" />
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
             </div>
             <span class="sub" data-i18n="bk.dates.sub">*mínimo 3 noites</span>
+            <div class="cal" id="calPop" role="dialog" data-i18n-attr="aria-label:dates.placeholder" aria-label="Escolher datas" hidden>
+              <div class="cal-head">
+                <button class="cal-nav" type="button" data-i18n-attr="aria-label:cal.prev" aria-label="Mês anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <span class="mlabel">—</span>
+                <button class="cal-nav" type="button" data-i18n-attr="aria-label:cal.next" aria-label="Mês seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+              </div>
+              <div class="cal-grid"></div>
+            </div>
           </div>
           <div class="field">
-            <label for="guests" data-i18n="guests.label">Nº de hóspedes</label>
-            <div class="control icon-end">
-              <select id="guests" name="guests"><option>2</option><option>1</option><option>3</option><option>4</option><option>5</option></select>
+            <label for="guests" data-i18n="bk2.guests">Nº de hóspedes</label>
+            <div class="control">
+              <select id="guests" name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </div>
           <div class="field">
-            <label for="house" data-i18n="house.label">Casa pretendida</label>
-            <div class="control icon-end">
+            <label for="house" data-i18n="bk2.house">Casa pretendida</label>
+            <div class="control">
               <select id="house" name="house"><option>T1 - Tempo &amp; Amor</option><option>T2 - Casa Colorida</option></select>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -368,49 +342,21 @@ para verificarmos a disponibilidade.</p>
 
       <div class="bk-rule"></div>
 
-      <!-- ============ 2 · YOUR DETAILS ============ -->
-      <section class="bk-section reveal">
-        <h2 data-i18n="bk.details.h">Os seus dados</h2>
-        <p class="bk-legend" data-i18n="bk.details.legend">Deixe o seu contacto e responderemos para confirmar a reserva.</p>
-
-        <div class="field-row" style="grid-template-columns:1fr">
-          <div class="field"><label for="rf-name" data-i18n="bk.name">Nome completo</label><input class="inp" id="rf-name" name="name" type="text" required maxlength="80" autocomplete="name" /></div>
-        </div>
-        <div class="field-row r2">
-          <div class="field"><label for="rf-email" data-i18n="bk.email">Email</label><input class="inp" id="rf-email" name="email" type="email" required maxlength="120" autocomplete="email" /></div>
-          <div class="field"><label for="rf-phone" data-i18n="bk.phone">Telefone</label><input class="inp" id="rf-phone" name="phone" type="tel" required maxlength="24" autocomplete="tel" pattern="[0-9 +()\-]{6,24}" /><span class="sub" data-i18n="bk.phone.sub">Inclua o indicativo do país (ex.: +351)</span></div>
-        </div>
-        <div class="field-row r2">
-          <div class="field"><label for="rf-nif"><span data-i18n="bk.nif">NIF </span><span class="opt" data-i18n="bk.nif.opt">(opcional)</span></label><input class="inp" id="rf-nif" name="nif" type="text" inputmode="numeric" maxlength="9" pattern="[0-9]{9}" /></div>
-          <div class="field"><label for="rf-source" data-i18n="bk.source">Como soube de nós?</label>
-            <div class="control icon-end"><select id="rf-source" name="source">
-              <option value="" data-i18n="bk.source.opt0">Selecione uma opção</option>
-              <option>Instagram</option>
-              <option>Facebook</option>
-              <option>Google</option>
-              <option data-i18n="bk.source.friends">Amigos e família</option>
-              <option>Booking / Airbnb</option>
-              <option data-i18n="bk.source.other">Outro</option>
-            </select>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-          </div>
-        </div>
+      <!-- ============ 2 · DADOS DOS HÓSPEDES ============ -->
+      <section class="bk-section">
+        <h2><span class="n">2.</span><span data-i18n="bk2.guest.h">Dados dos hóspedes</span></h2>
+        <p class="bk-legend" data-i18n="bk2.guest.legend">Preencha corretamente os dados para podermos processar a sua estadia.</p>
+        <!-- blocos por hóspede: gerados conforme o nº escolhido acima -->
+        <div id="guestsWrap"></div>
       </section>
 
-      <div class="bk-rule"></div>
-
-      <!-- nota + envio -->
-      <div class="bk-note">
-        <span data-i18n="bk.note">Sem pagamento agora — ligamos ou respondemos por email com a disponibilidade e os próximos passos.</span>
-        <span class="help"><b data-i18n="bk.help">Precisa de ajuda?</b>Andrea (+351) 967 443 791<br>Mató (+351) 961 470 100</span>
-      </div>
+      <p class="bk-verify" data-i18n="bk2.verify">Confirme se todos os dados estão corretos.</p>
 
       <!-- honeypot anti-spam (Web3Forms): invisível para humanos -->
       <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
 
       <!-- consentimento RGPD -->
-      <label class="check" id="consent-row" style="margin-top:8px;align-items:flex-start">
+      <label class="check" id="consent-row">
         <input type="checkbox" name="consent" id="rf-consent" required />
         <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
         <span class="lbl" style="font-size:13px;color:var(--slate);line-height:1.45" data-i18n-html="bk.consent">Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" style="color:var(--sage-deep);text-decoration:underline;text-underline-offset:2px">Política de Privacidade</a>.</span>
@@ -419,44 +365,44 @@ para verificarmos a disponibilidade.</p>
       <!-- hCaptcha (Web3Forms) -->
       <div id="captcha-row"><div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div></div>
 
-      <div class="bk-cta">
-        <button type="submit" class="btn-danger full" data-i18n="bk.submit">Verificar disponibilidade</button>
-      </div>
+      <button type="submit" class="btn-send" data-i18n="bk2.submit">3. Confirmar e enviar pedido</button>
 
-      <p class="ssl"><b data-i18n="bk.ssl.b">A sua privacidade</b><span data-i18n="bk.ssl.t">Usamos os seus dados apenas para responder sobre a sua estadia.</span></p>
+      <div class="bk-foot">
+        <div class="bk-foot-row">
+          <span data-i18n="bk2.cancel">Cancelamento gratuito até 21 dias antes da chegada.</span>
+          <span data-i18n="bk2.help">Precisa de ajuda?</span>
+        </div>
+        <p class="bk-help">
+          <a href="tel:+351967443791">Andrea (+351) 967 443 791</a><br>
+          <a href="tel:+351961470100">Mató (+351) 961 470 100</a>
+        </p>
+      </div>
 
     </form>
+  </div>
 
-    <!-- ===================== ESTADO DE SUCESSO ===================== -->
-    <div class="bk-success" id="rf-success" hidden>
-      <div class="check-ring">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>
-      </div>
-      <h2 data-i18n="bk.success.h">pedido enviado</h2>
-      <p data-i18n="bk.success.p">Obrigado! O seu pedido está a caminho da Andrea e do Mató — mal podemos esperar para o receber. Respondemos por email assim que verificarmos a disponibilidade.</p>
-      <div class="bk-summary" id="rf-summary">
-        <div class="bk-summary-row"><span data-i18n="bk.sum.name">Nome</span><strong id="sum-name">—</strong></div>
-        <div class="bk-summary-row"><span data-i18n="bk.sum.dates">Datas</span><strong id="sum-dates">—</strong></div>
-        <div class="bk-summary-row"><span data-i18n="bk.sum.house">Casa</span><strong id="sum-house">—</strong></div>
-        <div class="bk-summary-row"><span data-i18n="bk.sum.guests">Hóspedes</span><strong id="sum-guests">—</strong></div>
-        <div class="bk-summary-row" id="sum-extras-row" hidden><span data-i18n="bk.sum.extras">Extras</span><strong id="sum-extras">—</strong></div>
-        <div class="bk-summary-row"><span data-i18n="bk.sum.email">Resposta para</span><strong id="sum-email">—</strong></div>
-      </div>
-      <div class="home-link"><a class="btn-danger" href="index.html" data-i18n="bk.success.back">VOLTAR AO INÍCIO</a></div>
+  <!-- ===================== BILHETE (sucesso) ===================== -->
+  <div class="ticket" id="rf-success" hidden>
+    <h2 data-i18n="tkt.h">Mal podemos esperar para o receber na nossa Casa Colorida, Tempo &amp; Amor</h2>
+    <p data-i18n="tkt.p">Responderemos ao seu pedido em breve; receberá por email toda a informação necessária para uma chegada tranquila e sem preocupações.</p>
+    <span class="sig" aria-hidden="true">Andrea Love&nbsp;_</span>
+    <div class="ticket-sum">
+      <div class="row"><span data-i18n="bk.sum.name">Nome</span><strong id="sum-name">—</strong></div>
+      <div class="row"><span data-i18n="bk.sum.dates">Datas</span><strong id="sum-dates">—</strong></div>
+      <div class="row"><span data-i18n="bk.sum.house">Casa</span><strong id="sum-house">—</strong></div>
+      <div class="row"><span data-i18n="bk.sum.guests">Hóspedes</span><strong id="sum-guests">—</strong></div>
+      <div class="row" id="sum-extras-row" hidden><span data-i18n="bk.sum.extras">Extras</span><strong id="sum-extras">—</strong></div>
+      <div class="row"><span data-i18n="bk.sum.email">Resposta para</span><strong id="sum-email">—</strong></div>
     </div>
+    <div class="home-link"><a href="index.html" data-i18n="bk.success.back">VOLTAR AO INÍCIO</a></div>
   </div>
 </main>
 
-<!-- ===================== RODAPÉ (mínimo) ===================== -->
+<!-- ===================== RODAPÉ ===================== -->
 <footer class="foot-site">
   <div class="fs-grid">
     <div class="fs-brand">
-      <svg class="fs-mark" viewBox="0 0 76 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 49 H71"></path>
-        <path d="M11 31 L23 19 L35 31"></path><path d="M15 31 V49"></path><path d="M31 31 V49"></path>
-        <path d="M37 31 L51 16 L65 31"></path><path d="M41 31 V49"></path><path d="M61 31 V49"></path>
-        <path d="M48 49 V40 H54 V49"></path>
-      </svg>
+      <img class="fs-logo" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
       <div class="fs-name"><span class="l1">casa colorida</span><span class="l2">tempo &amp; amor</span></div>
       <p class="fs-tag" data-i18n="foot.tag">Duas casas acolhedoras e típicas no coração de Vila do Bispo — abrande, sinta-se em casa.</p>
     </div>
@@ -483,64 +429,268 @@ para verificarmos a disponibilidade.</p>
 </footer>
 
 <script>
-/* ╔══════════════════════════════════════════════════════════════╗
-   ENVIO DO PEDIDO DE RESERVA — Web3Forms (sem servidor próprio)
-   POST para a API do Web3Forms; o email cai na caixa registada
-   (reddunesolutions@gmail.com). A access_key NÃO é segredo: vive no
-   frontend por design. Quem controla o destino é o email registado.
-   Site estático → a key fica inline (não há build para injectar env).
-   ╚══════════════════════════════════════════════════════════════╝ */
+/* ---------- blocos por hóspede: um conjunto de campos por hóspede escolhido ---------- */
 (function () {
-  var ACCESS_KEY = '2287bca5-a4e7-4ac5-80cf-770b55d500a7';
+  var wrap = document.getElementById('guestsWrap');
+  var gsel = document.getElementById('guests');
+  if (!wrap || !gsel) return;
+
+  function T(k, fb) { return (window.t ? window.t(k) : fb) || fb; }
+
+  function block(i) {
+    var d = document.createElement('div');
+    d.className = 'guest-block';
+    d.dataset.guest = String(i);
+    d.innerHTML =
+      '<span class="guest-h" data-gi="' + i + '">' + T('bk2.guest', 'Hóspede') + ' ' + i + '</span>' +
+      '<div class="field-row r1">' +
+        '<div class="field"><label data-i18n="bk2.fullname">' + T('bk2.fullname','Nome completo') + '</label>' +
+        '<input class="inp" type="text" maxlength="80" data-g="name" data-gi="' + i + '"' + (i === 1 ? ' autocomplete="name"' : '') + ' /></div>' +
+      '</div>' +
+      '<div class="field-row r3">' +
+        '<div class="field"><label data-i18n="bk2.idnum">' + T('bk2.idnum','Nº de identificação ou passaporte') + '</label>' +
+        '<input class="inp" type="text" maxlength="40" data-g="id" data-gi="' + i + '" /></div>' +
+        '<div class="field"><label data-i18n="bk2.expiry">' + T('bk2.expiry','Data de validade') + '</label>' +
+        '<input class="inp" type="text" maxlength="12" placeholder="AAAA-MM-DD" data-g="exp" data-gi="' + i + '" /></div>' +
+        '<div class="field"><label data-i18n="bk2.nationality">' + T('bk2.nationality','Nacionalidade') + '</label>' +
+        '<div class="control"><select data-g="nat" data-gi="' + i + '">' +
+          '<option value="" data-i18n="bk2.country">' + T('bk2.country','País') + '</option>' +
+          '<option>Portugal</option><option>Espanha</option><option>França</option><option>Alemanha</option>' +
+          '<option>Reino Unido</option><option>Irlanda</option><option>Países Baixos</option><option>Bélgica</option>' +
+          '<option>Itália</option><option>Suíça</option><option>Áustria</option><option>Polónia</option>' +
+          '<option>Suécia</option><option>Dinamarca</option><option>Noruega</option><option>Finlândia</option>' +
+          '<option>Brasil</option><option>EUA</option><option>Canadá</option>' +
+          '<option data-i18n="bk2.other">' + T('bk2.other','Outro') + '</option>' +
+        '</select><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div></div>' +
+      '</div>' +
+      '<div class="field-row r2">' +
+        '<div class="field"><label data-i18n="bk2.phone">' + T('bk2.phone','Telefone') + '</label>' +
+        '<input class="inp" type="tel" maxlength="24" pattern="[0-9 +()\\-]{6,24}" data-g="phone" data-gi="' + i + '"' + (i === 1 ? ' autocomplete="tel"' : '') + ' />' +
+        '<span class="sub" data-i18n="bk2.ddi">' + T('bk2.ddi','Indique o indicativo do país ("+" / "00")') + '</span></div>' +
+        '<div class="field"><label data-i18n="bk2.email">' + T('bk2.email','Email') + '</label>' +
+        '<input class="inp" type="email" maxlength="120" data-g="email" data-gi="' + i + '"' + (i === 1 ? ' autocomplete="email"' : '') + ' /></div>' +
+      '</div>';
+    return d;
+  }
+
+  function sync() {
+    var n = parseInt(gsel.value, 10) || 1;
+    var have = wrap.querySelectorAll('.guest-block').length;
+    /* guarda o que já foi escrito para não perder texto ao mudar o nº de hóspedes */
+    for (var i = have + 1; i <= n; i++) wrap.appendChild(block(i));
+    for (var j = have; j > n; j--) {
+      var last = wrap.querySelector('.guest-block[data-guest="' + j + '"]');
+      if (last) last.remove();
+    }
+  }
+  gsel.addEventListener('change', sync);
+  window.addEventListener('langchange', function () {
+    /* re-etiqueta os blocos existentes sem perder os valores */
+    Array.prototype.forEach.call(wrap.querySelectorAll('.guest-block'), function (b) {
+      var i = b.dataset.guest;
+      var h = b.querySelector('.guest-h');
+      if (h) h.textContent = T('bk2.guest', 'Hóspede') + ' ' + i;
+      var map = { name: 'bk2.fullname', id: 'bk2.idnum', exp: 'bk2.expiry', nat: 'bk2.nationality', phone: 'bk2.phone', email: 'bk2.email' };
+      Object.keys(map).forEach(function (k) {
+        var f = b.querySelector('[data-g="' + k + '"]');
+        var lab = f && (f.closest('.field') || {}).querySelector ? f.closest('.field').querySelector('label') : null;
+        if (lab) lab.textContent = T(map[k], lab.textContent);
+      });
+      var sub = b.querySelector('.sub');
+      if (sub) sub.textContent = T('bk2.ddi', sub.textContent);
+    });
+  });
+  sync();
+  window.ccSyncGuests = sync;
+})();
+</script>
+
+<script>
+/* ---------- calendário de intervalo ---------- */
+(function () {
+  var trigger = document.getElementById('dateTrigger');
+  var pop     = document.getElementById('calPop');
+  var input   = document.getElementById('dates');
+  if (!trigger || !pop || !input) return;
+
+  function MON()  { return (window.ccMonths ? window.ccMonths() : ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']); }
+  function DOWS() { return (window.ccDows  ? window.ccDows()  : ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom']); }
+  var now = new Date();
+  var viewYear = now.getFullYear(), viewMonth = now.getMonth();
+  var selStart = null, selEnd = null;
+  var mlabel = pop.querySelector('.mlabel');
+  var grid   = pop.querySelector('.cal-grid');
+  var navs   = pop.querySelectorAll('.cal-nav');
+
+  function sameDay(a, b) { return a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+  function fmtDisplay(d) { return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + MON()[d.getMonth()]; }
+  function fmtISO(d) { var m = d.getMonth() + 1, day = d.getDate(); return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day; }
+
+  function render() {
+    mlabel.textContent = MON()[viewMonth] + ' ' + viewYear;
+    var firstDow = (new Date(viewYear, viewMonth, 1).getDay() + 6) % 7;
+    var dim = new Date(viewYear, viewMonth + 1, 0).getDate();
+    var prevDays = new Date(viewYear, viewMonth, 0).getDate();
+    var today = new Date(); today.setHours(0,0,0,0);
+    var html = DOWS().map(function (x) { return '<div class="dow">' + x + '</div>'; }).join('');
+    for (var i = firstDow - 1; i >= 0; i--) html += '<div class="day muted">' + (prevDays - i) + '</div>';
+    for (var d = 1; d <= dim; d++) {
+      var dt = new Date(viewYear, viewMonth, d), cls = 'day';
+      if (dt < today) cls += ' muted';
+      else if ((selStart && sameDay(dt, selStart)) || (selEnd && sameDay(dt, selEnd))) cls += ' active';
+      else if (selStart && selEnd && dt > selStart && dt < selEnd) cls += ' range';
+      html += '<div class="' + cls + '" data-iso="' + fmtISO(dt) + '">' + d + '</div>';
+    }
+    var trail = (7 - ((firstDow + dim) % 7)) % 7;
+    for (var t = 1; t <= trail; t++) html += '<div class="day muted">' + t + '</div>';
+    grid.innerHTML = html;
+    Array.prototype.forEach.call(grid.querySelectorAll('.day:not(.muted)'), function (el) {
+      el.addEventListener('click', function () {
+        var dt = new Date(el.dataset.iso + 'T12:00:00');
+        if (!selStart || (selStart && selEnd)) { selStart = dt; selEnd = null; }
+        else if (dt < selStart) { selEnd = selStart; selStart = dt; }
+        else if (sameDay(dt, selStart)) { return; }
+        else { selEnd = dt; }
+        render(); update();
+        if (selStart && selEnd) setTimeout(close, 120);
+      });
+    });
+  }
+  function update() {
+    if (selStart && selEnd) input.value = fmtDisplay(selStart) + ' — ' + fmtDisplay(selEnd);
+    else if (selStart)      input.value = fmtDisplay(selStart) + ' — …';
+  }
+  /* escolhe o lado com espaço: nunca fica cortado nem escondido sob o header */
+  function place() {
+    /* medir depois do layout assentar, senão o rect do trigger ainda é o antigo */
+    pop.style.maxHeight = '';
+    /* o popover ancora no .field (label + campo + nota), não no botão: medir a referência real */
+    var anchor = pop.offsetParent || trigger;
+    var r = anchor.getBoundingClientRect();
+    var barH = (document.querySelector('.bar') || {}).offsetHeight || 0;
+    var needed = pop.offsetHeight || 330;
+    var below = window.innerHeight - r.bottom - 12;
+    var above = r.top - barH - 12;
+    var up = below < needed && above > below;
+    pop.classList.toggle('up', up);
+    /* se não cabe de nenhum dos lados, encolhe para o espaço que há (rola por dentro) */
+    var room = up ? above : below;
+    if (needed > room) pop.style.maxHeight = Math.max(room, 180) + 'px';
+  }
+  var host = trigger.closest('.bk-card');
+  function open()  {
+    render(); pop.hidden = false; trigger.setAttribute('aria-expanded','true');
+    if (host) host.classList.add('pop-open');
+    place(); requestAnimationFrame(place);
+    /* o foco no campo pode provocar scroll: reposiciona enquanto estiver aberto */
+    window.addEventListener('scroll', place, { passive: true });
+    window.addEventListener('resize', place);
+  }
+  function close() {
+    pop.hidden = true; trigger.setAttribute('aria-expanded','false');
+    if (host) host.classList.remove('pop-open');
+    window.removeEventListener('scroll', place);
+    window.removeEventListener('resize', place);
+  }
+
+  trigger.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden ? open() : close(); });
+  trigger.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pop.hidden ? open() : close(); }
+  });
+  pop.addEventListener('click', function (e) { e.stopPropagation(); });
+  document.addEventListener('click', function (e) { if (!pop.hidden && !pop.contains(e.target) && !trigger.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  if (navs[0]) navs[0].addEventListener('click', function () { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } render(); });
+  if (navs[1]) navs[1].addEventListener('click', function () { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render(); });
+  window.addEventListener('langchange', function () { render(); update(); });
+
+  /* datas vindas do widget da home */
+  var p = new URLSearchParams(location.search);
+  var cin = p.get('checkin'), cout = p.get('checkout');
+  if (cin && cout) {
+    var a = new Date(cin + 'T12:00:00'), b = new Date(cout + 'T12:00:00');
+    if (!isNaN(a) && !isNaN(b)) { selStart = a; selEnd = b; viewYear = a.getFullYear(); viewMonth = a.getMonth(); update(); }
+  }
+})();
+</script>
+
+<script>
+/* ---------- pré-preenchimento a partir da home ---------- */
+(function () {
+  var p = new URLSearchParams(location.search);
+  var hs = p.get('house'), hsel = document.getElementById('house');
+  if (hs && hsel) {
+    var idx = (hs === 'tempo') ? 0 : (hs === 'colorida' ? 1 : -1);
+    if (idx >= 0) hsel.selectedIndex = idx;
+  }
+  var g = p.get('guests'), gsel = document.getElementById('guests');
+  if (g && gsel) {
+    for (var i = 0; i < gsel.options.length; i++) {
+      if (gsel.options[i].text === g) { gsel.selectedIndex = i; break; }
+    }
+    if (window.ccSyncGuests) window.ccSyncGuests();
+  }
+  function setChk(nm, v) { var c = document.querySelector('input[name="' + nm + '"]'); if (c && v !== null) c.checked = (v === '1'); }
+  setChk('baby', p.get('baby'));
+  setChk('pet', p.get('pet'));
+
+  /* contacto do form "Pedido" da home — passa por sessionStorage, nunca no URL */
+  try {
+    var raw = sessionStorage.getItem('cc_prefill');
+    if (raw) {
+      var ct = JSON.parse(raw);
+      var f = function (k) { return document.querySelector('[data-g="' + k + '"][data-gi="1"]'); };
+      if (ct.name  && f('name')  && !f('name').value)  f('name').value  = ct.name;
+      if (ct.phone && f('phone') && !f('phone').value) f('phone').value = ct.phone;
+      if (ct.email && f('email') && !f('email').value) f('email').value = ct.email;
+      sessionStorage.removeItem('cc_prefill');
+    }
+  } catch (e) {}
+})();
+</script>
+
+<script>
+/* ---------- envio via Web3Forms (chave de destino — pública por design) ---------- */
+(function () {
+  var ACCESS_KEY = 'c7f3b4ba-4bc4-45cc-a3e0-3fb9a15a4e7d';
   var form = document.getElementById('requestForm');
   if (!form) return;
-
   var btn = form.querySelector('button[type="submit"]');
   var btnText = btn ? btn.textContent : '';
-
-  function val(name) {
-    var el = form.elements[name];
-    return el ? (el.value || '').trim() : '';
-  }
-  function checked(name) {
-    var el = form.elements[name];
-    return !!(el && el.checked);
-  }
+  function t(k) { return window.t ? window.t(k) : k; }
+  function val(name) { var el = form.elements[name]; return el ? (el.value || '').trim() : ''; }
+  function checked(name) { var el = form.elements[name]; return !!(el && el.checked); }
+  function g(k, i) { var el = document.querySelector('[data-g="' + k + '"][data-gi="' + i + '"]'); return el ? (el.value || '').trim() : ''; }
+  function gEl(k, i) { return document.querySelector('[data-g="' + k + '"][data-gi="' + i + '"]'); }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-
-    /* anti-spam: honeypot preenchido → ignora silenciosamente */
     if (checked('botcheck')) return;
 
-    /* anti-spam: cooldown de 30s entre envios (por browser) */
     try {
       var last = +localStorage.getItem('cc_last_submit') || 0;
       if (Date.now() - last < 30000) {
         alert(window.t ? t('bk.alert.cooldown') : 'Aguarde um momento antes de enviar de novo.');
         return;
       }
-    } catch (e) { /* localStorage indisponível → ignora */ }
+    } catch (err) {}
 
-    /* validação dos obrigatórios + formato */
-    function mark(el, bad) { if (el) el.style.borderColor = bad ? '#C00F0C' : ''; }
+    function mark(el, bad) { if (el) el.style.boxShadow = bad ? 'inset 0 0 0 1.5px #C00F0C' : ''; }
     var firstInvalid = null;
-    ['name', 'email', 'phone'].forEach(function (n) {
-      var el = form.elements[n];
+    /* obrigatórios: nome, email e telefone do hóspede 1 + datas */
+    ['name','email','phone'].forEach(function (k) {
+      var el = gEl(k, 1);
       if (el && !el.value.trim()) { mark(el, true); if (!firstInvalid) firstInvalid = el; }
       else mark(el, false);
     });
-    var emailEl = form.elements['email'];
-    if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
-      mark(emailEl, true); if (!firstInvalid) firstInvalid = emailEl;
-    }
-    var phoneEl = form.elements['phone'];
-    if (phoneEl && phoneEl.value.trim() && (phoneEl.value.replace(/[^0-9]/g, '').length < 6)) {
-      mark(phoneEl, true); if (!firstInvalid) firstInvalid = phoneEl;
-    }
+    var em = gEl('email', 1);
+    if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { mark(em, true); if (!firstInvalid) firstInvalid = em; }
+    var ph = gEl('phone', 1);
+    if (ph && ph.value.trim() && ph.value.replace(/[^0-9]/g, '').length < 6) { mark(ph, true); if (!firstInvalid) firstInvalid = ph; }
+    var dt = document.getElementById('dates');
+    if (dt && !dt.value.trim()) { mark(dt, true); if (!firstInvalid) firstInvalid = dt; }
     if (firstInvalid) { firstInvalid.focus(); return; }
 
-    /* consentimento RGPD obrigatório */
     if (!checked('consent')) {
       var row = document.getElementById('consent-row');
       if (row) { row.style.outline = '2px solid #C00F0C'; row.style.outlineOffset = '6px'; row.style.borderRadius = '6px'; }
@@ -548,31 +698,37 @@ para verificarmos a disponibilidade.</p>
       return;
     }
 
-    /* hCaptcha obrigatório */
     var capEl = form.elements['h-captcha-response'];
     var capToken = capEl ? (capEl.value || '').trim() : '';
     var capRow = document.getElementById('captcha-row');
-    if (!capToken) {
-      if (capRow) capRow.classList.add('invalid');
-      return;
-    }
+    if (!capToken) { if (capRow) capRow.classList.add('invalid'); return; }
     if (capRow) capRow.classList.remove('invalid');
+
+    /* detalhe de todos os hóspedes num único campo legível no email */
+    var n = parseInt(val('guests'), 10) || 1, lines = [];
+    for (var i = 1; i <= n; i++) {
+      lines.push('Hóspede ' + i + ': ' + (g('name', i) || '(sem nome)') +
+        ' | Doc: ' + (g('id', i) || '—') +
+        ' | Validade: ' + (g('exp', i) || '—') +
+        ' | Nacionalidade: ' + (g('nat', i) || '—') +
+        ' | Tel: ' + (g('phone', i) || '—') +
+        ' | Email: ' + (g('email', i) || '—'));
+    }
 
     var payload = {
       access_key: ACCESS_KEY,
-      subject: 'Pedido de reserva — ' + (val('name') || 'novo cliente'),
+      subject: 'Pedido de reserva — ' + (g('name', 1) || 'novo cliente'),
       from_name: 'Casa Colorida · Tempo & Amor',
-      name: val('name'),
-      email: val('email'),
-      replyto: val('email'),
-      phone: val('phone'),
-      nif: val('nif') || '(não indicado)',
+      name: g('name', 1),
+      email: g('email', 1),
+      replyto: g('email', 1),
+      phone: g('phone', 1),
       datas: val('dates'),
       hospedes: val('guests'),
       casa: val('house'),
       baby_extras: checked('baby') ? 'Sim' : 'Não',
       pet_extras: checked('pet') ? 'Sim' : 'Não',
-      como_soube: val('source') || '(não indicado)',
+      hospedes_detalhe: lines.join('\n'),
       consentimento_rgpd: 'Sim — aceitou a Política de Privacidade',
       'h-captcha-response': capToken
     };
@@ -587,79 +743,45 @@ para verificarmos a disponibilidade.</p>
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data && data.success) {
-          try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (e) {}
-          /* preenche resumo da reserva antes de mostrar ecrã de sucesso */
+          try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (err) {}
           function setSum(id, text) { var el = document.getElementById(id); if (el) el.textContent = text; }
-          setSum('sum-name', val('name') || '—');
+          setSum('sum-name',  g('name', 1) || '—');
           setSum('sum-dates', val('dates') || '—');
           setSum('sum-house', val('house') || '—');
-          var g = val('guests');
-          setSum('sum-guests', g ? g + ' ' + (g === '1' ? t('bk.guest') : t('bk.guests.plural')) : '—');
-          setSum('sum-email', val('email') || '—');
+          var gq = val('guests');
+          setSum('sum-guests', gq ? gq + ' ' + (gq === '1' ? t('bk.guest') : t('bk.guests.plural')) : '—');
+          setSum('sum-email', g('email', 1) || '—');
           var extras = [];
           if (checked('baby')) extras.push(t('bk.extra.baby'));
-          if (checked('pet')) extras.push(t('bk.extra.pet'));
+          if (checked('pet'))  extras.push(t('bk.extra.pet'));
           if (extras.length) {
             setSum('sum-extras', extras.join(', '));
             var er = document.getElementById('sum-extras-row');
             if (er) er.hidden = false;
           }
-          form.hidden = true;
+          var card = document.getElementById('bkCard');
+          if (card) card.hidden = true;
           var ok = document.getElementById('rf-success');
-          if (ok) ok.hidden = false;
+          if (ok) { ok.hidden = false; ok.scrollIntoView({ block: 'center' }); }
         } else {
           throw new Error(data && data.message ? data.message : 'Falha no envio');
         }
       })
       .catch(function (err) {
-        if (btn) { btn.disabled = false; btn.textContent = (window.t ? t('bk.submit') : btnText); }
+        if (btn) { btn.disabled = false; btn.textContent = (window.t ? t('bk2.submit') : btnText); }
         if (window.hcaptcha) { try { window.hcaptcha.reset(); } catch (e) {} }
         alert(window.t ? t('bk.alert.error').replace('{err}', err.message) : ('Erro: ' + err.message));
       });
   });
 
-  /* limpa o estado de erro ao escrever */
   form.addEventListener('input', function (e) {
-    if (e.target && e.target.style) e.target.style.borderColor = '';
+    if (e.target && e.target.style) e.target.style.boxShadow = '';
   });
 })();
 </script>
 
-<script>
-/* pré-preenche datas a partir de URL params (calendário da home) + amostra localizada */
-(function () {
-  var p = new URLSearchParams(window.location.search);
-  var hs = p.get('house'), hsel = document.getElementById('house');
-  if (hs && hsel) {
-    var hIdx = (hs === 'tempo') ? 0 : (hs === 'colorida' ? 1 : -1);
-    if (hIdx >= 0) hsel.selectedIndex = hIdx;
-  }
-  var el = document.getElementById('dates');
-  if (!el) return;
-  var cin = p.get('checkin'), cout = p.get('checkout');
-  var touched = false;
-  el.addEventListener('input', function () { touched = true; });
-
-  function M() {
-    return window.ccMonths ? window.ccMonths()
-      : ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  }
-  function fmt(s) {
-    var d = new Date(s + 'T12:00:00');
-    if (isNaN(d.getTime())) return '';
-    return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + M()[d.getMonth()];
-  }
-  function fill() {
-    if (touched) return;
-    if (cin && cout) { el.value = fmt(cin) + ' — ' + fmt(cout); }
-    else { el.value = fmt('2026-09-09') + ' - ' + fmt('2026-09-13'); }
-  }
-  fill();
-  window.addEventListener('langchange', fill);
-})();
-</script>
-
-<script src="site.js?v=20260708" defer></script>
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
+<script src="site.js?v=20260731" defer></script>
 
 </body>
 </html>

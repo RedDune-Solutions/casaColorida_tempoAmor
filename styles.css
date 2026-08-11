@@ -175,25 +175,31 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   font-family: var(--font-script); color: var(--sage-soft); font-size: 20px; opacity: .9;
 }
 
-/* ---------- Rodapé completo ---------- */
-.foot-site { background: var(--watercolor); color: var(--on-watercolor); }
+/* ---------- Rodapé completo (banda escura sobre o mural — Figma) ---------- */
+.foot-site {
+  position: relative; isolation: isolate;
+  background: #362C2E url("assets/fig/mural.jpg") center / cover no-repeat;
+  color: #fff;
+}
+.foot-site::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(38,32,30,.78); }
 .fs-grid {
   max-width: 1196px; margin-inline: auto;
   padding: clamp(40px,6vw,64px) clamp(32px,8vw,60px) clamp(30px,4vw,44px);
   display: grid; grid-template-columns: 1.5fr 1fr 1fr;
   gap: clamp(30px,5vw,70px); align-items: start;
 }
-.fs-mark { width: 52px; height: 38px; color: var(--sage-deep); }
+.fs-mark { width: 52px; height: 38px; color: #fff; }
+.fs-logo { width: 62px; height: auto; display: block; }
 .fs-name { display: flex; flex-direction: column; line-height: 1.08; margin-top: 10px; }
 .fs-name .l1 { font-size: 17px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; }
-.fs-name .l2 { font-size: 14px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--clay); }
+.fs-name .l2 { font-size: 14px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--peach); }
 .fs-tag { margin-top: 14px; max-width: 300px; font-size: 14.5px; font-weight: 300; line-height: 1.55; opacity: .85; }
 .fs-col { display: flex; flex-direction: column; gap: 2px; }
-.fs-h { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; opacity: .55; margin-bottom: 12px; }
-.fs-col a, .fs-col > span:not(.fs-h) { font-size: 14.5px; padding-block: 4px; color: var(--on-watercolor); opacity: .9; }
+.fs-h { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; opacity: .6; margin-bottom: 12px; }
+.fs-col a, .fs-col > span:not(.fs-h) { font-size: 14.5px; padding-block: 4px; color: #fff; opacity: .9; }
 .fs-col a { transition: opacity .2s; width: fit-content; }
 .fs-col a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
-.fs-btm { border-top: 1px solid rgba(94,146,143,.22); }
+.fs-btm { border-top: 1px solid rgba(255,255,255,.18); }
 .fs-btm-inner {
   max-width: 1196px; margin-inline: auto;
   padding: 16px clamp(32px,8vw,60px);

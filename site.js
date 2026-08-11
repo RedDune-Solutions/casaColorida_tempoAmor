@@ -113,10 +113,20 @@
 
       function positionHero() {
         const bar = control.closest('.booking-bar');
-        if (!bar || window.innerWidth <= 980) { pop.style.top = ''; return; } // booking/mobile: CSS default
+        if (!bar || window.innerWidth <= 980) { pop.style.top = ''; pop.style.bottom = ''; return; } // booking/mobile: CSS default
+        /* assenta ACIMA do cartão inteiro (não só do campo), para não o tapar */
+        pop.style.bottom = 'auto';
         pop.style.top = '0px';
         const r0 = pop.getBoundingClientRect();
-        pop.style.top = (bar.getBoundingClientRect().bottom + 14 - r0.top) + 'px';
+        const barTop = bar.getBoundingClientRect().top;
+        const headH = (document.querySelector('.bar') || {}).offsetHeight || 0;
+        const alvo = barTop - 14 - pop.offsetHeight;
+        /* se não couber entre o header e o cartão, desce para baixo do cartão */
+        if (alvo < headH + 8) {
+          pop.style.top = (bar.getBoundingClientRect().bottom + 14 - r0.top) + 'px';
+        } else {
+          pop.style.top = (alvo - r0.top) + 'px';
+        }
       }
 
       function toggleOpen(e) {

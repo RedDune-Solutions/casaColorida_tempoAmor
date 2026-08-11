@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-</script>
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260708" defer></script>
+<script src="i18n.js?v=20260731b" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -25,101 +23,101 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260708" />
+<link rel="stylesheet" href="styles.css?v=20260731b" />
 <style>
 /* ============================================================
-   HOME — reconstruída fiel ao frame "12" do Figma
-   Canvas de referência: 1440px. Tokens reais do ficheiro.
+   HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
+   Hero c/ widget em baixo · Welcome assinado · bandas de amenities
+   · casas c/ trio de fotos · form "Pedido" · discover mosaico · FAQ
    ============================================================ */
 
-/* ----- escala de página (frame de 1440 → fluido) ----- */
 .page { max-width: 1196px; margin-inline: auto; padding-inline: clamp(32px, 8vw, 60px); }
 
-/* eyebrow real: pequenas maiúsculas espaçadas, cinza-sage */
-.kicker {
-  font-size: 15px; font-weight: 600; letter-spacing: .24em;
-  text-transform: uppercase; color: #B7C9C1;
-}
-/* heading real: Inter 700, lowercase, +0.05em, sage */
-.fig-title {
-  font-weight: 700; letter-spacing: .05em; color: var(--sage);
-  line-height: 1.15; text-transform: lowercase;
-  font-size: clamp(40px, 5.4vw, 64px);
-}
-.fig-title::first-letter { text-transform: uppercase; }
+:root { --sage-band: #C5DEDC; --step: #C3D8CF; --ico-teal: #6FADA8; --ico-or: #F9A971; }
 
-/* botão Danger — coral/laranja (como o mockup do Figma) */
-.btn-danger {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  background: rgb(240,138,36); color: #fff;
-  border-radius: 8px; padding: 16px 22px;
-  font-size: 16px; font-weight: 500; letter-spacing: .01em;
-  transition: background .2s ease, transform .2s ease;
-}
-.btn-danger:hover { background: rgb(222,124,28); transform: translateY(-1px); }
-.btn-danger.full { width: 100%; }
-
-/* botão BOOK NOW do hero — coral (frame 11) */
+/* botão coral (accent do Figma) */
 .btn-book {
   display: inline-flex; align-items: center; justify-content: center;
-  background: rgb(240,138,36); color: #fff;
+  background: rgb(240,138,36); color: #fff; border: 0; cursor: pointer;
   border-radius: 8px; padding: 0 clamp(28px,3vw,48px); height: 44px;
-  font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   white-space: nowrap; transition: background .2s ease, transform .2s ease;
 }
 .btn-book:hover { background: rgb(222,124,28); transform: translateY(-1px); }
+.btn-book.full { width: 100%; }
 
-/* ================= HEADER (barra sage) ================= */
+/* ================= HEADER transparente por cima do conteúdo =================
+   Sem imagem própria: deixa ver o que está por trás (hero). Um scrim escuro
+   muito leve garante que o texto branco continua legível sobre fotos claras;
+   ao rolar ganha fundo translúcido para não perder contraste no corpo da página. */
 .bar {
-  position: sticky; top: 0; z-index: 60;
-  background: var(--watercolor); color: var(--on-watercolor);
-  border-bottom: 1px solid rgba(94,146,143,.20);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  background: transparent; color: #fff;
+  transition: background .35s ease, backdrop-filter .35s ease;
 }
+.bar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(24,20,16,.52) 0%, rgba(24,20,16,.22) 60%, rgba(24,20,16,0) 100%);
+  transition: opacity .35s ease;
+}
+.bar.scrolled { background: rgba(38,34,30,.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.bar.scrolled::before { opacity: 0; }
 .bar-inner {
-  max-width: 1196px; margin-inline: auto; padding: 0 clamp(32px,8vw,60px);
-  height: 64px; display: flex; align-items: center; justify-content: space-between;
+  position: relative; max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  height: clamp(76px, 6.8vw, 97px); display: flex; align-items: center; justify-content: space-between; gap: 18px;
 }
-.bar .home { display: inline-flex; align-items: center; gap: 11px; }
-.bar .home .bar-mark { width: 42px; height: 31px; color: var(--sage-deep); flex: none; }
-.bar-brand { display: flex; flex-direction: column; line-height: 1.04; flex: none; white-space: nowrap; }
-.bar-brand .l1 { font-size: 15.5px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--on-watercolor); }
-.bar-brand .l2 { font-size: 13px; font-weight: 700; letter-spacing: .015em; text-transform: lowercase; color: var(--clay); margin-top: 1px; }
-.bar nav { display: flex; gap: clamp(20px, 4vw, 56px); }
+.bar .home { display: inline-flex; align-items: center; }
+/* logótipo: caixa quadrada com borda branca, "CASA" fino + "CT&A" bold */
+.mark-box {
+  width: clamp(56px,4.8vw,68px); height: auto; display: block;
+}
+.bar nav { display: flex; gap: clamp(20px, 4.6vw, 88px); }
 .bar nav a {
-  color: var(--on-watercolor); font-size: 14px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; opacity: .92; transition: opacity .2s;
+  color: #fff; font-size: clamp(11.5px,1vw,13.5px); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; opacity: .95; transition: opacity .2s;
 }
 .bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+/* voltar (páginas internas) */
+.backlink {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: clamp(14px,1.3vw,17px); font-weight: 500; letter-spacing: .05em;
+  text-transform: uppercase; color: #6E6E6E;
+}
+.backlink:hover { color: var(--ink); }
+.backlink svg { width: 18px; height: 18px; }
 
-/* ================= HERO ================= */
+/* ================= HERO — widget encostado em baixo ================= */
+/* começa no topo da página: o header transparente assenta por cima */
 .hero {
-  position: relative; min-height: clamp(560px, 64vw, 760px);
-  display: flex; align-items: flex-start;
+  position: relative; min-height: clamp(560px, 66vw, 780px);
+  display: flex; align-items: flex-end;
 }
 .hero-clip { position: absolute; inset: 0; overflow: hidden; }
 .hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.webp") center / cover no-repeat; }
-.hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.14) 0%, rgba(20,18,14,.05) 28%, rgba(20,18,14,0) 52%, rgba(253,253,253,.55) 84%, var(--paper) 100%); }
+.hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.12) 0%, rgba(20,18,14,0) 30%, rgba(20,18,14,0) 62%, rgba(20,18,14,.18) 100%); }
 .hero-wrap {
   position: relative; z-index: 2; width: 100%;
   max-width: 1196px; margin-inline: auto;
-  padding: clamp(28px,5vw,54px) clamp(32px,8vw,60px) 0;
+  padding: 0 clamp(20px,5vw,60px) clamp(22px,3.4vw,44px);
 }
+/* Com um popover aberto, o bloco que o contém sobe acima do header (60).
+   Sem isto, o stacking context do pai (z-index no hero, transform da animação
+   .reveal no cartão do Pedido) prendia o calendário por baixo do header. */
+.pop-open { position: relative; z-index: 90; }
 
-/* widget de reserva — barra horizontal */
+/* widget de reserva — cartão horizontal */
 .booking-bar {
   width: 100%; position: relative;
   background: rgba(255,255,255,.97); border-radius: 14px;
-  box-shadow: 0 24px 60px rgba(30,30,30,.22);
+  box-shadow: 0 24px 60px rgba(30,30,30,.28);
   padding: clamp(18px,2vw,24px) clamp(20px,2.4vw,30px);
   display: flex; flex-direction: column; gap: clamp(14px,1.6vw,18px);
 }
 .bar-fields { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); }
-.bar-extras { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); align-items: start; }
+.bar-extras { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: clamp(16px,2vw,26px); align-items: center; }
 .bar-extras .btn-book { width: 100%; padding: 0 12px; letter-spacing: .06em; }
 .field-fig { display: flex; flex-direction: column; gap: 6px; }
-.field-fig > label {
-  font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -.01em;
-}
+.field-fig > label { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
 .control {
   height: 44px; display: flex; align-items: center; justify-content: space-between;
   gap: 10px; padding: 0 14px; background: #fff;
@@ -129,9 +127,7 @@
 .control:hover { box-shadow: inset 0 0 0 1px var(--sage); }
 .control svg { width: 18px; height: 18px; color: var(--slate); flex: none; }
 .control select { appearance: none; -webkit-appearance: none; border: none; background: none; font: inherit; font-size: 15px; color: var(--ink); width: 100%; height: 100%; cursor: pointer; outline: none; }
-.hint { font-size: 12px; color: var(--slate); margin-top: -2px; }
 
-.checks { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
 .check .box {
   flex: none; width: 20px; height: 20px; border-radius: 5px; margin-top: 1px;
@@ -145,15 +141,20 @@
 .check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
 .check .lbl small { font-size: 12.5px; color: var(--slate); }
 
-/* calendário (popover — abre para cima no hero) */
+
+/* calendário popover (partilhado hero + form) */
 .date-field { position: relative; }
 .cal {
-  position: absolute; top: calc(100% + 16px); left: 0; z-index: 40;
+  position: absolute; top: calc(100% + 12px); left: 0; z-index: 200;
   width: 318px; max-width: calc(100vw - 40px);
+  /* em ecrãs baixos não cabe de nenhum dos lados: rola por dentro em vez de cortar */
+  max-height: calc(100vh - 120px); overflow: auto;
   background: #fff; border: 1px solid var(--line);
   border-radius: 16px; padding: 16px;
   box-shadow: 0 18px 50px rgba(30,30,30,.22);
 }
+/* vira para cima quando não há espaço em baixo (fica sempre acima do header) */
+.cal.up { top: auto; bottom: calc(100% + 12px); }
 .cal[hidden] { display: none; }
 .control[aria-expanded="true"] { box-shadow: inset 0 0 0 1px rgb(240,138,36); }
 .cal-head { display: flex; align-items: center; justify-content: space-between; height: 36px; }
@@ -178,235 +179,286 @@
 
 /* chevron scroll cue */
 .cue {
-  display: grid; place-items: center; margin: 26px auto 0; color: var(--sage);
+  display: grid; place-items: center; margin: 26px auto 0; color: var(--peach);
   animation: bob 2.4s ease-in-out infinite;
 }
 .cue svg { width: 48px; height: 48px; }
 @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(8px);} }
 @media (prefers-reduced-motion: reduce){ .cue { animation: none; } }
 
-/* ================= WELCOME / INTRO ================= */
-.welcome { text-align: center; padding: clamp(64px,8vw,104px) 0 clamp(40px,5vw,72px); }
-.welcome .kicker { display: inline-block; }
-.welcome h1 { margin-top: 18px; }
-.welcome p {
-  max-width: 620px; margin: 30px auto 0;
-  font-size: clamp(19px,2vw,24px); font-weight: 300; line-height: 1.4; color: #1a1a1a;
+/* ================= WELCOME ================= */
+.welcome { text-align: center; padding: clamp(44px,5.5vw,76px) 0 clamp(48px,6vw,80px); }
+.wel-title {
+  display: inline-block; font-size: clamp(15px,1.5vw,19px); font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--peach);
+  text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 1.5px;
 }
-.welcome p .br { display: block; height: .8em; }
+/* par de títulos: linha fina clara + linha bold (padrão repetido em todo o site) */
+.duo { margin-top: clamp(26px,3.4vw,44px); line-height: 1.12; }
+.duo .l1 { display: block; font-size: clamp(24px,2.8vw,38px); font-weight: 300; color: #FBD3B6; letter-spacing: .01em; }
+.duo .l2 { display: block; margin-top: 2px; font-size: clamp(28px,3.6vw,46px); font-weight: 700; color: var(--peach); letter-spacing: .01em; text-transform: uppercase; }
+.duo.teal .l1 { color: #A9CFCB; }
+.duo.teal .l2 { color: var(--sage); }
+.welcome p { max-width: 560px; margin: 26px auto 0; font-size: clamp(15px,1.5vw,17.5px); font-weight: 400; line-height: 1.6; color: #1a1a1a; }
+.sig { display: inline-block; font-family: var(--font-script); font-size: clamp(22px,2.2vw,27px); letter-spacing: -.02em; color: var(--peach); }
+.welcome .sig { margin-top: 22px; }
 
-/* ================= CASAS (mural de azulejos) ================= */
-.houses { position: relative; padding-block: clamp(40px,5vw,72px); padding-inline: clamp(14px,3vw,24px); }
-.houses::before {
-  content:""; position: absolute; inset: 0;
-  background: url("assets/fig/photo-c.webp") center top / cover no-repeat;
+/* ================= BANDA PÊSSEGO (mensagem) ================= */
+.band-peach { background: var(--peach); text-align: center; padding: clamp(46px,6vw,84px) 0; }
+.band-peach h2 {
+  font-size: clamp(19px,2.2vw,30px); font-weight: 600; color: #fff;
+  letter-spacing: .01em; line-height: 1.2;
 }
-.houses-panel {
-  position: relative; max-width: 1196px; margin-inline: auto;
-  background: rgba(255,255,255,.94); border-radius: 16px;
-  box-shadow: inset 0 0 0 1px var(--line);
-  padding: clamp(28px,4vw,52px) clamp(24px,5vw,76px) clamp(56px,7vw,96px);
+.band-peach p {
+  max-width: 620px; margin: 18px auto 0;
+  font-size: clamp(15px,1.6vw,19px); font-weight: 300; line-height: 1.55; color: rgba(255,255,255,.94);
 }
-.houses-photo {
-  width: 100%; height: clamp(280px, 44vw, 636px);
-  background: url("assets/fig/photo-a.webp") center / cover no-repeat;
-  border-radius: 4px;
+
+/* ================= BANDAS DE AMENITIES (pêssego, como no Figma) ================= */
+.access { background: var(--peach); padding: clamp(44px,6vw,76px) 0; }
+.access-head { text-align: center; margin-bottom: clamp(30px,4.4vw,52px); }
+.access-l1 { display: block; font-size: clamp(22px,2.6vw,36px); font-weight: 300; color: rgba(255,255,255,.78); letter-spacing: .005em; }
+.access-l2 { display: block; margin-top: 1px; font-size: clamp(26px,3.2vw,44px); font-weight: 700; color: #fff; letter-spacing: .01em; text-transform: uppercase; }
+/* sem cartões: ícones outline brancos directamente sobre o pêssego (Figma) */
+.amn-grid {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: clamp(20px,3.4vw,46px) clamp(14px,2.6vw,40px);
+  margin-inline: auto;
 }
-.house-block {
-  margin-top: clamp(56px,8vw,120px);
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(28px,4vw,60px); align-items: center;
+/* a fila de 12 quebra 6+6, como no Figma */
+.amn-grid.six { max-width: 920px; }
+.amn-grid + .amn-grid { margin-top: clamp(20px,3vw,44px); }
+.amn {
+  flex: 0 0 auto; width: clamp(84px, 7.6vw, 110px);
+  display: flex; flex-direction: column; align-items: center; gap: clamp(12px,1.6vw,20px);
+  text-align: center;
 }
-.house-block .house-text { max-width: 564px; }
-.house-block.right .house-text { order: 2; justify-self: end; }
-.house-block .body {
-  margin: 22px 0 30px; font-size: clamp(17px,1.6vw,20px); font-weight: 300;
-  line-height: 1.5; color: #1a1a1a; white-space: pre-line;
+.amn-ico { width: clamp(48px,4.6vw,64px); height: clamp(48px,4.6vw,64px); flex: none; display: block; object-fit: contain; }
+/* os SVG vêm bicolores do Figma: nesta banda são pintados de branco */
+img.amn-ico { filter: brightness(0) invert(1); }
+/* espaço reservado para os ícones que o Figma ainda não tem */
+.amn-ico.pending { border: 0; }
+.amn span {
+  font-size: clamp(10.5px,1vw,14px); font-weight: 400; letter-spacing: .09em;
+  text-transform: uppercase; color: #fff; line-height: 1.3;
 }
-.house-block .fig-title { margin-top: 6px; }
-.house-actions { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
-.house-more {
-  font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--sage-deep);
-  text-decoration: underline; text-underline-offset: 5px; opacity: .9; transition: opacity .2s;
+
+/* ================= FILA DE FOTOS (largura total) ================= */
+/* moldura branca igual dos quatro lados, como nos trios das casas */
+.strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding: 10px; background: var(--paper); }
+.strip .s-cell { position: relative; aspect-ratio: 3 / 2.35; overflow: hidden; background: rgb(230,230,228); cursor: zoom-in; border: 0; padding: 0; display: block; width: 100%; border-radius: 0; }
+.strip .s-cell:focus-visible { outline: 3px solid var(--peach); outline-offset: -3px; }
+.strip .s-cell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .9s ease; }
+.strip .s-cell img.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .strip .s-cell img { transition: none; } }
+@media (max-width: 720px) { .strip { grid-template-columns: 1fr 1fr; } .strip .s-cell:first-child { grid-column: 1 / -1; aspect-ratio: 16/10; } }
+
+/* ================= CASAS — banda escura sobre o mural ================= */
+.house-band {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: #1b1a19 url("assets/fig/mural.jpg") center / cover no-repeat;
+  padding: clamp(48px,7vw,96px) 0;
 }
-.house-more:hover { opacity: 1; }
-.houses-panel .house-block:first-of-type { margin-top: 0; }
-.house-photo {
-  width: 100%; aspect-ratio: 4 / 3; border-radius: 8px;
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-  box-shadow: 0 18px 50px rgba(30,30,30,.16);
+.house-band::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: rgba(24,21,19,.72);
 }
+.house-head {
+  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  gap: clamp(22px,4vw,52px); align-items: center;
+}
+.house-title .script { display: block; font-size: clamp(26px,3.2vw,40px); color: #D9CFC6; }
+.house-title h2 {
+  margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
+  letter-spacing: .01em; text-transform: uppercase; color: var(--peach); line-height: 1.08;
+  white-space: nowrap;
+}
+@media (max-width: 520px) { .house-title h2 { white-space: normal; } }
+.house-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(214,190,167,.55); }
+.house-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
+.house-copy .more-row { margin-top: clamp(24px,3.4vw,44px); display: flex; align-items: center; gap: 16px; }
+.house-more { font-size: clamp(15px,1.5vw,18px); font-weight: 600; letter-spacing: .01em; color: var(--peach); }
+.house-more:hover { text-decoration: underline; text-underline-offset: 5px; }
+.circle-btn {
+  width: clamp(34px,3vw,40px); height: clamp(34px,3vw,40px); border-radius: 50%; flex: none;
+  border: 2px solid var(--peach); color: var(--peach);
+  display: grid; place-items: center; transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.circle-btn:hover { background: var(--peach); color: #2a2422; transform: translateX(2px); }
+.circle-btn svg { width: 17px; height: 17px; }
+
+/* trio das casas: mesma grelha e mesma moldura da tira de fotos de cima */
+.trio { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding: 10px; background: var(--paper); }
+.trio-cell {
+  position: relative; aspect-ratio: 3 / 2.35; border-radius: 0; overflow: hidden;
+  cursor: zoom-in; background: rgb(230,230,228);
+}
+.trio-cell img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity .9s ease;
+}
+.trio-cell img.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .trio-cell img { transition: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  .house-photo { transition: transform .45s ease, box-shadow .45s ease; }
-  .house-block:hover .house-photo { transform: scale(1.015); box-shadow: 0 24px 60px rgba(30,30,30,.2); }
+  .trio-cell { transition: transform .35s ease, box-shadow .35s ease; }
+  .trio-cell:hover { transform: scale(1.015); box-shadow: 0 14px 40px rgba(30,30,30,.18); }
 }
+.trio-cell:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 3px; }
+/* contador discreto, só quando o rato está por cima */
+.trio-cell .tc-count {
+  position: absolute; right: 8px; bottom: 8px; z-index: 2;
+  padding: 3px 8px; border-radius: 999px;
+  background: rgba(24,20,16,.55); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: .06em;
+  opacity: 0; transition: opacity .25s ease; pointer-events: none;
+}
+.trio-cell:hover .tc-count, .trio-cell:focus-visible .tc-count { opacity: 1; }
 
-/* ================= RESERVA (passo embutido) ================= */
-.reserve { padding-block: clamp(48px,6vw,80px); }
-.stepper {
-  background: rgb(192,15,12); color: #fff; border-radius: 8px;
-  padding: 18px 20px; display: flex; flex-wrap: wrap; justify-content: center;
-  gap: clamp(14px,3vw,40px); font-size: clamp(14px,1.5vw,20px); font-weight: 600;
-  letter-spacing: -.01em;
+/* lightbox dos trios — clique na foto abre grande; clicar na foto grande avança */
+.lb { position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; padding: 24px; }
+.lb[hidden] { display: none; }
+.lb-backdrop { position: absolute; inset: 0; background: rgba(24,24,22,.82); backdrop-filter: blur(3px); }
+.lb img {
+  position: relative; z-index: 2; max-width: min(1180px, 76vw); max-height: 78vh;
+  border-radius: 10px; box-shadow: 0 30px 90px rgba(0,0,0,.5); cursor: pointer;
 }
-.stepper span { white-space: nowrap; opacity: .7; }
-.stepper span.on { opacity: 1; }
-.reserve h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); margin-top: 36px; }
-.reserve .legend { margin-top: 10px; font-size: 16px; font-weight: 300; color: #303030; line-height: 1.4; max-width: 520px; }
-.reserve-row {
-  margin-top: 26px; display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 18px;
-}
-.reserve-checks { margin-top: 22px; display: flex; gap: 40px; flex-wrap: wrap; }
-
-/* ================= DISCOVER ================= */
-.discover { padding-block: clamp(56px,7vw,96px); }
-.discover .body { margin-top: 18px; max-width: 520px; font-size: clamp(17px,1.6vw,20px); font-weight: 300; color: #1a1a1a; line-height: 1.5; }
-
-/* ================= EXPERIÊNCIA + SUSTENTABILIDADE ================= */
-.exper { text-align: center; padding: clamp(56px,7vw,92px) 0 0; }
-.exper .kicker { display: block; }
-.exper .fig-title { margin-top: 14px; }
-.exper p {
-  max-width: 620px; margin: 24px auto 0;
-  font-size: clamp(17px,1.8vw,21px); font-weight: 300; line-height: 1.5; color: #1a1a1a;
-}
-.sustain { background: var(--sage-mist); text-align: center; padding: clamp(48px,6vw,84px) 0; }
-.sustain .kicker { display: block; color: var(--sage-deep); opacity: .7; }
-.sustain .fig-title { margin-top: 14px; }
-.sustain p {
-  max-width: 620px; margin: 24px auto 0;
-  font-size: clamp(17px,1.8vw,21px); font-weight: 300; line-height: 1.5; color: #1a1a1a;
-}
-/* mosaico fiel ao Figma: 6 retângulos uniformes 304×404, cinza rgb(217,217,217) */
-.mosaic {
-  margin-top: clamp(36px,5vw,56px);
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px,1.6vw,24px);
-}
-.tile {
-  aspect-ratio: 304 / 404; border-radius: 8px; overflow: hidden;
-  background-color: rgb(217,217,217);
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-}
-
-/* ---- tiles interativos (lugares) ---- */
-button.tile {
-  border: 0; padding: 0; cursor: pointer; position: relative;
-  display: block; width: 100%; text-align: left; font: inherit;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-button.tile::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(20,18,14,0) 42%, rgba(20,18,14,.66) 100%);
-}
-.t-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
-@media (prefers-reduced-motion: no-preference) {
-  .t-img { transition: transform .5s ease; }
-  button.tile:hover .t-img { transform: scale(1.05); }
-}
-button.tile:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(30,30,30,.22); }
-button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 3px; }
-.t-lbl {
-  position: absolute; z-index: 2; left: 18px; right: 18px; bottom: 16px;
-  display: flex; flex-direction: column; gap: 3px; color: #fff;
-}
-.t-name { font-size: clamp(17px,1.7vw,21px); font-weight: 600; letter-spacing: .01em; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
-.t-dist { font-size: 12px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; opacity: .85; }
-@media (prefers-reduced-motion: reduce) { button.tile { transition: none; } }
-
-/* ---- popup dos lugares ---- */
-.pm { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 20px; }
-.pm[hidden] { display: none; }
-.pm-backdrop { position: absolute; inset: 0; background: rgba(24,24,22,.55); backdrop-filter: blur(3px); animation: pmFade .25s ease-out both; }
-@keyframes pmFade { from { opacity: 0; } to { opacity: 1; } }
-.pm-card {
-  position: relative; width: min(600px, 100%); max-height: min(86vh, 760px); overflow: auto;
-  background: #fff; border-radius: 18px; box-shadow: 0 30px 90px rgba(0,0,0,.4);
-  animation: pmIn .28s ease;
-}
-@keyframes pmIn { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .pm-card, .pm-backdrop { animation: none; } }
-.pm-close {
-  position: absolute; top: 14px; right: 14px; z-index: 3;
-  width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer;
+.lb-close {
+  position: absolute; top: 18px; right: 18px; z-index: 3;
+  width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer;
   background: rgba(255,255,255,.94); color: var(--ink);
-  display: grid; place-items: center; box-shadow: 0 2px 12px rgba(0,0,0,.22);
+  display: grid; place-items: center; box-shadow: 0 2px 12px rgba(0,0,0,.3);
 }
-.pm-close:hover { background: #fff; }
-.pm-close svg { width: 16px; height: 16px; }
-.pm-item[hidden] { display: none; }
-.pm-photo { aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
-.pm-body { padding: 22px clamp(20px,4vw,30px) 26px; }
-.pm-chip {
-  display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--sage-deep); background: var(--sage-mist);
-  border-radius: 999px; padding: 6px 12px;
+.lb-close svg { width: 16px; height: 16px; }
+.lb-hint {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 3;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.85); pointer-events: none;
 }
-.pm-title { margin-top: 12px; font-size: clamp(24px,3vw,32px); font-weight: 700; letter-spacing: .02em; color: var(--sage); line-height: 1.15; }
-.pm-text { margin-top: 12px; font-size: 16.5px; font-weight: 300; line-height: 1.55; color: #1a1a1a; }
 
-.collection {
-  margin-top: clamp(40px,5vw,64px); margin-left: auto; max-width: 434px; text-align: right;
+/* âncoras não ficam por baixo do header sticky */
+section[id], form[id] { scroll-margin-top: 80px; }
+@media (max-width: 720px) {
+  .trio { grid-template-columns: 1fr 1fr; }
+  .trio img:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
 }
-.collection p { font-size: clamp(18px,1.8vw,24px); font-weight: 300; line-height: 1.4; color: #000; }
-.collection .sig {
-  display: block; margin-top: 14px; font-family: var(--font-script);
-  font-size: 36px; letter-spacing: -.03em; color: var(--sage);
+
+.stay-info { text-align: center; padding: clamp(48px,7vw,92px) 0 clamp(40px,5vw,70px); }
+.si-cap {
+  font-size: clamp(17px,2vw,26px); font-weight: 400; letter-spacing: .04em;
+  text-transform: uppercase; color: #F6C4A2;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
 }
+.si-sub { margin-top: clamp(22px,3vw,38px); font-size: clamp(13px,1.4vw,17px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--peach); }
+.si-line { margin-top: clamp(14px,1.8vw,22px); font-size: clamp(12px,1.2vw,15px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
+.si-line + .si-line { margin-top: 6px; }
+.stay-info .btn-book { margin-top: clamp(26px,3.4vw,42px); background: var(--peach); }
+.stay-info .btn-book:hover { background: #F79E63; }
+
+
+/* ================= DISCOVER — banda com foto + carrossel ================= */
+.disc-band {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: #2b3b3d url("assets/fig/surf-band.jpg") center / cover no-repeat;
+  padding: clamp(44px,6vw,86px) 0;
+}
+.disc-band::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(26,42,44,.58); }
+.disc-head {
+  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  gap: clamp(22px,4vw,52px); align-items: center;
+}
+.disc-title .script { display: block; font-size: clamp(26px,3.2vw,40px); color: #A9CFCB; }
+.disc-title h2 {
+  margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
+  letter-spacing: .01em; text-transform: uppercase; color: var(--sage); line-height: 1.08;
+}
+.disc-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(255,255,255,.5); }
+.disc-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
+
+/* fotografia de largura total (onda) */
+/* a fotografia entra a desvanecer do branco da secção anterior, sem aresta dura */
+.photo-full { width: 100%; display: block; }
+.photo-full img {
+  width: 100%; height: clamp(220px,30vw,470px); object-fit: cover; display: block;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.85) 3%, #000 7%);
+          mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.85) 3%, #000 7%);
+}
+
+/* ---- carrossel de recomendações ---- */
+.recs { padding: clamp(44px,6vw,84px) 0 clamp(40px,5vw,70px); text-align: center; }
+/* os slides ocupam a MESMA célula da grelha: a altura fica presa ao maior
+   e a secção deixa de saltar quando se muda de slide */
+.rec-stage { display: grid; }
+.rec-slide { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; }
+.rec-slide.on { opacity: 1; visibility: visible; pointer-events: auto; animation: recIn .45s ease both; }
+@keyframes recIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rec-slide.on { animation: none; } }
+.rec-title {
+  display: inline-block; font-size: clamp(16px,1.9vw,24px); font-weight: 400; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--sage);
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+}
+.rec-grid {
+  margin: clamp(30px,4.4vw,58px) auto 0; max-width: 780px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px,2.8vw,34px) clamp(24px,4vw,60px);
+  text-align: left;
+}
+.rec-grid.one { grid-template-columns: 1fr; max-width: 420px; text-align: center; }
+.rec-item .n { display: block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
+.rec-item .tags { display: block; margin-top: 5px; font-size: clamp(11.5px,1.2vw,14px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
+@media (max-width: 620px) { .rec-grid { grid-template-columns: 1fr; text-align: center; } }
+.rec-nav { margin-top: clamp(28px,4vw,50px); display: flex; justify-content: center; gap: 14px; }
+.rec-nav button {
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  border: 1.5px solid var(--sage); color: var(--sage); background: none;
+  display: grid; place-items: center; transition: background .2s, color .2s, opacity .2s;
+}
+.rec-nav button:hover { background: var(--sage); color: #fff; }
+.rec-nav button svg { width: 16px; height: 16px; }
+.rec-nav button[disabled] { opacity: .38; cursor: default; }
+.rec-nav button[disabled]:hover { background: none; color: var(--sage); }
+
+
 
 /* ================= FAQ ================= */
-.faq { padding-block: clamp(40px,5vw,80px) clamp(64px,8vw,120px); }
-.faq-list { max-width: 640px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
-.acc {
-  border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden;
+/* cabeçalho em banda teal, como no Figma */
+.faq-band { background: var(--sage); padding: clamp(40px,5.5vw,76px) 0; }
+.faq-band-inner {
+  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  gap: clamp(22px,4vw,52px); align-items: center;
 }
+.faq-band .l1 { display: block; font-size: clamp(24px,3vw,40px); font-weight: 300; color: rgba(255,255,255,.68); }
+.faq-band .l2 { display: block; margin-top: 1px; font-size: clamp(28px,3.6vw,48px); font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .01em; }
+.faq-band .vline { width: 1px; height: clamp(70px,8vw,110px); background: rgba(255,255,255,.6); }
+.faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 360px; }
+@media (max-width: 860px) { .faq-band-inner { grid-template-columns: 1fr; } .faq-band .vline { display: none; } }
+
+.faq { padding-block: clamp(34px,5vw,64px) clamp(56px,7vw,100px); }
+.faq-list { max-width: 640px; margin-inline: auto; display: flex; flex-direction: column; gap: 12px; }
+.acc { border: 1px solid var(--line-soft); border-radius: 10px; background: #fff; overflow: hidden; box-shadow: var(--shadow-sm); }
 .acc summary {
   list-style: none; cursor: pointer; padding: 16px 20px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  font-size: 16px; font-weight: 600; color: var(--ink);
+  font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink);
 }
 .acc summary::-webkit-details-marker { display: none; }
-.acc summary .chev { width: 20px; height: 20px; color: var(--slate); transition: transform .25s; flex: none; }
+.acc summary .chev { width: 18px; height: 18px; color: var(--slate); transition: transform .25s; flex: none; }
 .acc[open] summary .chev { transform: rotate(180deg); }
-.acc .ans { padding: 8px 20px 18px; font-size: 15px; font-weight: 300; color: #303030; line-height: 1.55; }
-.acc.open-first[open] { box-shadow: inset 0 0 0 1px var(--sage); }
+.acc .ans { padding: 2px 20px 18px; font-size: 15px; font-weight: 300; color: #303030; line-height: 1.6; }
 
-/* ================= RODAPÉ MÍNIMO ================= */
-.foot-min {
-  background: var(--watercolor); color: var(--on-watercolor);
-  padding: 22px clamp(32px,8vw,60px);
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 10px 28px; font-size: 14px; letter-spacing: .01em;
-}
-.foot-min span:last-child { opacity: .9; }
-@media (max-width: 640px) {
-  /* Rodapé empilha: contactos em cima, © por baixo */
-  .foot-min { flex-direction: column-reverse; align-items: center; justify-content: center; text-align: center; gap: 6px; }
-}
+/* texto corrido justificado como no resto do site */
+.welcome p, .house-copy p, .disc-copy p, .faq .ans, .pm-text { text-align: justify; hyphens: auto; }
+.welcome p { text-align: center; }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 980px) {
-  .bar-fields { grid-template-columns: 1fr; }
-  .bar-extras { grid-template-columns: 1fr; }
-  .reserve-row { grid-template-columns: 1fr; }
-  .mosaic { grid-template-columns: repeat(2, 1fr); }
-  .house-block { grid-template-columns: 1fr; gap: 24px; }
-  .house-block.right .house-text { order: 0; justify-self: start; }
-  .house-block .house-text { max-width: none; }
-  .collection { margin-right: auto; }
+@media (max-width: 860px) {
+  .house-head, .disc-head { grid-template-columns: 1fr; gap: 18px; }
+  .house-head .vline { display: none; }
+  .house-copy p, .disc-copy p { max-width: none; }
+  .bar-fields, .bar-extras { grid-template-columns: 1fr; }
 }
-@media (max-width: 560px) {
-  .booking-bar { padding: 20px 18px; }
-  .bar-extras { gap: 16px; }
-  .bar-extras .btn-book { width: 100%; }
-}
-
-/* Em ecrãs pequenos o texto nunca chega aos limites — coluna estreita, tipo revista */
 @media (max-width: 700px) {
-  .page { padding-inline: clamp(40px, 11vw, 64px); }
-  .houses { padding-inline: clamp(18px, 5vw, 32px); }
+  .page { padding-inline: clamp(24px, 7vw, 48px); }
+  .booking-bar { padding: 20px 18px; }
 }
-.welcome p, .exper p, .sustain p, .discover .body, .house-block .body, .faq .ans, .pm-text { text-align: justify; hyphens: auto; }
-
 </style>
 </head>
 <body>
@@ -417,16 +469,7 @@ button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 
 <header class="bar">
   <div class="bar-inner">
     <a class="home" href="index.html" data-i18n-attr="aria-label:home.aria" aria-label="Casa Colorida e Tempo &amp; Amor — Início">
-      <svg class="bar-mark" viewBox="0 0 76 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 49 H71"/>
-        <path d="M11 31 L23 19 L35 31"/><path d="M15 31 V49"/><path d="M31 31 V49"/>
-        <path d="M37 31 L51 16 L65 31"/><path d="M41 31 V49"/><path d="M61 31 V49"/>
-        <path d="M48 49 V40 H54 V49"/>
-      </svg>
-      <span class="bar-brand">
-        <span class="l1">casa colorida</span>
-        <span class="l2">tempo &amp; amor</span>
-      </span>
+      <img class="mark-box" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
     </a>
     <nav aria-label="Principal">
       <a href="#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
@@ -450,6 +493,7 @@ button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 
     <a href="#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
     <a href="#colorida" data-i18n="nav.colorida">Casa Colorida</a>
     <a href="#local" data-i18n="nav.local">Local</a>
+    <a href="booking.html" data-i18n="foot.book">Reservar</a>
   </nav>
   <div class="drawer-lang">
     <span class="drawer-lang-lbl" data-i18n="lang.label">Idioma</span>
@@ -460,12 +504,11 @@ button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 
   </div>
 </div>
 
-<!-- ===================== HERO ===================== -->
+<!-- ===================== HERO (widget em baixo) ===================== -->
 <section class="hero">
   <div class="hero-clip"><div class="hero-bg"></div></div>
   <div class="hero-wrap">
-    <!-- widget de reserva — barra horizontal -->
-    <form class="booking-bar" onsubmit="return false">
+    <form class="booking-bar" id="heroForm">
       <div class="bar-fields">
         <div class="field-fig date-field">
           <label data-i18n="dates.label">Entrada / Saída</label>
@@ -473,44 +516,42 @@ button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 
             <span id="dateValue" data-i18n="dates.placeholder">Escolher datas</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
           </button>
-
-          <!-- calendário (abre ao clicar no campo — como no frame 11) -->
-          <div class="cal" id="calPop" role="dialog" data-i18n-attr="aria-label:dates.placeholder" aria-label="Escolher datas" hidden>
+          <div class="cal up" id="calPop" role="dialog" data-i18n-attr="aria-label:dates.placeholder" aria-label="Escolher datas" hidden>
             <div class="cal-head">
               <button class="cal-nav" type="button" data-i18n-attr="aria-label:cal.prev" aria-label="Mês anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-              <span class="mlabel">Set 2025</span>
+              <span class="mlabel">—</span>
               <button class="cal-nav" type="button" data-i18n-attr="aria-label:cal.next" aria-label="Mês seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
             </div>
             <div class="cal-grid"></div>
           </div>
         </div>
         <div class="field-fig">
-          <label data-i18n="guests.label">Nº de hóspedes</label>
+          <label data-i18n="house.label">Casa pretendida</label>
           <div class="control">
-            <select data-i18n-attr="aria-label:guests.label" aria-label="Nº de hóspedes"><option>0-5</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+            <select id="heroHouse" data-i18n-attr="aria-label:house.label" aria-label="Casa pretendida"><option>T1 - Tempo &amp; Amor</option><option>T2 - Casa Colorida</option></select>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </div>
         </div>
         <div class="field-fig">
-          <label data-i18n="house.label">Casa pretendida</label>
+          <label data-i18n="guests.label">Nº de hóspedes</label>
           <div class="control">
-            <select data-i18n-attr="aria-label:house.label" aria-label="Casa pretendida"><option>T1 - Tempo &amp; Amor</option><option>T2 - Casa Colorida</option></select>
+            <select id="heroGuests" data-i18n-attr="aria-label:guests.label" aria-label="Nº de hóspedes"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </div>
         </div>
       </div>
       <div class="bar-extras">
         <label class="check">
-          <input type="checkbox" />
+          <input type="checkbox" id="heroBaby" />
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b data-i18n="baby.t">Extras de bebé</b><small data-i18n="baby.s">Cadeira alta e berço disponíveis.</small></span>
         </label>
         <label class="check">
-          <input type="checkbox" checked />
+          <input type="checkbox" id="heroPet" checked />
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b data-i18n="pet.t">Extras para animais (20€ adicional)</b><small data-i18n="pet.s">Cama e taças disponíveis.</small></span>
         </label>
-        <a class="btn-book" id="bookBtn" href="booking.html" data-i18n="hero.book">Verificar disponibilidade</a>
+        <button type="submit" class="btn-book" id="bookBtn" data-i18n="hero.book">Verificar disponibilidade</button>
       </div>
     </form>
   </div>
@@ -522,185 +563,266 @@ button.tile:focus-visible { outline: 3px solid rgb(240,138,36); outline-offset: 
 
 <!-- ===================== WELCOME ===================== -->
 <section class="welcome page reveal" id="welcome">
-  <span class="kicker" data-i18n="welcome.kicker">Bem-vindos</span>
-  <h1 class="fig-title" data-i18n="welcome.title">abrande, respire, sinta-se em casa</h1>
-  <p data-i18n-html="welcome.p">Duas casas, a mesma essência, no coração de Vila do Bispo — onde a tranquilidade e a natureza se encontram.<span class="br"></span>Cada espaço foi cuidadosamente preparado para oferecer conforto, privacidade e uma experiência genuína do sudoeste algarvio.</p>
+  <span class="wel-title" data-i18n="welcome.kicker">Bem-vindos</span>
+  <h1 class="duo">
+    <span class="l1" data-i18n="welcome.l1">abrande</span>
+    <span class="l2" data-i18n="welcome.l2">sinta-se em casa</span>
+  </h1>
+  <p data-i18n="welcome.p2">Descubra duas casas acolhedoras onde cada espaço foi cuidadosamente preparado para lhe oferecer conforto e pensado para viver o Algarve.</p>
+  <span class="sig" aria-hidden="true">Andrea Love&nbsp;_</span>
 </section>
 
-<!-- ===================== CASAS ===================== -->
-<section class="houses" id="casas">
-  <div class="houses-panel">
-
-    <article class="house-block reveal" id="tempo">
-      <div class="house-text">
-        <span class="kicker" data-i18n="house.tempo.kicker">um quarto</span>
-        <h2 class="fig-title">tempo &amp; amor</h2>
-        <p class="body" data-i18n="house.tempo.body">Um refúgio tranquilo para abrandar o ritmo.
-Pensada para quem valoriza simplicidade, conforto e momentos de verdadeira desconexão.</p>
-        <div class="house-actions">
-          <a class="btn-danger" href="booking.html?house=tempo" style="border-radius: 8px" data-i18n="house.reserve">Verificar disponibilidade</a>
-          <a class="house-more" href="tempo-amor.html" data-i18n="house.more">Conhecer a casa →</a>
-        </div>
-      </div>
-      <div class="house-photo" role="img" data-i18n-attr="aria-label:house.tempo.alt" aria-label="Casa Tempo &amp; Amor" style="background-image:url('assets/fig/photo-b.webp')"></div>
-    </article>
-
-    <article class="house-block right reveal" id="colorida">
-      <div class="house-text">
-        <span class="kicker" data-i18n="house.colorida.kicker">dois quartos</span>
-        <h2 class="fig-title">colorida</h2>
-        <p class="body" data-i18n="house.colorida.body">Espaço para reunir, descansar e criar memórias.
-Ideal para famílias ou grupos que procuram uma estadia descontraída perto da natureza.</p>
-        <div class="house-actions">
-          <a class="btn-danger" href="booking.html?house=colorida" data-i18n="house.reserve">Verificar disponibilidade</a>
-          <a class="house-more" href="casa-colorida.html" data-i18n="house.more">Conhecer a casa →</a>
-        </div>
-      </div>
-      <div class="house-photo" role="img" data-i18n-attr="aria-label:house.colorida.alt" aria-label="Casa Colorida" style="background-image:url('assets/casas/colorida/colorida-08.webp')"></div>
-    </article>
-  </div>
-</section>
-
-<!-- ===================== EXPERIÊNCIA ===================== -->
-<section class="exper page reveal" id="experiencia">
-  <span class="kicker" data-i18n="exp.kicker">experiência</span>
-  <h2 class="fig-title" data-i18n="exp.title">viva como um local</h2>
-  <p data-i18n="exp.body">Explore praias escondidas, mercados locais, trilhos costeiros e os pequenos detalhes que tornam Vila do Bispo tão especial.</p>
-</section>
-
-<!-- ===================== DISCOVER ===================== -->
-<section class="discover page" id="local">
-  <h2 class="fig-title reveal" style="text-transform:none" data-i18n="discover.title">Os nossos lugares favoritos</h2>
-  <p class="body reveal" style="color:#1a1a1a;font-weight:300;font-size:clamp(17px,1.6vw,20px);max-width:520px;margin-top:14px;line-height:1.5" data-i18n="discover.body">No extremo sudoeste de Portugal, onde o Algarve encontra o Atlântico bravo, Vila do Bispo é um refúgio entre falésias, praias selvagens e o silêncio da Costa Vicentina. Toque em cada lugar para saber mais.</p>
-
-  <div class="mosaic">
-    <button type="button" class="tile reveal" data-place="cordoama"><span class="t-img" style="background-image:url('assets/local/praia-cordoama.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.cordoama.name">Praia da Cordoama</span><span class="t-dist" data-i18n="local.cordoama.dist">~6 km · 10 min de carro</span></span>
-    </button>
-    <button type="button" class="tile reveal" data-place="cabo"><span class="t-img" style="background-image:url('assets/local/cabo-sao-vicente.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.cabo.name">Cabo de São Vicente</span><span class="t-dist" data-i18n="local.cabo.dist">~13 km · 18 min de carro</span></span>
-    </button>
-    <button type="button" class="tile reveal" data-place="sagres"><span class="t-img" style="background-image:url('assets/local/sagres-fortaleza.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.sagres.name">Sagres &amp; Fortaleza</span><span class="t-dist" data-i18n="local.sagres.dist">~10 km · 12 min de carro</span></span>
-    </button>
-    <button type="button" class="tile reveal" data-place="castelejo"><span class="t-img" style="background-image:url('assets/local/praia-castelejo.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.castelejo.name">Praia do Castelejo</span><span class="t-dist" data-i18n="local.castelejo.dist">~5 km · 10 min de carro</span></span>
-    </button>
-    <button type="button" class="tile reveal" data-place="vila"><span class="t-img" style="background-image:url('assets/local/vila-do-bispo.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.vila.name">Vila do Bispo</span><span class="t-dist" data-i18n="local.vila.dist">no centro da vila</span></span>
-    </button>
-    <button type="button" class="tile reveal" data-place="farol"><span class="t-img" style="background-image:url('assets/local/farol-sao-vicente.webp')"></span>
-      <span class="t-lbl"><span class="t-name" data-i18n="local.farol.name">Farol de São Vicente</span><span class="t-dist" data-i18n="local.farol.dist">no Cabo de São Vicente</span></span>
-    </button>
-  </div>
-
-  <div class="collection reveal">
-    <p><span data-i18n="collection.body">Uma coleção de lugares, experiências e pequenos momentos que tornam a nossa região tão acolhedora e típica.</span>
-      <span class="sig">Andrea&nbsp;&nbsp;_</span>
-    </p>
-  </div>
-</section>
-
-<!-- ===================== SUSTENTABILIDADE ===================== -->
-<section class="sustain reveal" id="sustentabilidade">
+<!-- ===================== PEQUENOS GESTOS (banda pêssego) ===================== -->
+<section class="band-peach reveal" aria-labelledby="impactTitle">
   <div class="page">
-    <span class="kicker" data-i18n="sus.kicker">sustentabilidade</span>
-    <h2 class="fig-title" data-i18n="sus.title">pequenos gestos, grande impacto</h2>
-    <p data-i18n="sus.body">Acreditamos que o turismo pode coexistir em harmonia com a natureza. Por isso, incentivamos práticas simples que ajudam a preservar este lugar único.</p>
+    <h2 id="impactTitle" data-i18n="impact.t">Pequenos gestos | Grande impacto</h2>
+    <p data-i18n="impact.p">Acreditamos que o turismo pode coexistir em harmonia com a natureza. Por isso, incentivamos práticas simples que ajudam a preservar este lugar único.</p>
+  </div>
+</section>
+
+<!-- fila de fotos a toda a largura -->
+<div class="strip reveal" data-strip="intro"></div>
+
+
+<!-- ===================== CASA TEMPO & AMOR ===================== -->
+<section id="tempo">
+  <div class="house-band reveal">
+    <div class="page house-head">
+      <div class="house-title">
+        <span class="script">casa</span>
+        <h2>tempo &amp; amor</h2>
+      </div>
+      <span class="vline" aria-hidden="true"></span>
+      <div class="house-copy">
+        <p data-i18n="house.tempo.p">Um refúgio tranquilo para abrandar o ritmo. Pensada para quem valoriza simplicidade, conforto e momentos de verdadeira desconexão.</p>
+        <div class="more-row">
+          <a class="house-more" href="tempo-amor.html" data-i18n="house.full">Ver a casa completa</a>
+          <a class="circle-btn" href="tempo-amor.html" data-i18n-attr="aria-label:house.tempo.alt" aria-label="Casa Tempo &amp; Amor">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stay-info page reveal">
+    <p class="si-cap" data-i18n="tempo.cap">Um quarto para até 2 hóspedes</p>
+    <p class="si-sub" data-i18n="stay.nights">Mínimo 3 noites</p>
+    <p class="si-line" data-i18n="stay.times">Check-in 15h | Check-out 11h</p>
+    <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
+    <a class="btn-book" href="booking.html?house=tempo" data-i18n="hero.book">Verificar disponibilidade</a>
+  </div>
+  <div class="trio reveal" data-house="tempo"></div>
+</section>
+
+<!-- ===================== CASA COLORIDA ===================== -->
+<section id="colorida">
+  <div class="house-band reveal">
+    <div class="page house-head">
+      <div class="house-title">
+        <span class="script">casa</span>
+        <h2>colorida</h2>
+      </div>
+      <span class="vline" aria-hidden="true"></span>
+      <div class="house-copy">
+        <p data-i18n="house.colorida.p">Espaço para reunir, descansar e criar memórias. Ideal para famílias ou grupos que procuram uma estadia descontraída perto da natureza.</p>
+        <div class="more-row">
+          <a class="house-more" href="casa-colorida.html" data-i18n="house.full">Ver a casa completa</a>
+          <a class="circle-btn" href="casa-colorida.html" data-i18n-attr="aria-label:house.colorida.alt" aria-label="Casa Colorida">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stay-info page reveal">
+    <p class="si-cap" data-i18n="colorida.cap">Dois quartos para até 4 hóspedes</p>
+    <p class="si-sub" data-i18n="stay.nights">Mínimo 3 noites</p>
+    <p class="si-line" data-i18n="stay.times">Check-in 15h | Check-out 11h</p>
+    <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
+    <a class="btn-book" href="booking.html?house=colorida" data-i18n="hero.book">Verificar disponibilidade</a>
+  </div>
+  <div class="trio reveal" data-house="colorida"></div>
+</section>
+
+
+
+<!-- ===================== IN BOTH APARTMENTS / YOU HAVE ACCESS ===================== -->
+<section class="access reveal" aria-labelledby="accessTitle">
+  <div class="page">
+    <h2 class="access-head" id="accessTitle">
+      <span class="access-l1" data-i18n="access.l1">nos dois apartamentos</span>
+      <span class="access-l2" data-i18n="access.l2">tem acesso a</span>
+    </h2>
+    <div class="amn-grid">
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/wifi.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.wifi">Wi-Fi grátis</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/tv.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.tv">Smart TV</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/games.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.bbq2">Jogos</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/bbq.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.bbq">Churrasqueira</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/heater.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.heater">Aquecedor</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/fan.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.fan">Ventoinha</span>
+      </div>
+      <div class="amn">
+        <img class="amn-ico" src="assets/icons/dehumidifier.svg?v=2" alt="" aria-hidden="true" />
+        <span data-i18n="amn.dehum">Desumidificador</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DISCOVER VILA DO BISPO ===================== -->
+<section id="local">
+  <div class="disc-band reveal">
+    <div class="page disc-head">
+      <div class="disc-title">
+        <span class="script" data-i18n="discover.script">descubra</span>
+        <h2>Vila do Bispo</h2>
+      </div>
+      <span class="vline" aria-hidden="true"></span>
+      <div class="disc-copy">
+        <p data-i18n="collection.body">Uma coleção de lugares, experiências e pequenos momentos que tornam a nossa região tão acolhedora e típica.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- carrossel de lugares (conteúdo do Figma) -->
+  <div class="recs page reveal" id="recPlaces">
+    <div class="rec-slide on">
+      <span class="rec-title" data-i18n="rec.sunset">Pôr do sol &amp; oceano</span>
+      <div class="rec-grid">
+        <p class="rec-item"><span class="n">Cabo de São Vicente ~15 km</span><span class="tags" data-i18n="tag.landscape">paisagem | a não perder</span></p>
+        <p class="rec-item"><span class="n">Ponta do Telheiro ~10 km</span><span class="tags" data-i18n="tag.geology">geologia | natureza</span></p>
+        <p class="rec-item"><span class="n">Miradouro do Castelejo ~5 km</span><span class="tags" data-i18n="tag.view">vista | fotografia</span></p>
+      </div>
+    </div>
+    <div class="rec-slide">
+      <span class="rec-title" data-i18n="rec.village">Cultura da vila</span>
+      <div class="rec-grid">
+        <p class="rec-item"><span class="n">Fortaleza de Sagres ~15 km</span><span class="tags" data-i18n="tag.history3">história | arquitetura | oceano</span></p>
+        <p class="rec-item"><span class="n">Aldeia da Pedralva ~12 km</span><span class="tags" data-i18n="tag.slow">viagem lenta | comida | família</span></p>
+        <p class="rec-item"><span class="n">Forte de Santo António do Beliche ~12 km</span><span class="tags" data-i18n="tag.viewhist">vista | história | fotografia</span></p>
+        <p class="rec-item"><span class="n">Porto da Baleeira ~15 km</span><span class="tags" data-i18n="tag.local">vida local | pesca | comida</span></p>
+      </div>
+    </div>
+    <div class="rec-slide">
+      <span class="rec-title" data-i18n="rec.beach">Praia &amp; surf</span>
+      <div class="rec-grid">
+        <p class="rec-item"><span class="n">Castelejo ~5 km</span><span class="tags" data-i18n="tag.surf1">surf | pôr do sol | natureza</span></p>
+        <p class="rec-item"><span class="n">Zavial ~10 km</span><span class="tags" data-i18n="tag.surf2">surf | natureza | pôr do sol</span></p>
+        <p class="rec-item"><span class="n">Cordoama ~5 km</span><span class="tags" data-i18n="tag.surf3">surf | caminhada | natureza</span></p>
+        <p class="rec-item"><span class="n">Martinhal ~10 km</span><span class="tags" data-i18n="tag.swim1">banhos | família | caminhada</span></p>
+        <p class="rec-item"><span class="n">Ingrina ~10 km</span><span class="tags" data-i18n="tag.swim2">banhos | família | pôr do sol</span></p>
+      </div>
+    </div>
+    <div class="rec-slide">
+      <span class="rec-title" data-i18n="rec.trails">Trilhos &amp; natureza</span>
+      <div class="rec-grid">
+        <p class="rec-item"><span class="n">Rota Vicentina</span><span class="tags" data-i18n="tag.hiking">caminhada | aventura</span></p>
+        <p class="rec-item"><span class="n">Trilho Ambiental do Castelejo ~5 km</span><span class="tags" data-i18n="tag.family">família | pequena aventura</span></p>
+        <p class="rec-item"><span class="n">Pegadas de dinossauro — Praia da Salema ~15 km</span><span class="tags" data-i18n="tag.histfam">história | família</span></p>
+      </div>
+    </div>
+    <div class="rec-nav">
+      <button type="button" data-rec="prev" data-i18n-attr="aria-label:rec.prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <button type="button" data-rec="next" data-i18n-attr="aria-label:rec.next" aria-label="Seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- fotografia de largura total -->
+  <div class="photo-full reveal"><img src="assets/fig/onda.jpg" alt="" aria-hidden="true" loading="lazy" /></div>
+
+  <!-- segundo carrossel: comer e beber -->
+  <div class="recs page reveal" id="recFood">
+    <h2 class="duo teal">
+      <span class="l1" data-i18n="sit.l1">o sítio ideal para</span>
+      <span class="l2" data-i18n="sit.l2">sentar e não ter pressa</span>
+    </h2>
+    <div style="height:clamp(26px,3.4vw,44px)"></div>
+    <div class="rec-slide on">
+      <span class="rec-title" data-i18n="rec.mornings">Manhãs sem pressa</span>
+      <div class="rec-grid one">
+        <p class="rec-item"><span class="n">Izzys Market</span><span class="tags" data-i18n="tag.morning">manhã calma | pequeno-almoço fresco</span></p>
+        <p class="rec-item"><span class="n">Cantinho dos Amigos</span><span class="tags" data-i18n="tag.pastry">pastelaria portuguesa | pequeno-almoço</span></p>
+        <p class="rec-item"><span class="n">Snack Bar Caravela</span><span class="tags" data-i18n="tag.outside">esplanada | café</span></p>
+        <p class="rec-item"><span class="n">A Sereia — Porto da Baleeira</span><span class="tags" data-i18n="tag.coffeeview">café com vista | a não perder</span></p>
+      </div>
+    </div>
+    <div class="rec-slide">
+      <span class="rec-title" data-i18n="rec.flavours">Sabores locais</span>
+      <div class="rec-grid one">
+        <p class="rec-item"><span class="n">Taberna dos Artistas</span><span class="tags" data-i18n="tag.trad">tradicional | portuguesa</span></p>
+        <p class="rec-item"><span class="n">Restaurant Marigil</span><span class="tags" data-i18n="tag.homemade">família | comida caseira</span></p>
+        <p class="rec-item"><span class="n">Solar do Perceve</span><span class="tags" data-i18n="tag.fish">peixe local | pratos típicos</span></p>
+        <p class="rec-item"><span class="n">Ribeira do Poço</span><span class="tags" data-i18n="tag.seafood">marisco | local</span></p>
+      </div>
+    </div>
+    <div class="rec-nav">
+      <button type="button" data-rec="prev" data-i18n-attr="aria-label:rec.prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <button type="button" data-rec="next" data-i18n-attr="aria-label:rec.next" aria-label="Seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
   </div>
 </section>
 
 <!-- ===================== FAQ ===================== -->
-<section class="faq page">
-  <div class="faq-list">
-    <details class="acc open-first reveal" open>
-      <summary><span data-i18n="faq.q1">Como faço uma reserva?</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-      </summary>
-      <div class="ans" data-i18n="faq.a1">Escolha as datas no formulário de reserva, indique o número de hóspedes e a casa pretendida e envie o pedido. Respondemos por email ou telefone com a disponibilidade e os próximos passos.</div>
-    </details>
-    <details class="acc reveal"><summary><span data-i18n="faq.q2">Qual é a estadia mínima?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq.a2">É exigido um mínimo de 3 noites por reserva.</div></details>
-    <details class="acc reveal"><summary><span data-i18n="faq.q3">Os animais são permitidos?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq.a3">Sim — os animais são bem-vindos, com um custo adicional de 20€. Disponibilizamos cama e taças.</div></details>
-    <details class="acc reveal"><summary><span data-i18n="faq.q4">Quais são os horários de entrada e saída?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq.a4">Entrada a partir das 15h, saída até às 11h.</div></details>
-    <details class="acc reveal"><summary><span data-i18n="faq.q5">Existe cancelamento gratuito?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq.a5">Cancelamento gratuito até 7 dias antes da chegada.</div></details>
-    <details class="acc reveal"><summary><span data-i18n="faq.q6">Qual é a melhor altura para visitar?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq.a6">Maio, junho, setembro e outubro são meses de ouro: bom tempo, mar apetecível e muito menos gente do que no Algarve central. O verão é luminoso e ventoso; o inverno é dramático e ideal para caminhadas e surf.</div></details>
-  </div>
-</section>
-
-<!-- ===================== POPUP DOS LUGARES ===================== -->
-<div class="pm" id="placeModal" hidden>
-  <div class="pm-backdrop" data-pm-close></div>
-  <div class="pm-card" role="dialog" aria-modal="true" aria-label="Lugar">
-    <button type="button" class="pm-close" data-pm-close data-i18n-attr="aria-label:local.close" aria-label="Fechar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
-    </button>
-
-    <article class="pm-item" data-place="cordoama" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/praia-cordoama.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.cordoama.dist">~6 km · 10 min de carro</span>
-        <h3 class="pm-title" data-i18n="local.cordoama.name">Praia da Cordoama</h3>
-        <p class="pm-text" data-i18n="local.cordoama.desc">Vasta e imponente, virada a poente. O miradouro no topo da arriba oferece uma das vistas mais bonitas desta costa. Muito procurada por surfistas; na maré baixa liga-se ao Castelejo por um extenso areal.</p>
-      </div>
-    </article>
-
-    <article class="pm-item" data-place="cabo" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/cabo-sao-vicente.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.cabo.dist">~13 km · 18 min de carro</span>
-        <h3 class="pm-title" data-i18n="local.cabo.name">Cabo de São Vicente</h3>
-        <p class="pm-text" data-i18n="local.cabo.desc">O ponto mais a sudoeste da Europa continental. Os romanos chamavam-lhe Promontorium Sacrum, o promontório sagrado, e durante séculos foi tido como o "fim do mundo". As arribas altas sobre o Atlântico cortam a respiração, sobretudo ao pôr do sol.</p>
-      </div>
-    </article>
-
-    <article class="pm-item" data-place="sagres" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/sagres-fortaleza.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.sagres.dist">~10 km · 12 min de carro</span>
-        <h3 class="pm-title" data-i18n="local.sagres.name">Sagres &amp; Fortaleza</h3>
-        <p class="pm-text" data-i18n="local.sagres.desc">A poucos minutos, Sagres guarda a sua fortaleza histórica debruçada sobre o mar, ligada à memória dos Descobrimentos e do Infante D. Henrique. Vila de pescadores e surfistas, com ritmo descontraído e praias voltadas a sul e a oeste.</p>
-      </div>
-    </article>
-
-    <article class="pm-item" data-place="castelejo" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/praia-castelejo.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.castelejo.dist">~5 km · 10 min de carro</span>
-        <h3 class="pm-title" data-i18n="local.castelejo.name">Praia do Castelejo</h3>
-        <p class="pm-text" data-i18n="local.castelejo.desc">A praia selvagem mais próxima da vila. Areal largo entre falésias escuras, ondas fortes e um restaurante de praia com fama de bom peixe. Ideal para um mergulho revigorante e para caminhar na maré baixa.</p>
-      </div>
-    </article>
-
-    <article class="pm-item" data-place="vila" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/vila-do-bispo.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.vila.dist">no centro da vila</span>
-        <h3 class="pm-title" data-i18n="local.vila.name">Vila do Bispo</h3>
-        <p class="pm-text" data-i18n="local.vila.desc">No coração da vila, a Igreja Matriz de Nossa Senhora da Conceição é um dos melhores exemplos do barroco no Algarve ocidental, com azulejos e talha dourada. Perto, o Museu — Celeiro da História conta o concelho do Paleolítico aos Descobrimentos. E poucos sabem: há cerca de 280 menires registados nestes campos, uma das maiores concentrações da Península Ibérica.</p>
-      </div>
-    </article>
-
-    <article class="pm-item" data-place="farol" hidden>
-      <div class="pm-photo" style="background-image:url('assets/local/farol-sao-vicente.webp')"></div>
-      <div class="pm-body">
-        <span class="pm-chip" data-i18n="local.farol.dist">no Cabo de São Vicente</span>
-        <h3 class="pm-title" data-i18n="local.farol.name">Farol de São Vicente</h3>
-        <p class="pm-text" data-i18n="local.farol.desc">No topo do promontório ergue-se um dos faróis mais potentes da Europa, com um alcance de cerca de 60 km. É o lugar perfeito para terminar o dia — leve um casaco, porque o vento aqui é senhor.</p>
-      </div>
-    </article>
+<div class="faq-band reveal">
+  <div class="page faq-band-inner">
+    <h2>
+      <span class="l1" data-i18n="faq.l1">as nossas</span>
+      <span class="l2" data-i18n="faq.l2">perguntas frequentes</span>
+    </h2>
+    <span class="vline" aria-hidden="true"></span>
+    <p data-i18n="faq.intro">Perguntas frequentes a que teremos todo o gosto em responder.</p>
   </div>
 </div>
 
-<!-- ===================== RODAPÉ (mínimo) ===================== -->
+<section class="faq page">
+  <div class="faq-list">
+    <details class="acc reveal" open>
+      <summary><span data-i18n="faq2.q1">Check-in e check-out</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="ans" data-i18n="faq2.a1">Entrada a partir das 15h e saída até às 11h. Depois de enviar o pedido de reserva, respondemos por email ou telefone com a disponibilidade e os passos seguintes. Cancelamento gratuito até 21 dias antes da chegada.</div>
+    </details>
+    <details class="acc reveal"><summary><span data-i18n="faq2.q2">Animais</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq2.a2">Sim — os animais são bem-vindos, com um custo adicional de 20€. Disponibilizamos cama e taças.</div></details>
+    <details class="acc reveal"><summary><span data-i18n="faq2.q3">Famílias com crianças</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq2.a3">As crianças são muito bem-vindas. Temos cadeira alta e berço disponíveis — basta indicar no pedido de reserva.</div></details>
+    <details class="acc reveal"><summary><span data-i18n="faq2.q4">Estacionamento</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq2.a4">Estacionar é fácil em Vila do Bispo — há lugares gratuitos na rua, junto às casas.</div></details>
+    <details class="acc reveal"><summary><span data-i18n="faq2.q5">Regras da casa</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ans" data-i18n="faq2.a5">Estadia mínima de 3 noites, check-in a partir das 15h e check-out até às 11h. Animais bem-vindos com extra de 20€. Para tudo o resto, fale connosco — combinamos facilmente.</div></details>
+  </div>
+</section>
+
+</div>
+
+<!-- ===================== LIGHTBOX DOS TRIOS ===================== -->
+<div class="lb" id="trioLb" hidden>
+  <div class="lb-backdrop" data-lb-close></div>
+  <img id="trioLbImg" src="" alt="" data-i18n-attr="title:lb.next" title="Seguinte" />
+  <button type="button" class="lb-close" data-lb-close data-i18n-attr="aria-label:lb.close" aria-label="Fechar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+  </button>
+  <span class="lb-hint" data-i18n="lb.hint">Clique na imagem para ver a seguinte</span>
+</div>
+
+<!-- ===================== RODAPÉ ===================== -->
 <footer class="foot-site">
   <div class="fs-grid">
     <div class="fs-brand">
-      <svg class="fs-mark" viewBox="0 0 76 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 49 H71"></path>
-        <path d="M11 31 L23 19 L35 31"></path><path d="M15 31 V49"></path><path d="M31 31 V49"></path>
-        <path d="M37 31 L51 16 L65 31"></path><path d="M41 31 V49"></path><path d="M61 31 V49"></path>
-        <path d="M48 49 V40 H54 V49"></path>
-      </svg>
+      <img class="fs-logo" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
       <div class="fs-name"><span class="l1">casa colorida</span><span class="l2">tempo &amp; amor</span></div>
       <p class="fs-tag" data-i18n="foot.tag">Duas casas acolhedoras e típicas no coração de Vila do Bispo — abrande, sinta-se em casa.</p>
     </div>
@@ -727,37 +849,30 @@ Ideal para famílias ou grupos que procuram uma estadia descontraída perto da n
 </footer>
 
 <script>
-/* Calendário popover — dinâmico: mês actual, navegação prev/next, passa datas ao booking via URL params */
-(function () {
-  var trigger = document.getElementById('dateTrigger');
-  var pop     = document.getElementById('calPop');
-  var val     = document.getElementById('dateValue');
-  var bookBtn = document.getElementById('bookBtn');
-  if (!trigger || !pop || !val) return;
+/* Calendário de intervalo reutilizável — instância no hero e no form "Pedido".
+   Navegação por índice (aria-labels são traduzidos); datas passam por ISO. */
+function ccDateRange(ids) {
+  var trigger = document.getElementById(ids.trigger);
+  var pop     = document.getElementById(ids.pop);
+  var val     = document.getElementById(ids.val);
+  if (!trigger || !pop || !val) return null;
 
   function MON()  { return (window.ccMonths ? window.ccMonths() : ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']); }
   function DOWS() { return (window.ccDows  ? window.ccDows()  : ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom']); }
-  var now     = new Date();
+  var now = new Date();
   var viewYear  = now.getFullYear();
   var viewMonth = now.getMonth();
-  var selStart  = null;
-  var selEnd    = null;
+  var selStart = null, selEnd = null;
 
   var mlabel  = pop.querySelector('.mlabel');
   var grid    = pop.querySelector('.cal-grid');
   var navs    = pop.querySelectorAll('.cal-nav');
-  var prevBtn = navs[0];
-  var nextBtn = navs[1];
+  var prevBtn = navs[0], nextBtn = navs[1];
 
   function sameDay(a, b) {
-    return a && b &&
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth()    === b.getMonth()    &&
-      a.getDate()     === b.getDate();
+    return a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
-  function fmtDisplay(d) {
-    return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + MON()[d.getMonth()];
-  }
+  function fmtDisplay(d) { return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + MON()[d.getMonth()]; }
   function fmtISO(d) {
     var m = d.getMonth() + 1, day = d.getDate();
     return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
@@ -770,68 +885,81 @@ Ideal para famílias ou grupos que procuram uma estadia descontraída perto da n
     var prevDays    = new Date(viewYear, viewMonth, 0).getDate();
     var today = new Date(); today.setHours(0, 0, 0, 0);
     var html = DOWS().map(function (x) { return '<div class="dow">' + x + '</div>'; }).join('');
-    for (var i = firstDow - 1; i >= 0; i--) {
-      html += '<div class="day muted">' + (prevDays - i) + '</div>';
-    }
+    for (var i = firstDow - 1; i >= 0; i--) html += '<div class="day muted">' + (prevDays - i) + '</div>';
     for (var d = 1; d <= daysInMonth; d++) {
       var dt  = new Date(viewYear, viewMonth, d);
       var cls = 'day';
-      if (dt < today) {
-        cls += ' muted';
-      } else if ((selStart && sameDay(dt, selStart)) || (selEnd && sameDay(dt, selEnd))) {
-        cls += ' active';
-      } else if (selStart && selEnd && dt > selStart && dt < selEnd) {
-        cls += ' range';
-      }
+      if (dt < today) cls += ' muted';
+      else if ((selStart && sameDay(dt, selStart)) || (selEnd && sameDay(dt, selEnd))) cls += ' active';
+      else if (selStart && selEnd && dt > selStart && dt < selEnd) cls += ' range';
       html += '<div class="' + cls + '" data-iso="' + fmtISO(dt) + '">' + d + '</div>';
     }
-    var total    = firstDow + daysInMonth;
-    var trailing = (7 - (total % 7)) % 7;
-    for (var t = 1; t <= trailing; t++) {
-      html += '<div class="day muted">' + t + '</div>';
-    }
+    var total = firstDow + daysInMonth, trailing = (7 - (total % 7)) % 7;
+    for (var t = 1; t <= trailing; t++) html += '<div class="day muted">' + t + '</div>';
     grid.innerHTML = html;
-    var clickable = Array.prototype.slice.call(grid.querySelectorAll('.day:not(.muted)'));
-    clickable.forEach(function (el) {
+    Array.prototype.forEach.call(grid.querySelectorAll('.day:not(.muted)'), function (el) {
       el.addEventListener('click', function () {
         var dt = new Date(el.dataset.iso + 'T12:00:00');
         if (!selStart || (selStart && selEnd)) { selStart = dt; selEnd = null; }
         else if (dt < selStart) { selEnd = selStart; selStart = dt; }
         else if (sameDay(dt, selStart)) { return; }
         else { selEnd = dt; }
-        render();
-        updateVal();
+        render(); updateVal();
         if (selStart && selEnd) setTimeout(close, 120);
       });
     });
   }
 
   function updateVal() {
-    if (selStart && selEnd) {
-      val.textContent  = fmtDisplay(selStart) + ' — ' + fmtDisplay(selEnd);
-      val.style.color  = 'var(--ink)';
-      if (bookBtn) bookBtn.href = 'booking.html?checkin=' + fmtISO(selStart) + '&checkout=' + fmtISO(selEnd);
-    } else if (selStart) {
-      val.textContent = fmtDisplay(selStart) + ' — …';
-      val.style.color = 'var(--ink)';
+    if (selStart && selEnd) { val.textContent = fmtDisplay(selStart) + ' — ' + fmtDisplay(selEnd); val.style.color = 'var(--ink)'; }
+    else if (selStart)      { val.textContent = fmtDisplay(selStart) + ' — …'; val.style.color = 'var(--ink)'; }
+  }
+  /* o widget do hero tem stacking context próprio: sobe-o enquanto o
+     calendário está aberto, senão abriria por baixo do header */
+  var host = trigger.closest('.hero-wrap');
+  /* no widget do hero o calendário abre SEMPRE para cima, sobre a fotografia;
+     nos restantes escolhe o lado onde há espaço */
+  var prefereCima = !!trigger.closest('.booking-bar');
+  function place() {
+    /* medir depois do layout assentar, senão o rect do trigger ainda é o antigo */
+    pop.style.maxHeight = '';
+    /* o popover ancora no .field (label + campo + nota), não no botão: medir a referência real */
+    var anchor = pop.offsetParent || trigger;
+    var r = anchor.getBoundingClientRect();
+    var barH = (document.querySelector('.bar') || {}).offsetHeight || 0;
+    var needed = pop.offsetHeight || 330;
+    var below = window.innerHeight - r.bottom - 12;
+    var above = r.top - barH - 12;
+    var up = prefereCima ? (above > 200 || above > below) : (below < needed && above > below);
+    pop.classList.toggle('up', up);
+    /* se não cabe de nenhum dos lados, encolhe para o espaço que há (rola por dentro) */
+    var room = up ? above : below;
+    if (needed > room) pop.style.maxHeight = Math.max(room, 180) + 'px';
+
+    /* no hero assenta ACIMA do cartão inteiro, para não o tapar */
+    var bar = trigger.closest('.booking-bar');
+    pop.style.marginTop = '';
+    if (prefereCima && bar && window.innerWidth > 980 && up) {
+      var barTop = bar.getBoundingClientRect().top;
+      var atual = pop.getBoundingClientRect().bottom;
+      var desejado = barTop - 14;
+      if (Math.abs(atual - desejado) > 1) pop.style.marginTop = (desejado - atual) + 'px';
     }
   }
-
-  function positionPop() {
-    var bar = trigger.closest('.booking-bar');
-    if (!bar) return;
-    if (window.innerWidth <= 980) { pop.style.left = ''; pop.style.top = ''; return; }
-    var field = trigger.closest('.field-fig') || trigger;
-    pop.style.left = '0px';
-    pop.style.top  = '0px';
-    var r0 = pop.getBoundingClientRect();
-    var br = bar.getBoundingClientRect();
-    var fr = field.getBoundingClientRect();
-    pop.style.left = (fr.left + fr.width / 2 - pop.offsetWidth / 2 - r0.left) + 'px';
-    pop.style.top  = (br.bottom + 14 - r0.top) + 'px';
+  function open()  {
+    render(); pop.hidden = false; trigger.setAttribute('aria-expanded', 'true');
+    if (host) host.classList.add('pop-open');
+    place(); requestAnimationFrame(place);
+    /* o foco no campo pode provocar scroll: reposiciona enquanto estiver aberto */
+    window.addEventListener('scroll', place, { passive: true });
+    window.addEventListener('resize', place);
   }
-  function open()  { render(); pop.hidden = false; trigger.setAttribute('aria-expanded', 'true'); positionPop(); }
-  function close() { pop.hidden = true;  trigger.setAttribute('aria-expanded', 'false'); }
+  function close() {
+    pop.hidden = true;  trigger.setAttribute('aria-expanded', 'false');
+    if (host) host.classList.remove('pop-open');
+    window.removeEventListener('scroll', place);
+    window.removeEventListener('resize', place);
+  }
 
   trigger.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden ? open() : close(); });
   pop.addEventListener('click', function (e) { e.stopPropagation(); });
@@ -839,65 +967,337 @@ Ideal para famílias ou grupos que procuram uma estadia descontraída perto da n
     if (!pop.hidden && !pop.contains(e.target) && !trigger.contains(e.target)) close();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  window.addEventListener('resize', function () { if (!pop.hidden) close(); });
-
-  if (prevBtn) prevBtn.addEventListener('click', function () {
-    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } render();
-  });
-  if (nextBtn) nextBtn.addEventListener('click', function () {
-    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render();
-  });
-
-  /* re-render quando o idioma muda (meses/dias) */
+  if (prevBtn) prevBtn.addEventListener('click', function () { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } render(); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render(); });
   window.addEventListener('langchange', function () { render(); updateVal(); });
+
+  return {
+    iso: function () { return (selStart && selEnd) ? { cin: fmtISO(selStart), cout: fmtISO(selEnd) } : null; }
+  };
+}
+
+/* Hero + form "Pedido" → booking.html pré-preenchido.
+   Contacto vai por sessionStorage (nunca dados pessoais no URL). */
+(function () {
+  var heroCal = ccDateRange({ trigger: 'dateTrigger',  pop: 'calPop',  val: 'dateValue'  });
+
+  function houseSlug(sel) { return sel && sel.selectedIndex === 1 ? 'colorida' : 'tempo'; }
+  function goBooking(cal, houseSel, guestsSel, babyChk, petChk) {
+    var q = [];
+    var d = cal && cal.iso();
+    if (d) { q.push('checkin=' + d.cin); q.push('checkout=' + d.cout); }
+    q.push('house=' + houseSlug(houseSel));
+    if (guestsSel) q.push('guests=' + encodeURIComponent(guestsSel.value));
+    q.push('baby=' + (babyChk && babyChk.checked ? '1' : '0'));
+    q.push('pet='  + (petChk  && petChk.checked  ? '1' : '0'));
+    window.location.href = 'booking.html?' + q.join('&');
+  }
+
+  var heroForm = document.getElementById('heroForm');
+  if (heroForm) heroForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    goBooking(heroCal, document.getElementById('heroHouse'), document.getElementById('heroGuests'),
+              document.getElementById('heroBaby'), document.getElementById('heroPet'));
+  });
+
 })();
 </script>
 
 <script>
-/* Popup dos lugares — tiles do mosaico abrem ficha do local */
+/* Carrosséis de recomendações (lugares e comer) — setas como no Figma.
+   Avança sozinho e pára assim que o utilizador usa as setas ou passa o rato. */
 (function () {
-  var modal = document.getElementById('placeModal');
-  if (!modal) return;
-  var card  = modal.querySelector('.pm-card');
-  var items = Array.prototype.slice.call(modal.querySelectorAll('.pm-item'));
-  var closeBtn = modal.querySelector('.pm-close');
-  var lastFocus = null;
+  Array.prototype.forEach.call(document.querySelectorAll('.recs'), function (host) {
+    var slides = Array.prototype.slice.call(host.querySelectorAll('.rec-slide'));
+    if (slides.length < 2) return;
+    /* palco comum: mantém a altura do maior slide */
+    var stage = document.createElement('div');
+    stage.className = 'rec-stage';
+    slides[0].parentNode.insertBefore(stage, slides[0]);
+    slides.forEach(function (sl) { stage.appendChild(sl); });
+    var prev = host.querySelector('[data-rec="prev"]');
+    var next = host.querySelector('[data-rec="next"]');
+    var i = 0, timer = null, manual = false, hovered = false, onScreen = true;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function open(place) {
-    var found = false;
-    items.forEach(function (it) {
-      var match = it.getAttribute('data-place') === place;
-      it.hidden = !match;
-      if (match) { found = true; }
+    function render() {
+      slides.forEach(function (s, n) { s.classList.toggle('on', n === i); });
+    }
+    /* dá a volta nos extremos: nunca fica preso no último slide */
+    function go(d) { i = (i + d + slides.length) % slides.length; render(); }
+    function step() {
+      if (manual || hovered || !onScreen) return;
+      i = (i + 1) % slides.length;
+      render();
+    }
+    if (prev) prev.addEventListener('click', function () { manual = true; go(-1); });
+    if (next) next.addEventListener('click', function () { manual = true; go(1); });
+    host.addEventListener('mouseenter', function () { hovered = true; });
+    host.addEventListener('mouseleave', function () { hovered = false; });
+    host.addEventListener('focusin',  function () { hovered = true; });
+    host.addEventListener('focusout', function () { hovered = false; });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }, { threshold: .2 }).observe(host);
+    }
+    if (!reduce) timer = setInterval(step, 7000);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { clearInterval(timer); timer = null; }
+      else if (!timer && !reduce) { timer = setInterval(step, 7000); }
     });
-    if (!found) return;
-    lastFocus = document.activeElement;
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    var name = card.querySelector('.pm-item:not([hidden]) .pm-title');
-    if (name) card.setAttribute('aria-label', name.textContent);
-    card.scrollTop = 0;
-    if (closeBtn) closeBtn.focus();
-  }
-  function close() {
-    modal.hidden = true;
-    document.body.style.overflow = '';
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-  }
-
-  Array.prototype.forEach.call(document.querySelectorAll('.tile[data-place]'), function (el) {
-    el.addEventListener('click', function () { open(el.getAttribute('data-place')); });
-  });
-  modal.addEventListener('click', function (e) {
-    if (e.target.closest('[data-pm-close]')) close();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !modal.hidden) close();
+    render();
   });
 })();
 </script>
 
-<script src="site.js?v=20260708" defer></script>
+<script>
+/* Fila de fotos a toda a largura (entre a banda pêssego e a 1ª casa) */
+(function () {
+  var strip = document.querySelector('.strip[data-strip="intro"]');
+  if (!strip) return;
+  var SHOTS = [
+    ['assets/casas/tempo/tempo-02.webp', 'ph.living'],
+    ['assets/casas/colorida/colorida-03.webp', 'ph.bedroom'],
+    ['assets/casas/tempo/tempo-06.webp', 'ph.living'],
+    ['assets/casas/colorida/colorida-09.webp', 'ph.kitchen'],
+    ['assets/casas/tempo/tempo-04.webp', 'ph.bedroom'],
+    ['assets/casas/colorida/colorida-06.webp', 'ph.living']
+  ];
+  var FB = { 'ph.living': 'Sala de estar', 'ph.bedroom': 'Quarto de casal', 'ph.kitchen': 'Cozinha equipada' };
+  function label(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (FB[k] || ''); }
+  var cells = [], offset = 0;
+  for (var n = 0; n < 3; n++) {
+    var c = document.createElement('button');
+    c.type = 'button';
+    c.className = 's-cell';
+    var a = new Image(), b = new Image();
+    a.className = 'on'; b.alt = ''; b.setAttribute('aria-hidden', 'true');
+    c.appendChild(a); c.appendChild(b);
+    strip.appendChild(c);
+    c._layers = [a, b]; c._top = 0; c._slot = n;
+    cells.push(c);
+  }
+  function paint(c, fade) {
+    var s = SHOTS[(c._slot + offset) % SHOTS.length];
+    var next = fade ? 1 - c._top : c._top;
+    var im = c._layers[next];
+    im.src = s[0]; im.alt = label(s[1]);
+    im.classList.add('on');
+    if (fade) { c._layers[c._top].classList.remove('on'); c._top = next; }
+    c._layers[1 - c._top].alt = '';
+    c._layers[1 - c._top].setAttribute('aria-hidden', 'true');
+    c._layers[c._top].removeAttribute('aria-hidden');
+  }
+  cells.forEach(function (c) {
+    paint(c, false);
+    c._layers[1 - c._top].src = SHOTS[(c._slot + 1) % SHOTS.length][0];
+    /* clicar abre em grande, tal como nos trios das casas */
+    c.addEventListener('click', function () {
+      if (window.ccOpenStrip) window.ccOpenStrip(SHOTS, (c._slot + offset) % SHOTS.length, label);
+    });
+  });
+  SHOTS.forEach(function (s) { var im = new Image(); im.src = s[0]; });
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) setInterval(function () {
+    if (document.hidden) return;
+    offset = (offset + 1) % SHOTS.length;
+    cells.forEach(function (c) { paint(c, true); });
+  }, 6000);
+})();
+</script>
+
+<script>
+/* Carrossel + lightbox dos trios das casas.
+   Cada uma das 3 células roda por TODAS as fotos da casa, em ciclo desfasado
+   (nunca mostra a mesma foto em duas células). O alt acompanha sempre a foto.
+   Clicar abre a galeria completa a partir da foto que está visível. */
+(function () {
+  var HOUSES = {
+    tempo: { dir: 'assets/casas/tempo/', shots: [
+      ['tempo-02', 'ph.living'],   ['tempo-08', 'ph.exterior'], ['tempo-05', 'ph.bedroom'],
+      ['tempo-07', 'ph.terrace'],  ['tempo-01', 'ph.kitchen'],  ['tempo-06', 'ph.living'],
+      ['tempo-04', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom']
+    ]},
+    colorida: { dir: 'assets/casas/colorida/', shots: [
+      ['colorida-11', 'ph.patio'],   ['colorida-07', 'ph.living'],  ['colorida-05', 'ph.twin'],
+      ['colorida-08', 'ph.facade'],  ['colorida-01', 'ph.kitchen'], ['colorida-02', 'ph.bedroom'],
+      ['colorida-06', 'ph.living'],  ['colorida-04', 'ph.twin'],    ['colorida-10', 'ph.patio'],
+      ['colorida-09', 'ph.kitchen'], ['colorida-03', 'ph.bedroom']
+    ]}
+  };
+  var FALLBACK = {
+    'ph.living': 'Sala de estar', 'ph.exterior': 'Pátio de entrada e escadas',
+    'ph.bedroom': 'Quarto de casal', 'ph.terrace': 'Terraço com vista',
+    'ph.kitchen': 'Cozinha equipada', 'ph.bathroom': 'Casa de banho',
+    'ph.patio': 'Pátio com churrasqueira', 'ph.twin': 'Quarto com duas camas',
+    'ph.facade': 'Fachada da casa'
+  };
+  function label(key) { return (window.t && window.t(key) !== key) ? window.t(key) : (FALLBACK[key] || ''); }
+
+  var lb  = document.getElementById('trioLb');
+  var big = document.getElementById('trioLbImg');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var trios = [], timer = null, hovered = false, onScreen = true, lbOpen = false;
+
+  /* ---------- construção das células ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.trio[data-house]'), function (trio) {
+    var house = HOUSES[trio.getAttribute('data-house')];
+    if (!house) return;
+    var cells = [];
+    for (var slot = 0; slot < 3; slot++) {
+      var cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'trio-cell';
+      cell.dataset.slot = String(slot);
+      var a = new Image(), b = new Image();
+      a.className = 'on'; b.alt = ''; b.setAttribute('aria-hidden', 'true');
+      cell.appendChild(a); cell.appendChild(b);
+      var cnt = document.createElement('span');
+      cnt.className = 'tc-count';
+      cell.appendChild(cnt);
+      trio.appendChild(cell);
+      cell._layers = [a, b]; cell._top = 0; cell._count = cnt;
+      cells.push(cell);
+    }
+    trios.push({ house: house, cells: cells, offset: 0 });
+  });
+  if (!trios.length) return;
+
+  function paint(t, cell, fade) {
+    var slot = parseInt(cell.dataset.slot, 10);
+    var i = (slot + t.offset) % t.house.shots.length;
+    var shot = t.house.shots[i];
+    cell._index = i;
+    cell._count.textContent = (i + 1) + '/' + t.house.shots.length;
+    var next = fade ? 1 - cell._top : cell._top;
+    var im = cell._layers[next];
+    im.src = t.house.dir + shot[0] + '.webp';
+    im.alt = label(shot[1]);
+    im.setAttribute('data-i18n-attr', 'alt:' + shot[1]);
+    if (fade) {
+      im.classList.add('on');
+      cell._layers[cell._top].classList.remove('on');
+      cell._top = next;
+    } else {
+      im.classList.add('on');
+    }
+    /* a camada escondida não deve ser lida por leitores de ecrã */
+    cell._layers[1 - cell._top].alt = '';
+    cell._layers[1 - cell._top].setAttribute('aria-hidden', 'true');
+    cell._layers[cell._top].removeAttribute('aria-hidden');
+  }
+
+  trios.forEach(function (t) {
+    t.cells.forEach(function (c) {
+      paint(t, c, false);
+      /* a camada escondida arranca com a foto seguinte (evita <img src="">) */
+      (function () {
+        var nxt = t.house.shots[(c._index + 1) % t.house.shots.length];
+        c._layers[1 - c._top].src = t.house.dir + nxt[0] + '.webp';
+      })();
+      c.addEventListener('mouseenter', function () { hovered = true; });
+      c.addEventListener('mouseleave', function () { hovered = false; });
+      c.addEventListener('focusin',  function () { hovered = true; });
+      c.addEventListener('focusout', function () { hovered = false; });
+      c.addEventListener('click', function () { openLb(t.house, c._index); });
+    });
+    /* pré-carrega as restantes para o cross-fade não piscar */
+    t.house.shots.forEach(function (s) { var im = new Image(); im.src = t.house.dir + s[0] + '.webp'; });
+  });
+
+  function step() {
+    if (reduce || hovered || !onScreen || lbOpen) return;
+    trios.forEach(function (t) {
+      t.offset = (t.offset + 1) % t.house.shots.length;
+      t.cells.forEach(function (c) { paint(t, c, true); });
+    });
+  }
+  function start() { if (!timer && !reduce) timer = setInterval(step, 5000); }
+  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      onScreen = es.some(function (e) { return e.isIntersecting; });
+    }, { threshold: .15 });
+    document.querySelectorAll('.trio[data-house]').forEach(function (el) { io.observe(el); });
+  }
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  window.addEventListener('langchange', function () {
+    trios.forEach(function (t) { t.cells.forEach(function (c) {
+      var shot = t.house.shots[c._index];
+      c._layers[c._top].alt = label(shot[1]);
+    }); });
+  });
+  start();
+
+  /* ---------- lightbox (galeria completa da casa) ---------- */
+  if (!lb || !big) return;
+  var group = null, idx = 0, lastFocus = null;
+  function show() {
+    var shot = group.shots[idx];
+    big.src = group._flat ? shot[0] : (group.dir + shot[0] + '.webp');
+    big.alt = (group._label || label)(shot[1]);
+  }
+  function openLb(house, i) {
+    group = house; idx = i; lbOpen = true;
+    show();
+    lastFocus = document.activeElement;
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  /* usado pela tira de fotos da secção de cima (lista própria, sem pasta comum) */
+  window.ccOpenStrip = function (shots, i, labelFn) {
+    openLb({ dir: '', shots: shots.map(function (x) { return [x[0], x[1]]; }), _flat: true, _label: labelFn }, i);
+  };
+  function closeLb() {
+    lb.hidden = true; lbOpen = false;
+    document.body.style.overflow = '';
+    big.src = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  big.addEventListener('click', function (e) {
+    e.stopPropagation();
+    idx = (idx + 1) % group.shots.length;
+    show();
+  });
+  lb.addEventListener('click', function (e) { if (e.target.closest('[data-lb-close]')) closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowRight') { idx = (idx + 1) % group.shots.length; show(); }
+    if (e.key === 'ArrowLeft')  { idx = (idx - 1 + group.shots.length) % group.shots.length; show(); }
+  });
+})();
+</script>
+
+<script>
+/* CHECK AVAILABILITY dos blocos → abre o cartão "Pedido" com a casa certa (pedido a vermelho no Figma) */
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('a[data-house]'), function (a) {
+    a.addEventListener('click', function () {
+      var sel = document.getElementById('reqHouse');
+      if (sel) sel.selectedIndex = (a.getAttribute('data-house') === 'colorida') ? 1 : 0;
+    });
+  });
+})();
+</script>
+
+
+
+<script>
+/* header transparente ganha fundo assim que sai do topo */
+(function () {
+  var bar = document.querySelector('.bar');
+  if (!bar) return;
+  function sync() { bar.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+})();
+</script>
+
+
+
+
+<script src="site.js?v=20260731" defer></script>
 
 <script type="application/ld+json">
 {
