@@ -398,10 +398,17 @@ section[id], form[id] { scroll-margin-top: 80px; }
    é feito aqui, a desvanecer para o branco das secções de cima e de baixo. */
 .photo-full { width: 100%; display: block; }
 .photo-full img {
-  width: 100%; height: clamp(220px,30vw,470px); object-fit: cover; display: block;
+  width: 100%; display: block; object-fit: cover;
+  /* 33.34vw = o rácio 3:1 da fotografia: em ecrã largo a banda cresce com a
+     largura e o `cover` NÃO corta na vertical. Com a altura travada em 470px
+     um monitor de 2000px cortava 30% da foto e os surfistas e a crista caíam
+     dentro dos desvanecimentos — parecia água ao calhas. Em mobile o mínimo
+     de 220px manda e o corte passa a ser na horizontal, que não perde nada. */
+  height: clamp(220px, 33.34vw, 800px);
+  /* esbatimento mais curto do que a versão anterior (16%/18% comiam o motivo) */
   --fade: linear-gradient(180deg,
-            transparent 0%, rgba(0,0,0,.55) 5%, #000 16%,
-            #000 82%, rgba(0,0,0,.55) 95%, transparent 100%);
+            transparent 0%, rgba(0,0,0,.55) 4%, #000 11%,
+            #000 89%, rgba(0,0,0,.55) 96%, transparent 100%);
   -webkit-mask-image: var(--fade);
           mask-image: var(--fade);
 }
