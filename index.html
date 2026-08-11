@@ -363,17 +363,23 @@ section[id], form[id] { scroll-margin-top: 80px; }
   background: #2b3b3d;
   padding: clamp(44px,6vw,86px) 0;
 }
-/* fotografia ao fundo: a faixa do Figma, 2160×300 (7,2:1) — numa banda tão
-   larga só uma fonte larga serve, senão o `cover` amplia e fica aproximada.
-   `surf-band-clean.jpg` é a `surf-band.jpg` com o texto "descubra Vila do
-   Bispo" removido: o export do Figma trazia-o impresso na imagem e aparecia
-   duplicado (e em inglês) por trás do texto real do HTML. */
+/* fotografia ao fundo: o FILL ORIGINAL do Figma (1200×800), descarregado com
+   download_assets e recortado a 1200×560 — cobre a banda tanto em desktop
+   (4,5:1) como em mobile sem ampliar. A faixa que estava exportada do render
+   (`surf-band.jpg`) trazia o texto "descubra Vila do Bispo" impresso na
+   fotografia, que aparecia duplicado por trás do texto real do HTML. */
 .disc-band::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: url("assets/fig/surf-band-clean.jpg") center / cover no-repeat;
+  background: url("assets/fig/surf-band.webp") center / cover no-repeat;
 }
-/* escurecimento por cima da foto, para o texto ler bem */
-.disc-band::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(26,42,44,.58); }
+/* escurecimento por cima da foto. Mais forte do que os .58 do Figma — aquele
+   valor era para o render já escurecido, o fill original é a fotografia crua e
+   muito mais clara — e em gradiente, porque o título em sage cai sobre a
+   espuma do lado esquerdo e não chegava aos 3:1. */
+.disc-band::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(26,42,44,.82) 0%, rgba(26,42,44,.76) 45%, rgba(26,42,44,.66) 100%);
+}
 .disc-head {
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
