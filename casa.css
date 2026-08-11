@@ -159,7 +159,8 @@ body { background: var(--paper); }
 }
 .check .box svg { width: 12px; height: 12px; color: #fff; opacity: 0; }
 .check input { position: absolute; opacity: 0; width: 0; height: 0; }
-.check input:checked + .box { background: #1F1F1F; box-shadow: inset 0 0 0 1.5px #1F1F1F; }
+/* mesmo laranja do widget do hero — antes era #1F1F1F e ficava preto, fora da paleta */
+.check input:checked + .box { background: var(--peach-deep); box-shadow: inset 0 0 0 1.5px var(--peach-deep); }
 .check input:checked + .box svg { opacity: 1; }
 .check .lbl b { display: block; font-size: clamp(14px,1.3vw,16px); font-weight: 400; color: var(--ink); }
 .check .lbl small { font-size: 13.5px; color: #8A8A8A; }
