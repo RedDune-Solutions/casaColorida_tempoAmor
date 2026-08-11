@@ -12,6 +12,20 @@
   sync();
 })();
 
+/* ---------- selecção que vem do hero da home (?checkin=…&house=…&guests=…) ----------
+   O hero manda o visitante para a página da casa ("NEXT STEP" do Figma); aqui só
+   se lê o que ele escolheu para o pedido já aparecer preenchido. Nada de pessoal
+   viaja no URL — o contacto continua a ir por sessionStorage. */
+var CC_PICK = (function () {
+  var q = {}, s = window.location.search.replace(/^\?/, '');
+  if (!s) return q;
+  s.split('&').forEach(function (kv) {
+    var p = kv.split('=');
+    if (p[0]) q[decodeURIComponent(p[0])] = decodeURIComponent((p[1] || '').replace(/\+/g, ' '));
+  });
+  return q;
+})();
+
 /* ---------- fotos por casa ---------- */
 var CASA_SHOTS = {
   colorida: {
@@ -195,6 +209,8 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
   function update() {
     if (selStart && selEnd) { val.textContent = fmtD(selStart) + ' — ' + fmtD(selEnd); val.style.color = 'var(--ink)'; }
     else if (selStart)      { val.textContent = fmtD(selStart) + ' — …'; val.style.color = 'var(--ink)'; }
+    /* tira a marca vermelha que o envio põe quando faltam datas */
+    if (selStart && selEnd) trigger.style.boxShadow = '';
   }
   /* escolhe o lado com espaço e nunca fica escondido sob o header */
   function place() {
@@ -231,34 +247,178 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
   if (navs[1]) navs[1].addEventListener('click', function () { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render(); });
   window.addEventListener('langchange', function () { render(); update(); });
 
+  /* datas escolhidas no hero da home — chegam em ISO no URL */
+  (function () {
+    var a = CC_PICK.checkin, b = CC_PICK.checkout;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(a || '') || !/^\d{4}-\d{2}-\d{2}$/.test(b || '')) return;
+    var s = new Date(a + 'T12:00:00'), e = new Date(b + 'T12:00:00');
+    if (isNaN(s.getTime()) || isNaN(e.getTime()) || e <= s) return;
+    selStart = s; selEnd = e;
+    viewYear = s.getFullYear(); viewMonth = s.getMonth();
+    update();
+  })();
+
   window.ccCasaDates = function () { return (selStart && selEnd) ? { cin: fmtISO(selStart), cout: fmtISO(selEnd) } : null; };
 })();
 
-/* ---------- envio: leva tudo para o booking (onde vive o RGPD + captcha) ---------- */
+/* ---------- pré-preencher o pedido com o que veio do hero ----------
+   Corre antes do site.js: os dropdowns personalizados sincronizam o texto
+   visível quando convertem o <select>, por isso o valor tem de estar posto
+   já aqui (mexer no <select> depois da conversão não actualiza o `.cs-value`). */
 (function () {
+  if (!document.getElementById('casaForm')) return;
+
+  var hs = document.getElementById('cfHouse');
+  if (hs && (CC_PICK.house === 'tempo' || CC_PICK.house === 'colorida')) {
+    var want = CC_PICK.house === 'colorida' ? /colorida/i : /tempo/i;
+    for (var i = 0; i < hs.options.length; i++) {
+      if (want.test(hs.options[i].text)) { hs.selectedIndex = i; break; }
+    }
+  }
+
+  var gs = document.getElementById('cfGuests');
+  var n = parseInt(CC_PICK.guests, 10);
+  if (gs && n > 0) {
+    /* o hero oferece até 5 hóspedes e a casa pode ter menos lugares:
+       fica na maior opção que não passe do pedido (nunca inventa lugares) */
+    var best = -1, bestV = 0;
+    for (var k = 0; k < gs.options.length; k++) {
+      var v = parseInt(gs.options[k].value || gs.options[k].text, 10);
+      if (v > 0 && v <= n && v > bestV) { best = k; bestV = v; }
+    }
+    if (best >= 0) gs.selectedIndex = best;
+  }
+
+  var baby = document.getElementById('cfBaby');
+  var pet  = document.getElementById('cfPet');
+  if (baby && (CC_PICK.baby === '0' || CC_PICK.baby === '1')) baby.checked = CC_PICK.baby === '1';
+  if (pet  && (CC_PICK.pet  === '0' || CC_PICK.pet  === '1')) pet.checked  = CC_PICK.pet  === '1';
+})();
+
+/* ---------- envio do pedido: Web3Forms + hCaptcha ----------
+   Antes isto reencaminhava para booking.html; essa página deixou de existir e o
+   pedido é enviado aqui, com as mesmas seguranças: honeypot, cooldown de 30s,
+   consentimento RGPD e captcha. No fim mostra o bilhete de confirmação. */
+(function () {
+  var ACCESS_KEY = 'c7f3b4ba-4bc4-45cc-a3e0-3fb9a15a4e7d';   /* chave de destino — pública por design */
   var form = document.getElementById('casaForm');
   if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var hs = document.getElementById('cfHouse');
-    var slug = (hs && hs.selectedIndex === 0 && /Colorida/i.test(hs.value)) ? 'colorida'
-             : (hs && /Tempo/i.test(hs.value)) ? 'tempo' : 'colorida';
-    var q = [];
-    var d = window.ccCasaDates && window.ccCasaDates();
-    if (d) { q.push('checkin=' + d.cin); q.push('checkout=' + d.cout); }
-    q.push('house=' + slug);
-    var g = document.getElementById('cfGuests');
-    if (g) q.push('guests=' + encodeURIComponent(g.value));
-    q.push('baby=' + (document.getElementById('cfBaby') && document.getElementById('cfBaby').checked ? '1' : '0'));
-    q.push('pet='  + (document.getElementById('cfPet')  && document.getElementById('cfPet').checked  ? '1' : '0'));
-    /* contacto vai por sessionStorage — nunca dados pessoais no URL */
+  var btn = form.querySelector('button[type="submit"]');
+  var btnText = btn ? btn.textContent : '';
+
+  function tr(k) { return window.t ? window.t(k) : k; }
+  function el(id) { return document.getElementById(id); }
+  function v(id) { var e = el(id); return e ? (e.value || '').trim() : ''; }
+  function chk(id) { var e = el(id); return !!(e && e.checked); }
+  function mark(e, bad) { if (e) e.style.boxShadow = bad ? 'inset 0 0 0 1.5px #C00F0C' : ''; }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+
+    /* honeypot: só um robô marca uma caixa que está fora do ecrã */
+    var hp = form.elements['botcheck'];
+    if (hp && hp.checked) return;
+
     try {
-      sessionStorage.setItem('cc_prefill', JSON.stringify({
-        name:  (document.getElementById('cfName')  || {}).value || '',
-        phone: (document.getElementById('cfPhone') || {}).value || '',
-        email: (document.getElementById('cfEmail') || {}).value || ''
-      }));
+      var last = +localStorage.getItem('cc_last_submit') || 0;
+      if (Date.now() - last < 30000) { alert(tr('bk.alert.cooldown')); return; }
     } catch (err) {}
-    window.location.href = 'booking.html?' + q.join('&');
+
+    /* obrigatórios: nome, telefone, email e datas */
+    var firstBad = null;
+    ['cfName', 'cfPhone', 'cfEmail'].forEach(function (id) {
+      var e = el(id), bad = !e || !e.value.trim();
+      mark(e, bad);
+      if (bad && !firstBad) firstBad = e;
+    });
+    var em = el('cfEmail');
+    if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { mark(em, true); firstBad = firstBad || em; }
+    var ph = el('cfPhone');
+    if (ph && ph.value.trim() && ph.value.replace(/[^0-9]/g, '').length < 6) { mark(ph, true); firstBad = firstBad || ph; }
+    var d = window.ccCasaDates && window.ccCasaDates();
+    mark(el('dateTrigger'), !d);
+    if (!d) firstBad = firstBad || el('dateTrigger');
+    if (firstBad) { firstBad.focus(); return; }
+
+    var crow = el('cf-consent-row');
+    if (!chk('cfConsent')) {
+      if (crow) crow.classList.add('invalid');
+      if (el('cfConsent')) el('cfConsent').focus();
+      return;
+    }
+    if (crow) crow.classList.remove('invalid');
+
+    var capEl = form.elements['h-captcha-response'];
+    var capToken = capEl ? (capEl.value || '').trim() : '';
+    var caprow = el('cf-captcha-row');
+    if (!capToken) { if (caprow) caprow.classList.add('invalid'); return; }
+    if (caprow) caprow.classList.remove('invalid');
+
+    var name = v('cfName'), mail = v('cfEmail'), tel = v('cfPhone');
+    var house = v('cfHouse'), guests = v('cfGuests');
+    var datesTxt = ((el('dateValue') || {}).textContent || '').trim();
+
+    var payload = {
+      access_key: ACCESS_KEY,
+      subject: 'Pedido de reserva — ' + (name || 'novo cliente'),
+      from_name: 'Casa Colorida · Tempo & Amor',
+      name: name, email: mail, replyto: mail, phone: tel,
+      casa: house,
+      hospedes: guests,
+      datas: datesTxt,
+      checkin: d.cin,
+      checkout: d.cout,
+      baby_extras: chk('cfBaby') ? 'Sim' : 'Não',
+      pet_extras: chk('cfPet') ? 'Sim' : 'Não',
+      consentimento_rgpd: 'Sim — aceitou a Política de Privacidade',
+      'h-captcha-response': capToken
+    };
+
+    if (btn) { btn.disabled = true; btn.textContent = tr('bk.submit.sending'); }
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data || !data.success) throw new Error((data && data.message) ? data.message : 'Falha no envio');
+        try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (err) {}
+
+        function put(id, txt) { var e = el(id); if (e) e.textContent = txt; }
+        put('sum-name',   name || '—');
+        put('sum-dates',  datesTxt || '—');
+        put('sum-house',  house || '—');
+        put('sum-guests', guests ? guests + ' ' + (guests === '1' ? tr('bk.guest') : tr('bk.guests.plural')) : '—');
+        put('sum-email',  mail || '—');
+        var extras = [];
+        if (chk('cfBaby')) extras.push(tr('bk.extra.baby'));
+        if (chk('cfPet'))  extras.push(tr('bk.extra.pet'));
+        if (extras.length) {
+          put('sum-extras', extras.join(', '));
+          if (el('sum-extras-row')) el('sum-extras-row').hidden = false;
+        }
+
+        /* o bilhete ocupa o lugar do formulário (e do título "envie o pedido") */
+        form.hidden = true;
+        var title = document.querySelector('.casa-form .cf-title');
+        if (title) title.hidden = true;
+        var ok = el('cf-success');
+        if (ok) { ok.hidden = false; ok.scrollIntoView({ block: 'center' }); }
+      })
+      .catch(function (err) {
+        if (btn) { btn.disabled = false; btn.textContent = (window.t ? tr('cf.send') : btnText); }
+        if (window.hcaptcha) { try { window.hcaptcha.reset(); } catch (e) {} }
+        alert(tr('bk.alert.error').replace('{err}', err.message));
+      });
+  });
+
+  /* ao corrigir um campo, a marca vermelha sai */
+  form.addEventListener('input', function (e) {
+    if (e.target && e.target.style) e.target.style.boxShadow = '';
+  });
+  form.addEventListener('change', function () {
+    if (el('cf-consent-row') && chk('cfConsent')) el('cf-consent-row').classList.remove('invalid');
   });
 })();

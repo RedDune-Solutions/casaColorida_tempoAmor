@@ -44,6 +44,7 @@
       'pet.s': 'Cama e taças disponíveis.',
       'pet.s.short': 'Cama e taças disponíveis.',
       'hero.book': 'Verificar disponibilidade',
+      'hero.next': 'Passo seguinte',
       'cue.aria': 'Descer',
       'cal.prev': 'Mês anterior',
       'cal.next': 'Mês seguinte',
@@ -320,6 +321,8 @@
       'bk.note': 'Sem pagamento agora — ligamos ou respondemos por email com a disponibilidade e os próximos passos.',
       'bk.help': 'Precisa de ajuda?',
       'bk.consent': 'Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" style="color:var(--sage-deep);text-decoration:underline;text-underline-offset:2px">Política de Privacidade</a>.',
+      /* igual ao de cima, mas abre noutro separador: o formulário está preenchido e não se pode perder */
+      'cf.consent': 'Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.',
       'bk.submit': 'Verificar disponibilidade',
       'bk.submit.sending': 'A enviar…',
       'bk.ssl.b': 'A sua privacidade',
@@ -360,7 +363,7 @@
       'priv.p.5': 'Guardamos os dados apenas o tempo necessário para tratar o pedido e a eventual estadia. Pode pedir a eliminação a qualquer momento.',
       'priv.h2.6': '6. Os seus direitos',
       'priv.p.6': 'Tem direito de aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados, e de retirar o consentimento. Para exercer, contacte-nos pelos meios acima. Tem ainda o direito de apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.',
-      'priv.back': '← Voltar ao pedido de reserva'
+      'priv.back': '← Voltar às casas'
     },
 
     en: {
@@ -396,6 +399,7 @@
       'pet.s': 'Pet bed & food bowls available.',
       'pet.s.short': 'Bed & food bowls available.',
       'hero.book': 'Check availability',
+      'hero.next': 'Next step',
       'cue.aria': 'Scroll down',
       'cal.prev': 'Previous month',
       'cal.next': 'Next month',
@@ -665,6 +669,7 @@
       'bk.note': 'No payment now — we’ll call you or reply by email with availability and the next steps.',
       'bk.help': 'Need help?',
       'bk.consent': 'I authorise the processing of my data to reply to this booking request, under the <a href="privacidade.html" style="color:var(--sage-deep);text-decoration:underline;text-underline-offset:2px">Privacy Policy</a>.',
+      'cf.consent': 'I authorise the processing of my data to reply to this booking request, under the <a href="privacidade.html" target="_blank" rel="noopener">Privacy Policy</a>.',
       'bk.submit': 'Check Availability',
       'bk.submit.sending': 'Sending…',
       'bk.ssl.b': 'Your privacy',
@@ -704,7 +709,7 @@
       'priv.p.5': 'We keep the data only for as long as needed to handle the request and any stay. You may request deletion at any time.',
       'priv.h2.6': '6. Your rights',
       'priv.p.6': 'You have the right to access, rectify, erase, restrict or object to the processing of your data, and to withdraw consent. To exercise these, contact us via the means above. You also have the right to lodge a complaint with the Portuguese DPA (<a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>).',
-      'priv.back': '← Back to booking request'
+      'priv.back': '← Back to the houses'
     }
   };
 

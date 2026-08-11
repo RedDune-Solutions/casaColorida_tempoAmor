@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.hcaptcha.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.cc">Casa Colorida · Casa de férias T2 em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260731b" defer></script>
+<script src="i18n.js?v=20260811c" defer></script>
 <meta name="description" content="Casa de férias T2 no rés-do-chão, cheia de cor, com pátio e churrasqueira em Vila do Bispo, Algarve. Ideal para famílias." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/casa-colorida.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -23,8 +23,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260811b" />
-<link rel="stylesheet" href="casa.css?v=20260811b" />
+<link rel="stylesheet" href="styles.css?v=20260811c" />
+<link rel="stylesheet" href="casa.css?v=20260811c" />
 </head>
 <body>
 
@@ -58,7 +58,7 @@
     <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
     <a href="casa-colorida.html" data-i18n="nav.colorida">Casa Colorida</a>
     <a href="index.html#local" data-i18n="nav.local">Local</a>
-    <a href="booking.html" data-i18n="foot.book">Reservar</a>
+    <a href="#pedido" data-i18n="foot.book">Reservar</a>
   </nav>
   <div class="drawer-lang">
     <span class="drawer-lang-lbl" data-i18n="lang.label">Idioma</span>
@@ -114,7 +114,10 @@
   <!-- ===================== FORMULÁRIO ===================== -->
   <section class="casa-form page" id="pedido">
     <h2 class="cf-title" data-i18n="cf.title">Preencha e envie o pedido</h2>
-    <form class="cf-card" id="casaForm">
+    <!-- novalidate: a validação é nossa (o consentimento é uma caixa escondida por
+         CSS e o balão nativo do browser não a consegue mostrar — o envio ficava
+         bloqueado sem nada aparecer no ecrã) -->
+    <form class="cf-card" id="casaForm" novalidate>
       <span class="cf-h" data-i18n="req.title">Pedido</span>
       <p class="cf-legend" data-i18n="bk2.dates.legend">Indique as suas preferências para a estadia, para o podermos receber da melhor forma.</p>
 
@@ -177,7 +180,7 @@
       <div class="cf-2">
         <div class="field-fig">
           <label for="cfPhone" data-i18n="bk2.phone">Telefone</label>
-          <input class="inp" id="cfPhone" type="tel" maxlength="24" autocomplete="tel" pattern="[0-9 +()\-]{6,24}" />
+          <input class="inp" id="cfPhone" type="tel" maxlength="24" autocomplete="tel" pattern="[0-9 +\(\)\-]{6,24}" />
           <span class="sub" data-i18n="bk2.ddi">Indique o indicativo do país ("+" / "00")</span>
         </div>
         <div class="field-fig">
@@ -186,8 +189,37 @@
         </div>
       </div>
 
+      <!-- honeypot anti-spam (Web3Forms): invisível para humanos -->
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
+
+      <!-- consentimento RGPD -->
+      <label class="check" id="cf-consent-row">
+        <input type="checkbox" name="consent" id="cfConsent" required />
+        <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+        <span class="lbl cf-consent-lbl" data-i18n-html="cf.consent">Autorizo o tratamento dos meus dados para responder a este pedido de reserva, nos termos da <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+      </label>
+
+      <!-- hCaptcha (Web3Forms) -->
+      <div id="cf-captcha-row"><div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div></div>
+
       <button type="submit" class="btn-send" data-i18n="cf.send">Enviar pedido</button>
     </form>
+
+    <!-- ===================== BILHETE (sucesso) ===================== -->
+    <div class="ticket" id="cf-success" hidden>
+      <h2 data-i18n="tkt.h">Mal podemos esperar para o receber na nossa Casa Colorida, Tempo &amp; Amor</h2>
+      <p data-i18n="tkt.p">Responderemos ao seu pedido em breve; receberá por email toda a informação necessária para uma chegada tranquila e sem preocupações.</p>
+      <span class="sig" aria-hidden="true">Andrea Love&nbsp;_</span>
+      <div class="ticket-sum">
+        <div class="row"><span data-i18n="bk.sum.name">Nome</span><strong id="sum-name">—</strong></div>
+        <div class="row"><span data-i18n="bk.sum.dates">Datas</span><strong id="sum-dates">—</strong></div>
+        <div class="row"><span data-i18n="bk.sum.house">Casa</span><strong id="sum-house">—</strong></div>
+        <div class="row"><span data-i18n="bk.sum.guests">Hóspedes</span><strong id="sum-guests">—</strong></div>
+        <div class="row" id="sum-extras-row" hidden><span data-i18n="bk.sum.extras">Extras</span><strong id="sum-extras">—</strong></div>
+        <div class="row"><span data-i18n="bk.sum.email">Resposta para</span><strong id="sum-email">—</strong></div>
+      </div>
+      <div class="home-link"><a href="index.html" data-i18n="bk.success.back">VOLTAR AO INÍCIO</a></div>
+    </div>
   </section>
 
   <!-- ===================== BANDA PÊSSEGO — WE PROVIDE ===================== -->
@@ -228,7 +260,7 @@
       <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
       <a href="casa-colorida.html" data-i18n="nav.colorida">Casa Colorida</a>
       <a href="index.html#local" data-i18n="nav.local">Local</a>
-      <a href="booking.html" data-i18n="foot.book">Reservar</a>
+      <a href="#pedido" data-i18n="foot.book">Reservar</a>
       <a href="privacidade.html" data-i18n="foot.privacidade">Política de Privacidade</a>
     </nav>
     <div class="fs-col">
@@ -245,7 +277,8 @@
   </div>
 </footer>
 
-<script src="casa.js?v=20260811b" defer></script>
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
+<script src="casa.js?v=20260811c" defer></script>
 <script src="site.js?v=20260811b" defer></script>
 
 <script type="application/ld+json">

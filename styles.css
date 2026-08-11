@@ -47,7 +47,7 @@
     linear-gradient(100deg, #DBE5D9 0%, #F2EEE2 44%, #FBE7D3 70%, #F9D7B6 100%);
   --on-watercolor: #2E4A47;
 
-  /* altura do header fixo — casa.css e booking.html redefinem-na */
+  /* altura do header fixo — casa.css e privacidade.html redefinem-na */
   --bar-h: clamp(76px, 6.8vw, 97px);
 }
 
@@ -345,7 +345,7 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 0; }
 .mobile-drawer nav a:hover, .mobile-drawer nav a:focus-visible { background: rgba(255,255,255,.08); }
 .mobile-drawer nav a:last-child { border-bottom: none; }
 /* "Reservar" é a acção principal — em pêssego, como os botões do site */
-.mobile-drawer nav a[href="booking.html"] { color: var(--peach); }
+.mobile-drawer nav a[data-i18n="foot.book"] { color: var(--peach); }
 
 /* ================= SWITCH DE IDIOMA (PT/EN) ================= */
 .bar-right { display: flex; align-items: center; gap: clamp(10px,2vw,16px); }

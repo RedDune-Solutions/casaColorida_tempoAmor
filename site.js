@@ -238,9 +238,9 @@
       pop.addEventListener('click', (e) => e.stopPropagation());
     }
 
-    /* também para campos criados depois do load (blocos de hóspede em
-       booking.html), senão esses ficavam com o <select> nativo — que abre
-       um popup do sistema, com outro aspeto e por cima do header */
+    /* também para campos criados depois do load, senão esses ficavam com o
+       <select> nativo — que abre um popup do sistema, com outro aspeto e por
+       cima do header */
     function enhanceAll(root) {
       (root || document).querySelectorAll('.control select').forEach(enhance);
     }

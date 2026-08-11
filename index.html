@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260731b" defer></script>
+<script src="i18n.js?v=20260811c" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260811b" />
+<link rel="stylesheet" href="styles.css?v=20260811c" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -524,7 +524,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
     <a href="#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
     <a href="#colorida" data-i18n="nav.colorida">Casa Colorida</a>
     <a href="#local" data-i18n="nav.local">Local</a>
-    <a href="booking.html" data-i18n="foot.book">Reservar</a>
+    <a href="#tempo" data-i18n="foot.book">Reservar</a>
   </nav>
   <div class="drawer-lang">
     <span class="drawer-lang-lbl" data-i18n="lang.label">Idioma</span>
@@ -582,7 +582,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b data-i18n="pet.t">Extras para animais (20€ adicional)</b><small data-i18n="pet.s">Cama e taças disponíveis.</small></span>
         </label>
-        <button type="submit" class="btn-book" id="bookBtn" data-i18n="hero.book">Verificar disponibilidade</button>
+        <button type="submit" class="btn-book" id="bookBtn" data-i18n="hero.next">Passo seguinte</button>
       </div>
     </form>
   </div>
@@ -640,7 +640,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
     <p class="si-sub" data-i18n="stay.nights">Mínimo 3 noites</p>
     <p class="si-line" data-i18n="stay.times">Check-in 15h | Check-out 11h</p>
     <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
-    <a class="btn-book" href="booking.html?house=tempo" data-i18n="hero.book">Verificar disponibilidade</a>
+    <a class="btn-book" href="tempo-amor.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
   <div class="trio reveal" data-house="tempo"></div>
 </section>
@@ -670,7 +670,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
     <p class="si-sub" data-i18n="stay.nights">Mínimo 3 noites</p>
     <p class="si-line" data-i18n="stay.times">Check-in 15h | Check-out 11h</p>
     <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
-    <a class="btn-book" href="booking.html?house=colorida" data-i18n="hero.book">Verificar disponibilidade</a>
+    <a class="btn-book" href="casa-colorida.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
   <div class="trio reveal" data-house="colorida"></div>
 </section>
@@ -862,7 +862,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
       <a href="#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
       <a href="#colorida" data-i18n="nav.colorida">Casa Colorida</a>
       <a href="#local" data-i18n="nav.local">Local</a>
-      <a href="booking.html" data-i18n="foot.book">Reservar</a>
+      <a href="#tempo" data-i18n="foot.book">Reservar</a>
       <a href="privacidade.html" data-i18n="foot.privacidade">Política de Privacidade</a>
     </nav>
     <div class="fs-col">
@@ -985,28 +985,34 @@ function ccDateRange(ids) {
   };
 }
 
-/* Hero + form "Pedido" → booking.html pré-preenchido.
-   Contacto vai por sessionStorage (nunca dados pessoais no URL). */
+/* Hero ("NEXT STEP" no Figma) → página da casa escolhida, com a selecção
+   guardada no URL (datas/casa/hóspedes/extras não são dados pessoais).
+   O pedido é enviado na própria página da casa (RGPD + hCaptcha + Web3Forms). */
 (function () {
   var heroCal = ccDateRange({ trigger: 'dateTrigger',  pop: 'calPop',  val: 'dateValue'  });
 
   function houseSlug(sel) { return sel && sel.selectedIndex === 1 ? 'colorida' : 'tempo'; }
-  function goBooking(cal, houseSel, guestsSel, babyChk, petChk) {
+  var HOUSE_PAGE = { tempo: 'tempo-amor.html', colorida: 'casa-colorida.html' };
+
+  function goHouse(cal, houseSel, guestsSel, babyChk, petChk) {
+    var slug = houseSlug(houseSel);
     var q = [];
     var d = cal && cal.iso();
     if (d) { q.push('checkin=' + d.cin); q.push('checkout=' + d.cout); }
-    q.push('house=' + houseSlug(houseSel));
+    q.push('house=' + slug);
     if (guestsSel) q.push('guests=' + encodeURIComponent(guestsSel.value));
     q.push('baby=' + (babyChk && babyChk.checked ? '1' : '0'));
     q.push('pet='  + (petChk  && petChk.checked  ? '1' : '0'));
-    window.location.href = 'booking.html?' + q.join('&');
+    /* sem âncora: a página da casa abre do topo (é isso que o passo mostra) —
+       o formulário lá em baixo já vem pré-preenchido com esta selecção */
+    window.location.href = HOUSE_PAGE[slug] + '?' + q.join('&');
   }
 
   var heroForm = document.getElementById('heroForm');
   if (heroForm) heroForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    goBooking(heroCal, document.getElementById('heroHouse'), document.getElementById('heroGuests'),
-              document.getElementById('heroBaby'), document.getElementById('heroPet'));
+    goHouse(heroCal, document.getElementById('heroHouse'), document.getElementById('heroGuests'),
+            document.getElementById('heroBaby'), document.getElementById('heroPet'));
   });
 
 })();
