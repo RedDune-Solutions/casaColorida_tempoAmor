@@ -46,8 +46,11 @@ body { background: var(--paper); }
 .casa-slider img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   opacity: 0; transition: opacity .7s ease;
+  /* as fotos estão empilhadas: sem isto o clique ia sempre à última do DOM
+     (opacity:0 continua a receber eventos) e o lightbox nunca abria */
+  pointer-events: none;
 }
-.casa-slider img.on { opacity: 1; }
+.casa-slider img.on { opacity: 1; pointer-events: auto; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .casa-slider img { transition: none; } }
 .cs-nav {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;

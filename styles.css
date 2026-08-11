@@ -46,6 +46,9 @@
     radial-gradient(130% 210% at 90% 8%, rgba(244,162,98,.66) 0%, rgba(244,162,98,0) 54%),
     linear-gradient(100deg, #DBE5D9 0%, #F2EEE2 44%, #FBE7D3 70%, #F9D7B6 100%);
   --on-watercolor: #2E4A47;
+
+  /* altura do header fixo — casa.css e booking.html redefinem-na */
+  --bar-h: clamp(76px, 6.8vw, 97px);
 }
 
 /* ---------- Reset ---------- */
@@ -296,36 +299,53 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   html { scrollbar-width: thin; scrollbar-color: var(--sage-soft) transparent; }
 }
 
-/* ================= HAMBURGER MENU ================= */
+/* ================= HAMBURGER MENU =================
+   O header é escuro com texto branco (redesign Figma): o botão e o drawer
+   seguem essa paleta. Antes usavam a antiga (`--watercolor` pastel + texto
+   teal), que já não pertence a este site. */
 .nav-toggle {
   display: none;
   align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 8px;
-  color: var(--on-watercolor); flex-shrink: 0;
-}
-.nav-toggle:hover { background: rgba(0,0,0,.07); }
-.nav-toggle svg { width: 22px; height: 22px; }
-
-/* Drawer — oculto por defeito, visível só em mobile com .open */
-.mobile-drawer {
-  display: none;
-  position: fixed; top: 64px; left: 0; right: 0; z-index: 59;
-  max-height: calc(100vh - 64px); overflow-y: auto;
-  background: var(--watercolor);
-  border-bottom: 1px solid rgba(94,146,143,.20);
-  padding: 8px 0 16px;
-  box-shadow: 0 12px 32px rgba(30,30,30,.12);
-}
-.mobile-drawer nav { display: flex; flex-direction: column; }
-.mobile-drawer nav a {
-  display: block; padding: 14px clamp(20px,5vw,40px);
-  font-size: 15px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--on-watercolor);
-  border-bottom: 1px solid rgba(94,146,143,.12);
+  color: #fff; flex-shrink: 0;
   transition: background .15s;
 }
-.mobile-drawer nav a:hover { background: rgba(94,146,143,.08); }
+.nav-toggle:hover { background: rgba(255,255,255,.12); }
+.nav-toggle svg { width: 22px; height: 22px; display: block; }
+/* hambúrguer vira X quando o menu está aberto (as 3 <line> do SVG) */
+.nav-toggle svg line { transition: transform .25s ease, opacity .18s ease; transform-origin: 12px 12px; }
+.nav-toggle[aria-expanded="true"] svg line:nth-child(1) { transform: rotate(45deg) translateY(6px); }
+.nav-toggle[aria-expanded="true"] svg line:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] svg line:nth-child(3) { transform: rotate(-45deg) translateY(-6px); }
+@media (prefers-reduced-motion: reduce) { .nav-toggle svg line { transition: none; } }
+
+/* Drawer — oculto por defeito, visível só em mobile com .open.
+   Ocupa o ecrã todo abaixo do header: em painel curto via-se o conteúdo da
+   página por baixo e parecia meio partido. */
+.mobile-drawer {
+  display: none;
+  position: fixed; top: var(--bar-h); left: 0; right: 0; bottom: 0; z-index: 59;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: rgba(38,34,30,.97);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 6px 0 max(24px, env(safe-area-inset-bottom));
+}
+/* com o menu aberto o header ganha o mesmo fundo, senão via-se a fotografia
+   entre o topo e o painel escuro e pareciam duas coisas soltas */
+body:has(.mobile-drawer.open) .bar { background: rgba(38,34,30,.97); }
+body:has(.mobile-drawer.open) .bar::before { opacity: 0; }
+.mobile-drawer nav { display: flex; flex-direction: column; }
+.mobile-drawer nav a {
+  display: block; padding: 17px clamp(20px,5vw,40px);
+  font-size: 14px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  transition: background .15s;
+}
+.mobile-drawer nav a:hover, .mobile-drawer nav a:focus-visible { background: rgba(255,255,255,.08); }
 .mobile-drawer nav a:last-child { border-bottom: none; }
+/* "Reservar" é a acção principal — em pêssego, como os botões do site */
+.mobile-drawer nav a[href="booking.html"] { color: var(--peach); }
 
 /* ================= SWITCH DE IDIOMA (PT/EN) ================= */
 .bar-right { display: flex; align-items: center; gap: clamp(10px,2vw,16px); }
@@ -342,15 +362,15 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .lang-opt:hover { opacity: 1; }
 .lang-opt[aria-pressed="true"] { opacity: 1; background: var(--sage); color: #fff; }
 
-/* Switch de idioma dentro do menu mobile */
+/* Switch de idioma dentro do menu mobile — encostado ao fundo do drawer */
 .drawer-lang {
   display: flex; align-items: center; gap: 14px;
-  margin-top: 6px; padding: 16px clamp(20px,5vw,40px) 6px;
-  border-top: 1px solid rgba(94,146,143,.14);
+  margin-top: auto; padding: 20px clamp(20px,5vw,40px) 4px;
+  border-top: 1px solid rgba(255,255,255,.12);
 }
 .drawer-lang-lbl {
   font-size: 12px; font-weight: 700; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--on-watercolor); opacity: .55;
+  text-transform: uppercase; color: #fff; opacity: .6;
 }
 .drawer-lang .lang-opt { padding: 8px 18px; font-size: 13px; }
 
@@ -359,7 +379,8 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
   .bar nav    { display: none !important; }
   .nav-toggle { display: flex; }
   .bar-right .lang-switch { display: none; }   /* switch passa para dentro do menu */
-  .mobile-drawer.open { display: block; }
+  /* flex em coluna para o bloco do idioma poder encostar ao fundo */
+  .mobile-drawer.open { display: flex; flex-direction: column; }
 }
 
 @media (max-width: 640px) {

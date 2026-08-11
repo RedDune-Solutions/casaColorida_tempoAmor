@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260811" />
+<link rel="stylesheet" href="styles.css?v=20260811b" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -363,28 +363,17 @@ section[id], form[id] { scroll-margin-top: 80px; }
   background: #2b3b3d;
   padding: clamp(44px,6vw,86px) 0;
 }
-/* fotografia ao fundo.
-   O antigo surf-band.jpg era um export do Figma com o texto "descubra Vila do
-   Bispo" já impresso na imagem — aparecia duplicado por trás do texto real.
-   Numa banda tão larga (4,5:1) a fonte tem de ser larga, senão o `cover` amplia
-   e a foto fica demasiado aproximada: a onda.jpg (1440×480) reduz 0,88×, a
-   surf.jpg limpa do Figma (562×399) ampliava 2,3×.
-   A mesma foto aparece a toda a largura mais abaixo, por vezes no mesmo ecrã:
-   aqui recorta-se a parte de baixo (a onda, sem os surfistas) e espelha-se,
-   para não se ler como a mesma imagem repetida. */
+/* fotografia ao fundo: a faixa do Figma, 2160×300 (7,2:1) — numa banda tão
+   larga só uma fonte larga serve, senão o `cover` amplia e fica aproximada.
+   `surf-band-clean.jpg` é a `surf-band.jpg` com o texto "descubra Vila do
+   Bispo" removido: o export do Figma trazia-o impresso na imagem e aparecia
+   duplicado (e em inglês) por trás do texto real do HTML. */
 .disc-band::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: url("assets/fig/onda.jpg") center 82% / cover no-repeat;
-  transform: scaleX(-1);
+  background: url("assets/fig/surf-band-clean.jpg") center / cover no-repeat;
 }
-/* escurecimento por cima da foto, para o texto ler bem. Mais forte do lado do
-   título (sage sobre espuma clara não chegava aos 3:1) e mais leve à direita,
-   onde o parágrafo é branco e a foto pode respirar. A onda.jpg é bem mais
-   clara do que o export antigo, daí subir de .58. */
-.disc-band::after {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(90deg, rgba(26,42,44,.80) 0%, rgba(26,42,44,.74) 42%, rgba(26,42,44,.62) 100%);
-}
+/* escurecimento por cima da foto, para o texto ler bem */
+.disc-band::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(26,42,44,.58); }
 .disc-head {
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
@@ -474,7 +463,8 @@ section[id], form[id] { scroll-margin-top: 80px; }
 
 @media (max-width: 860px) {
   .house-head, .disc-head { grid-template-columns: 1fr; gap: 18px; }
-  .house-head .vline { display: none; }
+  /* a coluna do meio deixa de existir: o traço ficava solto entre título e texto */
+  .house-head .vline, .disc-head .vline { display: none; }
   .house-copy p, .disc-copy p { max-width: none; }
   .bar-fields, .bar-extras { grid-template-columns: 1fr; }
 }
@@ -1329,7 +1319,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260811" defer></script>
+<script src="site.js?v=20260811b" defer></script>
 
 <script type="application/ld+json">
 {

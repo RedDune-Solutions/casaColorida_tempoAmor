@@ -25,16 +25,21 @@
   const toggle = document.querySelector('.nav-toggle');
   const drawer = document.querySelector('.mobile-drawer');
   if (toggle && drawer) {
-    toggle.addEventListener('click', () => {
-      const open = drawer.classList.toggle('open');
+    const setMenu = (open) => {
+      drawer.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.style.overflow = open ? 'hidden' : '';
+    };
+    toggle.addEventListener('click', () => setMenu(!drawer.classList.contains('open')));
+    drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) { setMenu(false); toggle.focus(); }
     });
-    drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      document.body.style.overflow = '';
-      toggle.setAttribute('aria-expanded', 'false');
-    }));
+    /* passar para desktop com o menu aberto deixava o body com overflow:hidden
+       (drawer escondido pelo media query) e a página não rolava */
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900 && drawer.classList.contains('open')) setMenu(false);
+    });
   }
 
   /* ============================================================

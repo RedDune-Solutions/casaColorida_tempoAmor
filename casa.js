@@ -74,8 +74,9 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
     i = (n + imgs.length) % imgs.length;
     imgs.forEach(function (im, k) {
       im.classList.toggle('on', k === i);
-      if (k === i) { im.removeAttribute('aria-hidden'); im.style.cursor = 'zoom-in'; }
-      else { im.setAttribute('aria-hidden', 'true'); im.style.cursor = 'default'; }
+      /* o cursor e o pointer-events vêm do CSS (.casa-slider img.on) */
+      if (k === i) im.removeAttribute('aria-hidden');
+      else im.setAttribute('aria-hidden', 'true');
     });
     dots.forEach(function (d, k) { d.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
   }
