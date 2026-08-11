@@ -936,14 +936,20 @@ function ccDateRange(ids) {
     var room = up ? above : below;
     if (needed > room) pop.style.maxHeight = Math.max(room, 180) + 'px';
 
-    /* no hero assenta ACIMA do cartão inteiro, para não o tapar */
+    /* no hero assenta ACIMA do cartão inteiro — mesma base dos dropdowns,
+       calculada por `top` absoluto (igual a positionHero() do site.js) */
     var bar = trigger.closest('.booking-bar');
     pop.style.marginTop = '';
     if (prefereCima && bar && window.innerWidth > 980 && up) {
-      var barTop = bar.getBoundingClientRect().top;
-      var atual = pop.getBoundingClientRect().bottom;
-      var desejado = barTop - 14;
-      if (Math.abs(atual - desejado) > 1) pop.style.marginTop = (desejado - atual) + 'px';
+      pop.classList.remove('up');          /* desliga o `bottom` do CSS */
+      pop.style.bottom = 'auto';
+      pop.style.top = '0px';
+      var r0 = pop.getBoundingClientRect();
+      var alvo = bar.getBoundingClientRect().top - 14 - pop.offsetHeight;
+      pop.style.top = (alvo - r0.top) + 'px';
+    } else {
+      pop.style.top = '';
+      pop.style.bottom = '';
     }
   }
   function open()  {
