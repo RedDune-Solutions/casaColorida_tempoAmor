@@ -567,7 +567,9 @@ section[id], form[id] { scroll-margin-top: 80px; }
         <div class="field-fig">
           <label data-i18n="guests.label">Nº de hóspedes</label>
           <div class="control">
-            <select id="heroGuests" data-i18n-attr="aria-label:guests.label" aria-label="Nº de hóspedes"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+            <!-- a lista segue a casa escolhida (Tempo & Amor 2, Colorida 4) — ver ccSyncGuests no site.js.
+                 Arranca com a capacidade da casa que está selecionada por omissão. -->
+            <select id="heroGuests" data-i18n-attr="aria-label:guests.label" aria-label="Nº de hóspedes"><option value="1">1</option><option value="2" selected>2</option></select>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </div>
         </div>
@@ -1344,7 +1346,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260811e" defer></script>
+<script src="site.js?v=20260812a" defer></script>
 
 <script type="application/ld+json">
 {

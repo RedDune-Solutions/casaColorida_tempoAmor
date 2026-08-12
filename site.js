@@ -173,25 +173,32 @@
       control._pop = pop;
 
       const items = [];
-      Array.prototype.forEach.call(sel.options, (opt, i) => {
-        if (opt.value === '') return; // ignora placeholder ("Selecione uma opção")
-        const item = document.createElement('div');
-        item.className = 'cs-opt';
-        item.setAttribute('role', 'option');
-        item.textContent = opt.text;
-        item.addEventListener('click', (e) => {
-          e.stopPropagation();
-          sel.selectedIndex = i;
-          value.textContent = opt.text;
-          items.forEach((x) => { x.el.classList.remove('sel'); x.el.setAttribute('aria-selected', 'false'); });
-          item.classList.add('sel');
-          item.setAttribute('aria-selected', 'true');
-          sel.dispatchEvent(new Event('change', { bubbles: true }));
-          closeOpen();
+      /* as opções são reconstruídas quando o <select> muda de conteúdo (o nº de
+         hóspedes depende da casa escolhida) — daí não estarem inline */
+      function buildItems() {
+        items.length = 0;
+        pop.innerHTML = '';
+        Array.prototype.forEach.call(sel.options, (opt, i) => {
+          if (opt.value === '') return; // ignora placeholder ("Selecione uma opção")
+          const item = document.createElement('div');
+          item.className = 'cs-opt';
+          item.setAttribute('role', 'option');
+          item.textContent = opt.text;
+          item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sel.selectedIndex = i;
+            value.textContent = opt.text;
+            items.forEach((x) => { x.el.classList.remove('sel'); x.el.setAttribute('aria-selected', 'false'); });
+            item.classList.add('sel');
+            item.setAttribute('aria-selected', 'true');
+            sel.dispatchEvent(new Event('change', { bubbles: true }));
+            closeOpen();
+          });
+          pop.appendChild(item);
+          items.push({ el: item, idx: i, opt: opt });
         });
-        pop.appendChild(item);
-        items.push({ el: item, idx: i, opt: opt });
-      });
+      }
+      buildItems();
       control.appendChild(pop);
 
       function sync() {
@@ -206,6 +213,8 @@
       }
       sync();
       syncers.push(sync);
+      /* mexer no <select> por JS não actualiza sozinho o popover personalizado */
+      sel._ccRefresh = function () { buildItems(); sync(); };
 
       /* mesma colocação do calendário — e reposiciona enquanto está aberto */
       const place = function () { ccPop.place(control, pop); };
@@ -245,10 +254,55 @@
       (root || document).querySelectorAll('.control select').forEach(enhance);
     }
     ccPop.enhanceSelects = enhanceAll;
+    ccPop.refreshSelect = (sel) => { if (sel && sel._ccRefresh) sel._ccRefresh(); };
     enhanceAll();
 
     document.addEventListener('click', (e) => { if (openCtl && !openCtl.contains(e.target)) closeOpen(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeOpen(); });
     window.addEventListener('langchange', () => syncers.forEach((f) => f()));
   })();
+
+  /* ============================================================
+     Hóspedes limitados pela casa escolhida.
+     A Tempo & Amor recebe 2 e a Colorida 4 — o widget do hero oferecia
+     sempre até 5, ou seja, dava para pedir uma estadia que nenhuma das
+     casas consegue dar. O nº de opções passa a seguir a casa, aqui e no
+     formulário das páginas das casas (onde também se pode trocar de casa).
+     ============================================================ */
+  const HOUSE_CAP = { tempo: 2, colorida: 4 };
+
+  function capOf(houseSel) {
+    if (!houseSel) return HOUSE_CAP.colorida;
+    const opt = houseSel.options[houseSel.selectedIndex];
+    const txt = opt ? opt.text : '';
+    return HOUSE_CAP[/colorida/i.test(txt) ? 'colorida' : 'tempo'];
+  }
+
+  /* deixa o <select> de hóspedes com 1..cap, mantendo a escolha quando cabe
+     (5 hóspedes numa casa de 4 passa a 4, não volta a 1) */
+  const syncGuests = window.ccSyncGuests = function (houseSel, guestsSel) {
+    if (!guestsSel) return;
+    const cap = capOf(houseSel);
+    const want = Math.min(Math.max(parseInt(guestsSel.value, 10) || 1, 1), cap);
+    if (guestsSel.options.length !== cap) {
+      guestsSel.innerHTML = '';
+      for (let n = 1; n <= cap; n++) {
+        const o = document.createElement('option');
+        o.value = String(n);
+        o.textContent = String(n);
+        guestsSel.appendChild(o);
+      }
+    }
+    guestsSel.value = String(want);
+    if (ccPop.refreshSelect) ccPop.refreshSelect(guestsSel);
+  };
+
+  /* widget do hero e formulário das casas — os ids são os que existem em cada página */
+  [['heroHouse', 'heroGuests'], ['cfHouse', 'cfGuests']].forEach((pair) => {
+    const houseSel  = document.getElementById(pair[0]);
+    const guestsSel = document.getElementById(pair[1]);
+    if (!houseSel || !guestsSel) return;
+    syncGuests(houseSel, guestsSel);
+    houseSel.addEventListener('change', () => syncGuests(houseSel, guestsSel));
+  });
 })();
