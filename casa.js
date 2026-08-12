@@ -302,11 +302,12 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
    ⚠️ A PRIMEIRA submissão para um email novo faz o FormSubmit enviar um pedido
    de activação para essa caixa — até se clicar nesse link nada é entregue. */
 (function () {
-  /* Destino provisório: fica o email da RedDune até à entrega do site, depois
-     passa para o dos donos (trocar aqui; `_cc` no payload serve para cópias).
-     Cada endereço novo precisa de ser activado uma vez — ver comentário acima. */
-  var MAIL_TO  = 'reddunesolutions@gmail.com';
-  var ENDPOINT = 'https://formsubmit.co/ajax/' + MAIL_TO;
+  /* Token do FormSubmit em vez do email: o endereço de destino fica do lado
+     deles e não à vista no JS, onde os robôs de spam o apanhavam.
+     Destino provisório (caixa da RedDune) até à entrega do site; para mudar,
+     gerar um token novo para o email dos donos em formsubmit.co e trocar aqui. */
+  var FORM_TOKEN = '342b026a7f6df8779c1d7da396754ed6';
+  var ENDPOINT   = 'https://formsubmit.co/ajax/' + FORM_TOKEN;
   var form = document.getElementById('casaForm');
   if (!form) return;
   var btn = form.querySelector('button[type="submit"]');
