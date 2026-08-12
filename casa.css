@@ -119,6 +119,10 @@ body { background: var(--paper); }
   text-transform: uppercase; color: #BBD8D4;
   text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
 }
+/* o `display` acima é regra de autor e ganha ao `[hidden]` do browser (que é do
+   agente): sem isto o título "Preencha e envie o pedido" continuava por cima do
+   bilhete depois do envio, apesar de o JS lhe pôr o hidden */
+.cf-title[hidden] { display: none; }
 .cf-card {
   margin: clamp(30px,4.4vw,58px) auto 0; max-width: 990px; text-align: left;
   background: #F5F5F5; border: 1px solid #E2E2E2; border-radius: 12px;
