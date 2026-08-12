@@ -172,9 +172,27 @@
       pop.hidden = true;
       control._pop = pop;
 
+      /* bandeira opcional: `data-flag` na <option> traz a linha da sprite
+         (assets/flags/sprite.webp). Usado nos indicativos telefónicos — em
+         emoji o Windows mostrava só as letras do país. */
+      function flagFor(opt) {
+        if (!opt || !opt.dataset || opt.dataset.flag == null) return null;
+        const fl = document.createElement('span');
+        fl.className = 'cs-flag';
+        fl.style.backgroundPosition = '0 -' + (Number(opt.dataset.flag) * 15) + 'px';
+        return fl;
+      }
+      /* a caixa fechada mostra a bandeira do que está escolhido */
+      function paintFlag(opt) {
+        const old = control.querySelector(':scope > .cs-flag');
+        if (old) old.remove();
+        const fl = flagFor(opt);
+        if (fl) control.insertBefore(fl, control.firstChild);
+      }
+
       const items = [];
       /* as opções são reconstruídas quando o <select> muda de conteúdo (o nº de
-         hóspedes depende da casa escolhida) — daí não estarem inline */
+         hóspedes depende da casa escolhida, os indicativos mudam de idioma) */
       function buildItems() {
         items.length = 0;
         pop.innerHTML = '';
@@ -183,11 +201,21 @@
           const item = document.createElement('div');
           item.className = 'cs-opt';
           item.setAttribute('role', 'option');
-          item.textContent = opt.text;
+          const fl = flagFor(opt);
+          let txt = item;
+          if (fl) {
+            item.appendChild(fl);
+            txt = document.createElement('span');
+            item.appendChild(txt);
+          }
+          txt.textContent = opt.text;
           item.addEventListener('click', (e) => {
             e.stopPropagation();
             sel.selectedIndex = i;
-            value.textContent = opt.text;
+            /* data-short: a caixa fechada pode mostrar uma etiqueta curta (o
+               indicativo "+351") enquanto a lista mostra o nome do país */
+            value.textContent = opt.dataset.short || opt.text;
+            paintFlag(opt);
             items.forEach((x) => { x.el.classList.remove('sel'); x.el.setAttribute('aria-selected', 'false'); });
             item.classList.add('sel');
             item.setAttribute('aria-selected', 'true');
@@ -195,7 +223,7 @@
             closeOpen();
           });
           pop.appendChild(item);
-          items.push({ el: item, idx: i, opt: opt });
+          items.push({ el: item, txt: txt, idx: i, opt: opt });
         });
       }
       buildItems();
@@ -203,9 +231,10 @@
 
       function sync() {
         const cur = sel.options[sel.selectedIndex];
-        value.textContent = cur ? cur.text : '';
+        value.textContent = cur ? (cur.dataset.short || cur.text) : '';
+        paintFlag(cur);
         items.forEach((x) => {
-          x.el.textContent = x.opt.text;
+          x.txt.textContent = x.opt.text;   /* não é o item todo: a bandeira ficava apagada */
           const on = x.idx === sel.selectedIndex;
           x.el.classList.toggle('sel', on);
           x.el.setAttribute('aria-selected', on ? 'true' : 'false');

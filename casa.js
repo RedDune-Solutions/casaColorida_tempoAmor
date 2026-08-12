@@ -26,6 +26,109 @@ var CC_PICK = (function () {
   return q;
 })();
 
+/* ---------- indicativos telefónicos ----------
+   O campo do telefone tinha só um aviso a pedir o indicativo do país; passa a
+   ter a lista à escolha. Formato: [ISO, indicativo, nome PT, nome EN].
+   Não é a lista completa do mundo — cobre a Europa, os países de língua
+   portuguesa e os mercados de onde chegam hóspedes. Quem for de outro sítio
+   escreve o número completo começado por "+" e esse é o que vai no pedido. */
+var DIAL_CODES = [
+  ['PT','351','Portugal','Portugal'],
+  ['DE','49','Alemanha','Germany'],
+  ['AO','244','Angola','Angola'],
+  ['AR','54','Argentina','Argentina'],
+  ['AT','43','Áustria','Austria'],
+  ['AU','61','Austrália','Australia'],
+  ['BE','32','Bélgica','Belgium'],
+  ['BR','55','Brasil','Brazil'],
+  ['BG','359','Bulgária','Bulgaria'],
+  ['CV','238','Cabo Verde','Cape Verde'],
+  ['CA','1','Canadá','Canada'],
+  ['CL','56','Chile','Chile'],
+  ['CN','86','China','China'],
+  ['CY','357','Chipre','Cyprus'],
+  ['CO','57','Colômbia','Colombia'],
+  ['KR','82','Coreia do Sul','South Korea'],
+  ['HR','385','Croácia','Croatia'],
+  ['DK','45','Dinamarca','Denmark'],
+  ['AE','971','Emirados Árabes Unidos','United Arab Emirates'],
+  ['SK','421','Eslováquia','Slovakia'],
+  ['SI','386','Eslovénia','Slovenia'],
+  ['ES','34','Espanha','Spain'],
+  ['US','1','Estados Unidos','United States'],
+  ['EE','372','Estónia','Estonia'],
+  ['FI','358','Finlândia','Finland'],
+  ['FR','33','França','France'],
+  ['GR','30','Grécia','Greece'],
+  ['NL','31','Países Baixos','Netherlands'],
+  ['HU','36','Hungria','Hungary'],
+  ['IN','91','Índia','India'],
+  ['IE','353','Irlanda','Ireland'],
+  ['IS','354','Islândia','Iceland'],
+  ['IL','972','Israel','Israel'],
+  ['IT','39','Itália','Italy'],
+  ['JP','81','Japão','Japan'],
+  ['LV','371','Letónia','Latvia'],
+  ['LT','370','Lituânia','Lithuania'],
+  ['LU','352','Luxemburgo','Luxembourg'],
+  ['MT','356','Malta','Malta'],
+  ['MA','212','Marrocos','Morocco'],
+  ['MX','52','México','Mexico'],
+  ['MZ','258','Moçambique','Mozambique'],
+  ['NO','47','Noruega','Norway'],
+  ['NZ','64','Nova Zelândia','New Zealand'],
+  ['PE','51','Peru','Peru'],
+  ['PL','48','Polónia','Poland'],
+  ['GB','44','Reino Unido','United Kingdom'],
+  ['CZ','420','Chéquia','Czechia'],
+  ['RO','40','Roménia','Romania'],
+  ['RU','7','Rússia','Russia'],
+  ['RS','381','Sérvia','Serbia'],
+  ['SE','46','Suécia','Sweden'],
+  ['CH','41','Suíça','Switzerland'],
+  ['TR','90','Turquia','Turkey'],
+  ['UA','380','Ucrânia','Ukraine'],
+  ['UY','598','Uruguai','Uruguay'],
+  ['ZA','27','África do Sul','South Africa']
+];
+
+/* Ordem das bandeiras dentro de `assets/flags/sprite.webp` (alfabética por
+   código ISO, 30px de altura cada). ⚠️ Mexer aqui sem regenerar a sprite troca
+   as bandeiras todas — a receita está em assets/flags/LICENSE.txt. */
+var FLAG_ISOS = ['ae','ao','ar','at','au','be','bg','br','ca','ch','cl','cn','co','cv','cy','cz','de','dk','ee','es','fi','fr','gb','gr','hr','hu','ie','il','in','is','it','jp','kr','lt','lu','lv','ma','mt','mx','mz','nl','no','nz','pe','pl','pt','ro','rs','ru','se','si','sk','tr','ua','us','uy','za'];
+
+/* Constrói a lista no idioma activo. Corre antes do site.js, por isso as opções
+   já estão cá quando o dropdown personalizado é criado. */
+(function () {
+  var sel = document.getElementById('cfDial');
+  if (!sel) return;
+
+  function build() {
+    var i = (window.ccLang === 'en') ? 3 : 2;
+    var keep = sel.value || '+351';
+    var list = DIAL_CODES.slice().sort(function (a, b) {
+      if (a[0] === 'PT') return -1;               /* país das casas à cabeça */
+      if (b[0] === 'PT') return 1;
+      return a[i].localeCompare(b[i], 'pt');
+    });
+    sel.innerHTML = '';
+    list.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = '+' + c[1];
+      o.setAttribute('data-short', '+' + c[1]);   /* fechado mostra só o indicativo */
+      var row = FLAG_ISOS.indexOf(c[0].toLowerCase());
+      if (row >= 0) o.setAttribute('data-flag', String(row));
+      o.textContent = c[i] + ' (+' + c[1] + ')';
+      sel.appendChild(o);
+    });
+    sel.value = keep;
+    if (window.ccPop && window.ccPop.refreshSelect) window.ccPop.refreshSelect(sel);
+  }
+
+  build();
+  window.addEventListener('langchange', build);
+})();
+
 /* ---------- fotos por casa ---------- */
 var CASA_SHOTS = {
   colorida: {
@@ -355,7 +458,11 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
     }
     if (crow) crow.classList.remove('invalid');
 
-    var name = v('cfName'), mail = v('cfEmail'), tel = v('cfPhone');
+    var name = v('cfName'), mail = v('cfEmail');
+    /* quem escreve o número já com indicativo ("+44 …") manda o seu; os outros
+       levam o indicativo escolhido na lista */
+    var telRaw = v('cfPhone');
+    var tel = /^\+/.test(telRaw) ? telRaw : ((v('cfDial') || '+351') + ' ' + telRaw);
     var house = v('cfHouse'), guests = v('cfGuests');
     var datesTxt = ((el('dateValue') || {}).textContent || '').trim();
 

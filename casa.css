@@ -138,6 +138,12 @@ body { background: var(--paper); }
 .cf-rule { height: 1px; background: #DEDEDE; margin: clamp(22px,3vw,38px) 0 clamp(20px,2.6vw,32px); }
 .cf-full { margin-top: clamp(14px,1.8vw,22px); }
 .cf-2 { margin-top: clamp(14px,1.8vw,22px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px,2vw,26px); }
+/* telefone = indicativo + número */
+.phone-row { display: grid; grid-template-columns: 128px 1fr; gap: 8px; min-width: 0; }
+/* a caixa mostra só "+351", mas a lista precisa de espaço para o nome do país */
+.dial-control .cs-pop { right: auto; min-width: 268px; max-width: calc(100vw - 40px); }
+/* em ecrã estreito o número precisa de todo o espaço possível */
+@media (max-width: 520px) { .phone-row { grid-template-columns: 116px 1fr; } }
 @media (max-width: 860px) { .cf-grid, .cf-checks, .cf-2 { grid-template-columns: 1fr; } }
 
 .field-fig { display: flex; flex-direction: column; gap: 8px; min-width: 0; }

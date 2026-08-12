@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.ta">Tempo &amp; Amor · Casa de férias T1 em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260811e" defer></script>
+<script src="i18n.js?v=20260812d" defer></script>
 <meta name="description" content="Casa de férias T1 no andar, tranquila e acolhedora, com terraço e vista em Vila do Bispo, Algarve. Um refúgio para abrandar." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/tempo-amor.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -24,8 +24,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260811e" />
-<link rel="stylesheet" href="casa.css?v=20260812b" />
+<link rel="stylesheet" href="styles.css?v=20260812d" />
+<link rel="stylesheet" href="casa.css?v=20260812d" />
 </head>
 <body>
 
@@ -181,8 +181,17 @@
       <div class="cf-2">
         <div class="field-fig">
           <label for="cfPhone" data-i18n="bk2.phone">Telefone</label>
-          <input class="inp" id="cfPhone" type="tel" maxlength="24" autocomplete="tel" pattern="[0-9 +\(\)\-]{6,24}" />
-          <span class="sub" data-i18n="bk2.ddi">Indique o indicativo do país ("+" / "00")</span>
+          <div class="phone-row">
+            <!-- lista de indicativos preenchida pelo casa.js (ordenada pelo nome do
+                 país no idioma activo); Portugal fica à cabeça por ser o país das casas -->
+            <div class="control dial-control">
+              <select id="cfDial" data-i18n-attr="aria-label:ph.dial" aria-label="Indicativo do país">
+                <option value="+351" data-short="+351" selected>Portugal (+351)</option>
+              </select>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <input class="inp" id="cfPhone" type="tel" maxlength="24" autocomplete="tel" pattern="[0-9 +\(\)\-]{6,24}" />
+          </div>
         </div>
         <div class="field-fig">
           <label for="cfEmail" data-i18n="bk2.email">Email</label>
@@ -275,8 +284,8 @@
   </div>
 </footer>
 
-<script src="casa.js?v=20260812a" defer></script>
-<script src="site.js?v=20260812a" defer></script>
+<script src="casa.js?v=20260812d" defer></script>
+<script src="site.js?v=20260812d" defer></script>
 
 <script type="application/ld+json">
 {

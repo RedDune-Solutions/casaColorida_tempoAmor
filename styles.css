@@ -426,6 +426,16 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 0; }
 .cs-opt {
   padding: 10px 12px; border-radius: 8px; font-size: 14.5px;
   color: var(--ink); cursor: pointer; transition: background .12s, color .12s;
+  display: flex; align-items: center; gap: 10px;
+}
+/* bandeiras dos indicativos: uma sprite só (assets/flags/sprite.webp), cada
+   bandeira com 40px de largura = 2x para esta caixa de 20px. A linha certa vem
+   do `data-flag` da <option>, via background-position no site.js. */
+.cs-flag {
+  flex: none; width: 20px; height: 15px; border-radius: 2px;
+  background-image: url("assets/flags/sprite.webp");
+  background-size: 20px auto; background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(30,30,30,.15);
 }
 .cs-opt:hover { background: #FCEADC; }
 .cs-opt.sel { background: rgb(240,138,36); color: #fff; font-weight: 600; }
