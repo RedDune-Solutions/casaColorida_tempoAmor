@@ -11,7 +11,7 @@ HTML/CSS/JS estático puro, sem build. Deploy automático via GitHub Pages (bran
 | Ficheiro | O que é |
 |---|---|
 | `index.html` | Home — hero + widget ("passo seguinte" leva à página da casa com a selecção), casas, lugares (Vila do Bispo), FAQ |
-| `casa-colorida.html` / `tempo-amor.html` | Páginas de detalhe com galeria (lightbox em `casa.js`) **e o pedido de reserva** — envia por **Web3Forms** + **hCaptcha**, sem pagamento online |
+| `casa-colorida.html` / `tempo-amor.html` | Páginas de detalhe com galeria (lightbox em `casa.js`) **e o pedido de reserva** — envia por **FormSubmit** (AJAX, sem chave nem conta), com honeypot e cooldown, sem pagamento online |
 | `privacidade.html` | Política de privacidade RGPD (noindex) |
 | `styles.css` | Tokens + componentes |
 | `i18n.js` | Bilingue PT/EN em runtime (`data-i18n*`, localStorage `cc_lang`) |

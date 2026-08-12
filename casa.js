@@ -295,12 +295,18 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
   if (pet  && (CC_PICK.pet  === '0' || CC_PICK.pet  === '1')) pet.checked  = CC_PICK.pet  === '1';
 })();
 
-/* ---------- envio do pedido: Web3Forms + hCaptcha ----------
-   Antes isto reencaminhava para booking.html; essa página deixou de existir e o
-   pedido é enviado aqui, com as mesmas seguranças: honeypot, cooldown de 30s,
-   consentimento RGPD e captcha. No fim mostra o bilhete de confirmação. */
+/* ---------- envio do pedido: FormSubmit ----------
+   Substituiu o Web3Forms (2026-08-11): não há chave de API nem conta, o destino
+   é o próprio email. Continua a haver honeypot, cooldown de 30s, validação e
+   consentimento RGPD; no fim mostra o bilhete de confirmação.
+   ⚠️ A PRIMEIRA submissão para um email novo faz o FormSubmit enviar um pedido
+   de activação para essa caixa — até se clicar nesse link nada é entregue. */
 (function () {
-  var ACCESS_KEY = 'c7f3b4ba-4bc4-45cc-a3e0-3fb9a15a4e7d';   /* chave de destino — pública por design */
+  /* Destino provisório: fica o email da RedDune até à entrega do site, depois
+     passa para o dos donos (trocar aqui; `_cc` no payload serve para cópias).
+     Cada endereço novo precisa de ser activado uma vez — ver comentário acima. */
+  var MAIL_TO  = 'reddunesolutions@gmail.com';
+  var ENDPOINT = 'https://formsubmit.co/ajax/' + MAIL_TO;
   var form = document.getElementById('casaForm');
   if (!form) return;
   var btn = form.querySelector('button[type="submit"]');
@@ -315,9 +321,9 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
 
-    /* honeypot: só um robô marca uma caixa que está fora do ecrã */
-    var hp = form.elements['botcheck'];
-    if (hp && hp.checked) return;
+    /* honeypot: só um robô escreve num campo que está fora do ecrã */
+    var hp = form.elements['_honey'];
+    if (hp && (hp.value || '').trim()) return;
 
     try {
       var last = +localStorage.getItem('cc_last_submit') || 0;
@@ -348,42 +354,42 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
     }
     if (crow) crow.classList.remove('invalid');
 
-    var capEl = form.elements['h-captcha-response'];
-    var capToken = capEl ? (capEl.value || '').trim() : '';
-    var caprow = el('cf-captcha-row');
-    if (!capToken) { if (caprow) caprow.classList.add('invalid'); return; }
-    if (caprow) caprow.classList.remove('invalid');
-
     var name = v('cfName'), mail = v('cfEmail'), tel = v('cfPhone');
     var house = v('cfHouse'), guests = v('cfGuests');
     var datesTxt = ((el('dateValue') || {}).textContent || '').trim();
 
+    /* no FormSubmit os nomes dos campos são as etiquetas do email — daí estarem
+       em português e por extenso. `_template: table` dá uma tabela legível. */
     var payload = {
-      access_key: ACCESS_KEY,
-      subject: 'Pedido de reserva — ' + (name || 'novo cliente'),
-      from_name: 'Casa Colorida · Tempo & Amor',
-      name: name, email: mail, replyto: mail, phone: tel,
-      casa: house,
-      hospedes: guests,
-      datas: datesTxt,
-      checkin: d.cin,
-      checkout: d.cout,
-      baby_extras: chk('cfBaby') ? 'Sim' : 'Não',
-      pet_extras: chk('cfPet') ? 'Sim' : 'Não',
-      consentimento_rgpd: 'Sim — aceitou a Política de Privacidade',
-      'h-captcha-response': capToken
+      _subject: 'Pedido de reserva — ' + (name || 'novo cliente'),
+      _template: 'table',
+      _captcha: 'false',        /* o captcha deles não funciona em modo AJAX */
+      _replyto: mail,           /* responder ao email vai directo ao hóspede */
+      Nome: name,
+      Telefone: tel,
+      Email: mail,
+      Casa: house,
+      Datas: datesTxt,
+      Entrada: d.cin,
+      Saida: d.cout,
+      Hospedes: guests,
+      'Extras de bebe': chk('cfBaby') ? 'Sim' : 'Nao',
+      'Extras para animais': chk('cfPet') ? 'Sim' : 'Nao',
+      'Consentimento RGPD': 'Sim — aceitou a Politica de Privacidade'
     };
 
     if (btn) { btn.disabled = true; btn.textContent = tr('bk.submit.sending'); }
 
-    fetch('https://api.web3forms.com/submit', {
+    fetch(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(payload)
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (!data || !data.success) throw new Error((data && data.message) ? data.message : 'Falha no envio');
+        /* o FormSubmit devolve success como string ("true"), não como booleano */
+        var sent = data && (data.success === true || data.success === 'true');
+        if (!sent) throw new Error((data && data.message) ? data.message : 'Falha no envio');
         try { localStorage.setItem('cc_last_submit', String(Date.now())); } catch (err) {}
 
         function put(id, txt) { var e = el(id); if (e) e.textContent = txt; }
@@ -409,7 +415,6 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
       })
       .catch(function (err) {
         if (btn) { btn.disabled = false; btn.textContent = (window.t ? tr('cf.send') : btnText); }
-        if (window.hcaptcha) { try { window.hcaptcha.reset(); } catch (e) {} }
         alert(tr('bk.alert.error').replace('{err}', err.message));
       });
   });

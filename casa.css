@@ -175,13 +175,11 @@ body { background: var(--paper); }
 .btn-send:hover { background: #F79E63; transform: translateY(-1px); }
 .btn-send:disabled { opacity: .7; cursor: progress; transform: none; }
 
-/* consentimento RGPD + hCaptcha (o pedido é enviado daqui, já não há booking.html) */
+/* consentimento RGPD (o pedido é enviado daqui, já não há booking.html) */
 #cf-consent-row { margin-top: clamp(18px,2.4vw,26px); align-items: flex-start; }
 #cf-consent-row.invalid { outline: 2px solid #C00F0C; outline-offset: 6px; border-radius: 6px; }
 .cf-consent-lbl { font-size: 13px; color: var(--slate); line-height: 1.45; }
 .cf-consent-lbl a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
-#cf-captcha-row { margin-top: clamp(18px,2.4vw,26px); display: flex; justify-content: center; }
-#cf-captcha-row.invalid { outline: 2px solid #C00F0C; outline-offset: 8px; border-radius: 6px; }
 /* ---------- BILHETE de confirmação (ocupa o lugar do formulário no envio) ---------- */
 .ticket {
   margin: clamp(30px,4.4vw,58px) auto 0; max-width: 990px;
