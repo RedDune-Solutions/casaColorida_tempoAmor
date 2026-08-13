@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260812d" defer></script>
+<script src="i18n.js?v=20260813g" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -20,11 +20,11 @@
 <meta property="og:description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="preload" as="image" href="assets/fig/hero.webp" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260813g" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260812d" />
+<link rel="stylesheet" href="styles.css?v=20260813g" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -46,6 +46,12 @@
 }
 .btn-book:hover { background: rgb(222,124,28); transform: translateY(-1px); }
 .btn-book.full { width: 100%; }
+/* setinha a seguir ao texto: desliza para a direita no hover/foco */
+.btn-book { gap: 10px; }
+.btn-arrow { width: 17px; height: 17px; flex: none; transition: transform .25s ease; }
+.btn-book:hover .btn-arrow,
+.btn-book:focus-visible .btn-arrow { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) { .btn-arrow { transition: none; } }
 
 /* ================= HEADER transparente por cima do conteúdo =================
    Sem imagem própria: deixa ver o que está por trás (hero). Um scrim escuro
@@ -94,7 +100,7 @@
   display: flex; align-items: flex-end;
 }
 .hero-clip { position: absolute; inset: 0; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.webp") center / cover no-repeat; }
+.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.webp?v=20260813g") center / cover no-repeat; }
 .hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.12) 0%, rgba(20,18,14,0) 30%, rgba(20,18,14,0) 62%, rgba(20,18,14,.18) 100%); }
 .hero-wrap {
   position: relative; z-index: 2; width: 100%;
@@ -393,26 +399,28 @@ section[id], form[id] { scroll-margin-top: 80px; }
 .disc-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(255,255,255,.5); }
 .disc-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
 
-/* fotografia de largura total (onda) — o fill original do Figma, 2200px.
-   A `onda.jpg` que aqui estava era um recorte do render com o desvanecimento
-   já cozido dentro da imagem; agora a fotografia entra crua e o esbatimento
-   é feito aqui, a desvanecer para o branco das secções de cima e de baixo. */
-.photo-full { width: 100%; display: block; }
-.photo-full img {
+/* banda da onda: a fotografia passa a levar o título por cima, em branco,
+   com o gradiente sage a fechar em baixo (é o que segura o contraste — a
+   água sozinha não chega aos 4,5:1 para o texto branco). */
+.wave-band { position: relative; isolation: isolate; }
+.wave-band .wave-img {
   width: 100%; display: block; object-fit: cover;
-  /* 33.34vw = o rácio 3:1 da fotografia: em ecrã largo a banda cresce com a
-     largura e o `cover` NÃO corta na vertical. Com a altura travada em 470px
-     um monitor de 2000px cortava 30% da foto e os surfistas e a crista caíam
-     dentro dos desvanecimentos — parecia água ao calhas. Em mobile o mínimo
-     de 220px manda e o corte passa a ser na horizontal, que não perde nada. */
-  height: clamp(220px, 33.34vw, 800px);
-  /* esbatimento mais curto do que a versão anterior (16%/18% comiam o motivo) */
-  --fade: linear-gradient(180deg,
-            transparent 0%, rgba(0,0,0,.55) 4%, #000 11%,
-            #000 89%, rgba(0,0,0,.55) 96%, transparent 100%);
+  /* 50vw = o rácio 2:1 da banda no Figma (1440×720) */
+  height: clamp(260px, 50vw, 860px);
+  /* só o topo desvanece para o branco da secção de cima; em baixo fecha o gradiente */
+  --fade: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.55) 4%, #000 13%, #000 100%);
   -webkit-mask-image: var(--fade);
           mask-image: var(--fade);
 }
+.wave-band::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+                rgba(130,184,181,0) 42%, rgba(130,184,181,.45) 72%, var(--sage) 100%);
+}
+.wave-head { position: absolute; left: 0; right: 0; bottom: clamp(20px,11%,92px); z-index: 1; }
+.duo.on-photo { margin-top: 0; }
+.duo.on-photo .l1 { color: rgba(255,255,255,.66); }
+.duo.on-photo .l2 { color: #fff; }
 
 /* ---- carrossel de recomendações ---- */
 .recs { padding: clamp(44px,6vw,84px) 0 clamp(40px,5vw,70px); text-align: center; }
@@ -423,30 +431,69 @@ section[id], form[id] { scroll-margin-top: 80px; }
 .rec-slide.on { opacity: 1; visibility: visible; pointer-events: auto; animation: recIn .45s ease both; }
 @keyframes recIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .rec-slide.on { animation: none; } }
+/* intro do Figma, por cima da barra */
+.rec-intro {
+  margin: 0 auto; padding-top: clamp(40px,5.5vw,80px); max-width: 640px;
+  text-align: center; font-size: clamp(15px,1.5vw,19px); line-height: 1.5; color: var(--ink);
+}
+/* barra teal: setas e título do separador activo (Figma) */
+.rec-bar {
+  display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center;
+  gap: clamp(8px,1.4vw,18px);
+  background: #9BC6C4; border: 1px solid var(--sage); border-radius: 10px;
+  padding: clamp(14px,2vw,26px) clamp(10px,1.6vw,20px);
+}
+.rec-bar button {
+  width: 40px; height: 40px; border: 0; background: none; color: #fff; cursor: pointer;
+  display: grid; place-items: center; border-radius: 50%; transition: background .2s;
+}
+.rec-bar button:hover { background: rgba(255,255,255,.22); }
+.rec-bar button svg { width: 22px; height: 22px; }
+.rec-titles { display: grid; }
 .rec-title {
+  grid-area: 1 / 1; opacity: 0; visibility: hidden;
+  font-size: clamp(16px,1.9vw,22px); font-weight: 700; letter-spacing: .01em; color: #fff;
+  transition: opacity .3s;
+}
+.rec-title.on { opacity: 1; visibility: visible; }
+/* cartão cinzento com a lista */
+.rec-card {
+  margin-top: 14px; background: var(--cloud); border: 1px solid var(--line); border-radius: 10px;
+  padding: clamp(28px,4vw,60px) clamp(18px,3vw,44px);
+}
+/* título de seccção fora da barra (comer e beber) */
+.sec-title {
   display: inline-block; font-size: clamp(16px,1.9vw,24px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: var(--sage);
   text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
 }
 .rec-grid {
-  margin: clamp(30px,4.4vw,58px) auto 0; max-width: 780px;
+  margin: 0 auto; max-width: 780px;
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px,2.8vw,34px) clamp(24px,4vw,60px);
   text-align: left;
 }
-.rec-grid.one { grid-template-columns: 1fr; max-width: 420px; text-align: center; }
 .rec-item .n { display: block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
+/* o nome abre o sítio no Google Maps: sublinhado só no hover/foco para não
+   competir com os títulos sublinhados das secções */
+a.n { text-decoration: none; transition: color .2s; }
+a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 5px; }
 .rec-item .tags { display: block; margin-top: 5px; font-size: clamp(11.5px,1.2vw,14px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
 @media (max-width: 620px) { .rec-grid { grid-template-columns: 1fr; text-align: center; } }
-.rec-nav { margin-top: clamp(28px,4vw,50px); display: flex; justify-content: center; gap: 14px; }
-.rec-nav button {
-  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
-  border: 1.5px solid var(--sage); color: var(--sage); background: none;
-  display: grid; place-items: center; transition: background .2s, color .2s, opacity .2s;
+/* comer e beber — duas colunas com a linha ao meio (Figma) */
+.food-cols {
+  padding: clamp(44px,6vw,86px) 0 clamp(40px,5vw,70px);
+  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  gap: clamp(24px,4.5vw,64px); align-items: start; text-align: left;
 }
-.rec-nav button:hover { background: var(--sage); color: #fff; }
-.rec-nav button svg { width: 16px; height: 16px; }
-.rec-nav button[disabled] { opacity: .38; cursor: default; }
-.rec-nav button[disabled]:hover { background: none; color: var(--sage); }
+.food-cols .vline { width: 1px; align-self: stretch; background: var(--line); }
+.food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); max-width: 340px; }
+.food-col > .food-note + .sec-title { margin-top: clamp(36px,5vw,80px); }
+.food-note.last { margin-top: clamp(32px,4.5vw,70px); }
+.food-list { margin-top: clamp(22px,3vw,40px); display: grid; gap: clamp(16px,2vw,26px); }
+@media (max-width: 720px) {
+  .food-cols { grid-template-columns: 1fr; }
+  .food-cols .vline { width: 100%; height: 1px; }
+}
 
 
 
@@ -463,21 +510,33 @@ section[id], form[id] { scroll-margin-top: 80px; }
 .faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 360px; }
 @media (max-width: 860px) { .faq-band-inner { grid-template-columns: 1fr; } .faq-band .vline { display: none; } }
 
-.faq { padding-block: clamp(34px,5vw,64px) clamp(56px,7vw,100px); }
-.faq-list { max-width: 640px; margin-inline: auto; display: flex; flex-direction: column; gap: 12px; }
-.acc { border: 1px solid var(--line-soft); border-radius: 10px; background: #fff; overflow: hidden; box-shadow: var(--shadow-sm); }
+/* lista numerada, sem cartões — os títulos são o mesmo tipo sublinhado teal
+   das outras secções e o número entra por contador (fica dentro do sublinhado,
+   sem sujar as chaves do i18n). */
+.faq { padding-block: clamp(48px,9.8vw,141px) clamp(56px,8vw,116px); }
+.faq-list { max-width: 720px; counter-reset: faq; display: flex; flex-direction: column; gap: clamp(38px,4.7vw,68px); }
+.acc { border: 0; border-radius: 0; background: none; box-shadow: none; }
 .acc summary {
-  list-style: none; cursor: pointer; padding: 16px 20px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink);
+  list-style: none; cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: flex-start; gap: clamp(14px,1.8vw,26px);
+  font-size: clamp(19px,2vw,29px); font-weight: 400; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--sage);
 }
 .acc summary::-webkit-details-marker { display: none; }
-.acc summary .chev { width: 18px; height: 18px; color: var(--slate); transition: transform .25s; flex: none; }
+.acc summary > span {
+  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px;
+}
+.acc summary > span::before { counter-increment: faq; content: counter(faq) ". "; }
+.acc summary .chev { width: clamp(20px,1.8vw,26px); height: clamp(20px,1.8vw,26px); color: var(--sage); transition: transform .25s; flex: none; stroke-width: 2.4; }
 .acc[open] summary .chev { transform: rotate(180deg); }
-.acc .ans { padding: 2px 20px 18px; font-size: 15px; font-weight: 300; color: #303030; line-height: 1.6; }
+.acc .ans {
+  padding: 0; margin-top: clamp(26px,3.7vw,53px); max-width: 640px;
+  font-size: clamp(16px,1.35vw,20px); font-weight: 400; color: var(--ink); line-height: 1.75;
+}
+@media (max-width: 620px) { .acc summary { align-items: flex-start; } }
 
 /* texto corrido justificado como no resto do site */
-.welcome p, .house-copy p, .disc-copy p, .faq .ans, .pm-text { text-align: justify; hyphens: auto; }
+.welcome p, .house-copy p, .disc-copy p, .pm-text { text-align: justify; hyphens: auto; }
 .welcome p { text-align: center; }
 
 @media (max-width: 860px) {
@@ -585,7 +644,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
           <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
           <span class="lbl"><b data-i18n="pet.t">Extras para animais (20€ adicional)</b><small data-i18n="pet.s">Cama e taças disponíveis.</small></span>
         </label>
-        <button type="submit" class="btn-book" id="bookBtn" data-i18n="hero.next">Passo seguinte</button>
+        <button type="submit" class="btn-book" id="bookBtn"><span data-i18n="hero.next">Passo seguinte</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </form>
   </div>
@@ -736,79 +795,87 @@ section[id], form[id] { scroll-margin-top: 80px; }
   </div>
 
   <!-- carrossel de lugares (conteúdo do Figma) -->
+  <p class="rec-intro page reveal" data-i18n="recs.intro">De praias selvagens a aldeias tranquilas, descubra os lugares que merecem o seu tempo.</p>
+
   <div class="recs page reveal" id="recPlaces">
+    <div class="rec-bar">
+      <button type="button" data-rec="prev" data-i18n-attr="aria-label:rec.prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="rec-titles">
+        <span class="rec-title on" data-i18n="rec.sunset">Pôr do sol &amp; oceano</span>
+        <span class="rec-title" data-i18n="rec.village">Cultura da vila</span>
+        <span class="rec-title" data-i18n="rec.beach">Praia &amp; surf</span>
+        <span class="rec-title" data-i18n="rec.trails">Trilhos &amp; natureza</span>
+      </div>
+      <button type="button" data-rec="next" data-i18n-attr="aria-label:rec.next" aria-label="Seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="rec-card">
     <div class="rec-slide on">
-      <span class="rec-title" data-i18n="rec.sunset">Pôr do sol &amp; oceano</span>
       <div class="rec-grid">
-        <p class="rec-item"><span class="n">Cabo de São Vicente ~15 km</span><span class="tags" data-i18n="tag.landscape">paisagem | a não perder</span></p>
-        <p class="rec-item"><span class="n">Ponta do Telheiro ~10 km</span><span class="tags" data-i18n="tag.geology">geologia | natureza</span></p>
-        <p class="rec-item"><span class="n">Miradouro do Castelejo ~5 km</span><span class="tags" data-i18n="tag.view">vista | fotografia</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Cabo%20de%20S%C3%A3o%20Vicente%2C%20Sagres" target="_blank" rel="noopener noreferrer">Cabo de São Vicente ~15 km</a><span class="tags" data-i18n="tag.landscape">paisagem | a não perder</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Ponta%20do%20Telheiro%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Ponta do Telheiro ~10 km</a><span class="tags" data-i18n="tag.geology">geologia | natureza</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Miradouro%20do%20Castelejo%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Miradouro do Castelejo ~5 km</a><span class="tags" data-i18n="tag.view">vista | fotografia</span></p>
       </div>
     </div>
     <div class="rec-slide">
-      <span class="rec-title" data-i18n="rec.village">Cultura da vila</span>
       <div class="rec-grid">
-        <p class="rec-item"><span class="n">Fortaleza de Sagres ~15 km</span><span class="tags" data-i18n="tag.history3">história | arquitetura | oceano</span></p>
-        <p class="rec-item"><span class="n">Aldeia da Pedralva ~12 km</span><span class="tags" data-i18n="tag.slow">viagem lenta | comida | família</span></p>
-        <p class="rec-item"><span class="n">Forte de Santo António do Beliche ~12 km</span><span class="tags" data-i18n="tag.viewhist">vista | história | fotografia</span></p>
-        <p class="rec-item"><span class="n">Porto da Baleeira ~15 km</span><span class="tags" data-i18n="tag.local">vida local | pesca | comida</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Fortaleza%20de%20Sagres" target="_blank" rel="noopener noreferrer">Fortaleza de Sagres ~15 km</a><span class="tags" data-i18n="tag.history3">história | arquitetura | oceano</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Aldeia%20da%20Pedralva%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Aldeia da Pedralva ~12 km</a><span class="tags" data-i18n="tag.slow">viagem lenta | comida | família</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Forte%20do%20Beliche%2C%20Sagres" target="_blank" rel="noopener noreferrer">Forte de Santo António do Beliche ~12 km</a><span class="tags" data-i18n="tag.viewhist">vista | história | fotografia</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Porto%20da%20Baleeira%2C%20Sagres" target="_blank" rel="noopener noreferrer">Porto da Baleeira ~15 km</a><span class="tags" data-i18n="tag.local">vida local | pesca | comida</span></p>
       </div>
     </div>
     <div class="rec-slide">
-      <span class="rec-title" data-i18n="rec.beach">Praia &amp; surf</span>
       <div class="rec-grid">
-        <p class="rec-item"><span class="n">Castelejo ~5 km</span><span class="tags" data-i18n="tag.surf1">surf | pôr do sol | natureza</span></p>
-        <p class="rec-item"><span class="n">Zavial ~10 km</span><span class="tags" data-i18n="tag.surf2">surf | natureza | pôr do sol</span></p>
-        <p class="rec-item"><span class="n">Cordoama ~5 km</span><span class="tags" data-i18n="tag.surf3">surf | caminhada | natureza</span></p>
-        <p class="rec-item"><span class="n">Martinhal ~10 km</span><span class="tags" data-i18n="tag.swim1">banhos | família | caminhada</span></p>
-        <p class="rec-item"><span class="n">Ingrina ~10 km</span><span class="tags" data-i18n="tag.swim2">banhos | família | pôr do sol</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20do%20Castelejo%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Castelejo ~5 km</a><span class="tags" data-i18n="tag.surf1">surf | pôr do sol | natureza</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20do%20Zavial%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Zavial ~10 km</a><span class="tags" data-i18n="tag.surf2">surf | natureza | pôr do sol</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20da%20Cordoama%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Cordoama ~5 km</a><span class="tags" data-i18n="tag.surf3">surf | caminhada | natureza</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20do%20Martinhal%2C%20Sagres" target="_blank" rel="noopener noreferrer">Martinhal ~10 km</a><span class="tags" data-i18n="tag.swim1">banhos | família | caminhada</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20da%20Ingrina%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Ingrina ~10 km</a><span class="tags" data-i18n="tag.swim2">banhos | família | pôr do sol</span></p>
       </div>
     </div>
     <div class="rec-slide">
-      <span class="rec-title" data-i18n="rec.trails">Trilhos &amp; natureza</span>
       <div class="rec-grid">
-        <p class="rec-item"><span class="n">Rota Vicentina</span><span class="tags" data-i18n="tag.hiking">caminhada | aventura</span></p>
-        <p class="rec-item"><span class="n">Trilho Ambiental do Castelejo ~5 km</span><span class="tags" data-i18n="tag.family">família | pequena aventura</span></p>
-        <p class="rec-item"><span class="n">Pegadas de dinossauro — Praia da Salema ~15 km</span><span class="tags" data-i18n="tag.histfam">história | família</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Rota%20Vicentina" target="_blank" rel="noopener noreferrer">Rota Vicentina</a><span class="tags" data-i18n="tag.hiking">caminhada | aventura</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Trilho%20Ambiental%20do%20Castelejo%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Trilho Ambiental do Castelejo ~5 km</a><span class="tags" data-i18n="tag.family">família | pequena aventura</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Pegadas%20de%20dinossauros%2C%20Praia%20da%20Salema" target="_blank" rel="noopener noreferrer">Pegadas de dinossauro — Praia da Salema ~15 km</a><span class="tags" data-i18n="tag.histfam">história | família</span></p>
       </div>
     </div>
-    <div class="rec-nav">
-      <button type="button" data-rec="prev" data-i18n-attr="aria-label:rec.prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
-      <button type="button" data-rec="next" data-i18n-attr="aria-label:rec.next" aria-label="Seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
 
-  <!-- fotografia de largura total -->
-  <div class="photo-full reveal"><img src="assets/fig/onda.webp" alt="" aria-hidden="true" loading="lazy" /></div>
+  <!-- fotografia de largura total, com o título por cima (Figma) -->
+  <div class="wave-band reveal">
+    <img class="wave-img" src="assets/fig/onda.webp" alt="" aria-hidden="true" loading="lazy" />
+    <div class="page wave-head">
+      <h2 class="duo on-photo">
+        <span class="l1" data-i18n="sit.l1">o sítio ideal para</span>
+        <span class="l2" data-i18n="sit.l2">sentar e não ter pressa</span>
+      </h2>
+    </div>
+  </div>
 
-  <!-- segundo carrossel: comer e beber -->
-  <div class="recs page reveal" id="recFood">
-    <h2 class="duo teal">
-      <span class="l1" data-i18n="sit.l1">o sítio ideal para</span>
-      <span class="l2" data-i18n="sit.l2">sentar e não ter pressa</span>
-    </h2>
-    <div style="height:clamp(26px,3.4vw,44px)"></div>
-    <div class="rec-slide on">
-      <span class="rec-title" data-i18n="rec.mornings">Manhãs sem pressa</span>
-      <div class="rec-grid one">
-        <p class="rec-item"><span class="n">Izzys Market</span><span class="tags" data-i18n="tag.morning">manhã calma | pequeno-almoço fresco</span></p>
-        <p class="rec-item"><span class="n">Cantinho dos Amigos</span><span class="tags" data-i18n="tag.pastry">pastelaria portuguesa | pequeno-almoço</span></p>
-        <p class="rec-item"><span class="n">Snack Bar Caravela</span><span class="tags" data-i18n="tag.outside">esplanada | café</span></p>
-        <p class="rec-item"><span class="n">A Sereia — Porto da Baleeira</span><span class="tags" data-i18n="tag.coffeeview">café com vista | a não perder</span></p>
+  <!-- comer e beber: as duas listas lado a lado, como no Figma -->
+  <div class="page reveal food-cols">
+    <div class="food-col">
+      <p class="food-note" data-i18n="food.note1">Não há pressa nenhuma. Comece com um café quente e algo acabado de sair do forno.</p>
+      <span class="sec-title" data-i18n="rec.mornings">Manhãs sem pressa</span>
+      <div class="food-list">
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Izzys%20Market%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Izzys Market</a><span class="tags" data-i18n="tag.morning">manhã calma | pequeno-almoço fresco</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Cantinho%20dos%20Amigos%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Cantinho dos Amigos</a><span class="tags" data-i18n="tag.pastry">pastelaria portuguesa | pequeno-almoço</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Snack%20Bar%20Caravela%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Snack Bar Caravela</a><span class="tags" data-i18n="tag.outside">esplanada | café</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=A%20Sereia%2C%20Porto%20da%20Baleeira%2C%20Sagres" target="_blank" rel="noopener noreferrer">A Sereia — Porto da Baleeira</a><span class="tags" data-i18n="tag.coffeeview">café com vista | a não perder</span></p>
       </div>
     </div>
-    <div class="rec-slide">
-      <span class="rec-title" data-i18n="rec.flavours">Sabores locais</span>
-      <div class="rec-grid one">
-        <p class="rec-item"><span class="n">Taberna dos Artistas</span><span class="tags" data-i18n="tag.trad">tradicional | portuguesa</span></p>
-        <p class="rec-item"><span class="n">Restaurant Marigil</span><span class="tags" data-i18n="tag.homemade">família | comida caseira</span></p>
-        <p class="rec-item"><span class="n">Solar do Perceve</span><span class="tags" data-i18n="tag.fish">peixe local | pratos típicos</span></p>
-        <p class="rec-item"><span class="n">Ribeira do Poço</span><span class="tags" data-i18n="tag.seafood">marisco | local</span></p>
+    <span class="vline" aria-hidden="true"></span>
+    <div class="food-col">
+      <span class="sec-title" data-i18n="rec.flavours">Sabores locais</span>
+      <div class="food-list">
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Taberna%20dos%20Artistas%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Taberna dos Artistas</a><span class="tags" data-i18n="tag.trad">tradicional | portuguesa</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurante%20Marigil%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Restaurant Marigil</a><span class="tags" data-i18n="tag.homemade">família | comida caseira</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Solar%20do%20Perceve%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Solar do Perceve</a><span class="tags" data-i18n="tag.fish">peixe local | pratos típicos</span></p>
+        <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Ribeira%20do%20Po%C3%A7o%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Ribeira do Poço</a><span class="tags" data-i18n="tag.seafood">marisco | local</span></p>
       </div>
-    </div>
-    <div class="rec-nav">
-      <button type="button" data-rec="prev" data-i18n-attr="aria-label:rec.prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
-      <button type="button" data-rec="next" data-i18n-attr="aria-label:rec.next" aria-label="Seguinte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="food-note last" data-i18n="food.note2">Comida portuguesa reconfortante e um ambiente descontraído para uma refeição em conjunto.</p>
     </div>
   </div>
 </section>
@@ -1038,8 +1105,11 @@ function ccDateRange(ids) {
     var i = 0, timer = null, manual = false, hovered = false, onScreen = true;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    /* o título vive na barra teal, fora dos slides: troca ao mesmo tempo */
+    var titles = Array.prototype.slice.call(host.querySelectorAll('.rec-title'));
     function render() {
       slides.forEach(function (s, n) { s.classList.toggle('on', n === i); });
+      titles.forEach(function (t, n) { t.classList.toggle('on', n === i); });
     }
     /* dá a volta nos extremos: nunca fica preso no último slide */
     function go(d) { i = (i + d + slides.length) % slides.length; render(); }
@@ -1164,13 +1234,17 @@ function ccDateRange(ids) {
     tempo: { dir: 'assets/casas/tempo/', shots: [
       ['tempo-02', 'ph.living'],   ['tempo-08', 'ph.exterior'], ['tempo-05', 'ph.bedroom'],
       ['tempo-07', 'ph.terrace'],  ['tempo-01', 'ph.kitchen'],  ['tempo-06', 'ph.living'],
-      ['tempo-04', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom']
+      ['tempo-04', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom'], ['tempo-13', 'ph.view'],
+      ['tempo-09', 'ph.kitchen'],  ['tempo-12', 'ph.bedroom'],  ['tempo-15', 'ph.terrace'],
+      ['tempo-10', 'ph.living'],   ['tempo-11', 'ph.bathroom'], ['tempo-14', 'ph.bedroom']
     ]},
     colorida: { dir: 'assets/casas/colorida/', shots: [
-      ['colorida-11', 'ph.patio'],   ['colorida-07', 'ph.living'],  ['colorida-05', 'ph.twin'],
-      ['colorida-08', 'ph.facade'],  ['colorida-01', 'ph.kitchen'], ['colorida-02', 'ph.bedroom'],
-      ['colorida-06', 'ph.living'],  ['colorida-04', 'ph.twin'],    ['colorida-10', 'ph.patio'],
-      ['colorida-09', 'ph.kitchen'], ['colorida-03', 'ph.bedroom']
+      ['colorida-11', 'ph.patio'],    ['colorida-07', 'ph.living'],   ['colorida-05', 'ph.twin'],
+      ['colorida-08', 'ph.facade'],   ['colorida-01', 'ph.kitchen'],  ['colorida-02', 'ph.bedroom'],
+      ['colorida-06', 'ph.living'],   ['colorida-04', 'ph.twin'],     ['colorida-10', 'ph.patio'],
+      ['colorida-09', 'ph.kitchen'],  ['colorida-03', 'ph.bedroom'],  ['colorida-13', 'ph.bathroom'],
+      ['colorida-16', 'ph.living'],   ['colorida-15', 'ph.twin'],     ['colorida-12', 'ph.kitchen'],
+      ['colorida-14', 'ph.bathroom'], ['colorida-17', 'ph.facade']
     ]}
   };
   var FALLBACK = {
@@ -1178,7 +1252,7 @@ function ccDateRange(ids) {
     'ph.bedroom': 'Quarto de casal', 'ph.terrace': 'Terraço com vista',
     'ph.kitchen': 'Cozinha equipada', 'ph.bathroom': 'Casa de banho',
     'ph.patio': 'Pátio com churrasqueira', 'ph.twin': 'Quarto com duas camas',
-    'ph.facade': 'Fachada da casa'
+    'ph.facade': 'Fachada da casa', 'ph.view': 'Vista da janela'
   };
   function label(key) { return (window.t && window.t(key) !== key) ? window.t(key) : (FALLBACK[key] || ''); }
 
@@ -1249,9 +1323,27 @@ function ccDateRange(ids) {
       c.addEventListener('focusout', function () { hovered = false; });
       c.addEventListener('click', function () { openLb(t.house, c._index); });
     });
-    /* pré-carrega as restantes para o cross-fade não piscar */
-    t.house.shots.forEach(function (s) { var im = new Image(); im.src = t.house.dir + s[0] + '.webp'; });
   });
+
+  /* Pré-carregamento das restantes fotos (o cross-fade não pode piscar), mas
+     só depois de a tira aparecer no ecrã e uma a uma: com 15 e 17 fotos por
+     casa, disparar tudo no arranque punha ~6 MB à frente do LCP. */
+  var warmed = false;
+  function warm() {
+    if (warmed) return;
+    warmed = true;
+    var queue = [];
+    trios.forEach(function (t) {
+      t.house.shots.forEach(function (s) { queue.push(t.house.dir + s[0] + '.webp'); });
+    });
+    (function next() {
+      var url = queue.shift();
+      if (!url) return;
+      var im = new Image();
+      im.onload = im.onerror = function () { setTimeout(next, 120); };
+      im.src = url;
+    })();
+  }
 
   function step() {
     if (reduce || hovered || !onScreen || lbOpen) return;
@@ -1266,9 +1358,10 @@ function ccDateRange(ids) {
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
       onScreen = es.some(function (e) { return e.isIntersecting; });
+      if (onScreen) warm();
     }, { threshold: .15 });
     document.querySelectorAll('.trio[data-house]').forEach(function (el) { io.observe(el); });
-  }
+  } else { warm(); }
   document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   window.addEventListener('langchange', function () {
     trios.forEach(function (t) { t.cells.forEach(function (c) {
@@ -1346,7 +1439,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260812d" defer></script>
+<script src="site.js?v=20260813g" defer></script>
 
 <script type="application/ld+json">
 {

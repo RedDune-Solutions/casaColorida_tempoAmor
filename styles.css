@@ -479,12 +479,11 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 0; }
    Calmas, no tom da marca; respeitam reduced-motion.
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {
-  /* FAQ — resposta desliza ao abrir; cartão levanta */
-  .acc { transition: box-shadow .3s ease; }
-  .acc[open] { box-shadow: 0 12px 32px rgba(30,30,30,.09); }
+  /* FAQ — a resposta desliza ao abrir. Sem sombra nem fundo no hover: a lista
+     do Figma não tem cartões, é texto sobre o fundo da página. */
   .acc[open] .ans { animation: ccAccOpen .35s ease-out both; }
-  .acc summary { transition: background .2s ease; }
-  .acc summary:hover { background: rgba(94,146,143,.06); }
+  .acc summary > span { transition: color .2s ease; }
+  .acc summary:hover > span { color: var(--sage-deep); }
 
   /* dropdowns personalizados — pop-in */
   .cs-menu { animation: ccPopIn .22s cubic-bezier(.2,.85,.3,1.1) both; transform-origin: top center; }

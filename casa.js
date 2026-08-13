@@ -134,25 +134,32 @@ var CASA_SHOTS = {
   colorida: {
     dir: 'assets/casas/colorida/',
     shots: [
-      ['colorida-07', 'ph.living'],  ['colorida-06', 'ph.living'],   ['colorida-01', 'ph.kitchen'],
-      ['colorida-09', 'ph.kitchen'], ['colorida-02', 'ph.bedroom'],  ['colorida-03', 'ph.bedroom'],
-      ['colorida-04', 'ph.twin'],    ['colorida-05', 'ph.twin'],     ['colorida-11', 'ph.patio'],
-      ['colorida-10', 'ph.patio'],   ['colorida-08', 'ph.facade']
+      ['colorida-07', 'ph.living'],   ['colorida-06', 'ph.living'],   ['colorida-16', 'ph.living'],
+      ['colorida-01', 'ph.kitchen'],  ['colorida-09', 'ph.kitchen'],  ['colorida-12', 'ph.kitchen'],
+      ['colorida-02', 'ph.bedroom'],  ['colorida-03', 'ph.bedroom'],
+      ['colorida-04', 'ph.twin'],     ['colorida-05', 'ph.twin'],     ['colorida-15', 'ph.twin'],
+      ['colorida-13', 'ph.bathroom'], ['colorida-14', 'ph.bathroom'],
+      ['colorida-11', 'ph.patio'],    ['colorida-10', 'ph.patio'],
+      ['colorida-08', 'ph.facade'],   ['colorida-17', 'ph.facade']
     ]
   },
   tempo: {
     dir: 'assets/casas/tempo/',
     shots: [
-      ['tempo-02', 'ph.living'],  ['tempo-06', 'ph.living'],   ['tempo-01', 'ph.kitchen'],
-      ['tempo-04', 'ph.bedroom'], ['tempo-05', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom'],
-      ['tempo-07', 'ph.terrace'], ['tempo-08', 'ph.exterior']
+      ['tempo-02', 'ph.living'],   ['tempo-06', 'ph.living'],    ['tempo-10', 'ph.living'],
+      ['tempo-01', 'ph.kitchen'],  ['tempo-09', 'ph.kitchen'],
+      ['tempo-04', 'ph.bedroom'],  ['tempo-05', 'ph.bedroom'],   ['tempo-12', 'ph.bedroom'],
+      ['tempo-14', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom'],  ['tempo-11', 'ph.bathroom'],
+      ['tempo-13', 'ph.view'],     ['tempo-07', 'ph.terrace'],   ['tempo-15', 'ph.terrace'],
+      ['tempo-08', 'ph.exterior']
     ]
   }
 };
 var FALLBACK_ALT = {
   'ph.living': 'Sala de estar', 'ph.kitchen': 'Cozinha equipada', 'ph.bedroom': 'Quarto de casal',
   'ph.twin': 'Quarto com duas camas', 'ph.patio': 'Pátio com churrasqueira', 'ph.facade': 'Fachada da casa',
-  'ph.bathroom': 'Casa de banho', 'ph.terrace': 'Terraço com vista', 'ph.exterior': 'Pátio de entrada e escadas'
+  'ph.bathroom': 'Casa de banho', 'ph.terrace': 'Terraço com vista', 'ph.exterior': 'Pátio de entrada e escadas',
+  'ph.view': 'Vista da janela'
 };
 function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (FALLBACK_ALT[k] || ''); }
 
@@ -168,6 +175,9 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
 
   house.shots.forEach(function (s, n) {
     var im = new Image();
+    /* só a primeira entra no carregamento inicial; as outras ficam para depois */
+    if (n === 0) { im.setAttribute('fetchpriority', 'high'); }
+    else { im.loading = 'lazy'; im.decoding = 'async'; }
     im.src = house.dir + s[0] + '.webp';
     im.alt = casaLabel(s[1]);
     im.setAttribute('data-i18n-attr', 'alt:' + s[1]);
@@ -518,6 +528,9 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
         form.hidden = true;
         var title = document.querySelector('.casa-form .cf-title');
         if (title) title.hidden = true;
+        /* a promessa de resposta vai com o formulário — o bilhete já a repete */
+        var after = el('cf-after');
+        if (after) after.hidden = true;
         var ok = el('cf-success');
         if (ok) { ok.hidden = false; ok.scrollIntoView({ block: 'center' }); }
       })

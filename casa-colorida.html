@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.cc">Casa Colorida · Casa de férias T2 em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260812d" defer></script>
+<script src="i18n.js?v=20260813g" defer></script>
 <meta name="description" content="Casa de férias T2 no rés-do-chão, cheia de cor, com pátio e churrasqueira em Vila do Bispo, Algarve. Ideal para famílias." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/casa-colorida.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -24,8 +24,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260812d" />
-<link rel="stylesheet" href="casa.css?v=20260812d" />
+<link rel="stylesheet" href="styles.css?v=20260813g" />
+<link rel="stylesheet" href="casa.css?v=20260813g" />
 </head>
 <body>
 
@@ -35,7 +35,7 @@
 <header class="bar">
   <div class="bar-inner">
     <a class="home" href="index.html" data-i18n-attr="aria-label:home.aria" aria-label="Casa Colorida e Tempo &amp; Amor — Início">
-      <img class="mark-box" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
+      <img class="mark-box" src="assets/icons/logo-ctea.svg?v=4" alt="Casa CT&amp;A" width="66" height="60" />
     </a>
     <nav aria-label="Principal">
       <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
@@ -212,6 +212,9 @@
       <button type="submit" class="btn-send" data-i18n="cf.send">Enviar pedido</button>
     </form>
 
+    <!-- promessa de resposta, por baixo do formulário (Figma) -->
+    <p class="cf-after" id="cf-after" data-i18n="tkt.p">Responderemos ao seu pedido em breve; receberá por email toda a informação necessária para uma chegada tranquila e sem preocupações.</p>
+
     <!-- ===================== BILHETE (sucesso) ===================== -->
     <div class="ticket" id="cf-success" hidden>
       <h2 data-i18n="tkt.h">Mal podemos esperar para o receber na nossa Casa Colorida, Tempo &amp; Amor</h2>
@@ -236,19 +239,20 @@
         <span class="access-l1" data-i18n="provide.l1">ao seu serviço</span>
         <span class="access-l2" data-i18n="provide.l2">disponibilizamos</span>
       </h2>
-      <div class="amn-grid six">
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.kettle">Chaleira</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.coffee">Máquina de café</span></div>
-        <div class="amn"><img class="amn-ico" src="assets/icons/cooktop.svg?v=2" alt="" aria-hidden="true" /><span data-i18n="amn.cooktop">Placa de fogão</span></div>
-        <div class="amn"><img class="amn-ico" src="assets/icons/dishwasher.svg?v=2" alt="" aria-hidden="true" /><span data-i18n="amn.dishwasher">Máquina de lavar louça</span></div>
-        <div class="amn"><img class="amn-ico" src="assets/icons/fridge.svg?v=2" alt="" aria-hidden="true" /><span data-i18n="amn.fridge">Frigorífico</span></div>
-        <div class="amn"><img class="amn-ico" src="assets/icons/toaster.svg?v=2" alt="" aria-hidden="true" /><span data-i18n="amn.toaster">Torradeira</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.towels">Toalhas</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.hair">Secador de cabelo</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.bodysoap">Gel de banho</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.handsoap">Sabonete</span></div>
-        <div class="amn"><img class="amn-ico" src="assets/icons/toilet-paper.svg?v=2" alt="" aria-hidden="true" /><span data-i18n="amn.wc">Papel higiénico</span></div>
-        <div class="amn"><span class="amn-ico pending" aria-hidden="true"></span><span data-i18n="amn.clean">Produtos de limpeza</span></div>
+      <div class="amn-grid seven">
+        <div class="amn"><img class="amn-ico" src="assets/icons/coffee.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.coffee">Máquina de café</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/toaster.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.toaster">Torradeira</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/kettle.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.kettle">Chaleira</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/kitchen-utensils.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.utensils">Utensílios de cozinha</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/oven.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.oven">Forno</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/cooktop.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.cooktop">Placa de fogão</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/dishwasher.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.dishwasher">Máquina de lavar louça</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/cleaning.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.clean">Produtos de limpeza</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/toilet-paper.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.wc">Papel higiénico</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/towels.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.towels">Toalhas</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/hand-soap.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.handsoap">Sabonete</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/body-soap.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.bodysoap">Gel de banho</span></div>
+        <div class="amn"><img class="amn-ico" src="assets/icons/hair-dryer.svg?v=4" alt="" aria-hidden="true" /><span data-i18n="amn.hair">Secador de cabelo</span></div>
       </div>
     </div>
   </section>
@@ -258,7 +262,7 @@
 <footer class="foot-site">
   <div class="fs-grid">
     <div class="fs-brand">
-      <img class="fs-logo" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
+      <img class="fs-logo" src="assets/icons/logo-ctea.svg?v=4" alt="Casa CT&amp;A" width="66" height="60" />
       <div class="fs-name"><span class="l1">casa colorida</span><span class="l2">tempo &amp; amor</span></div>
       <p class="fs-tag" data-i18n="foot.tag">Duas casas acolhedoras e típicas no coração de Vila do Bispo — abrande, sinta-se em casa.</p>
     </div>
@@ -284,8 +288,8 @@
   </div>
 </footer>
 
-<script src="casa.js?v=20260812d" defer></script>
-<script src="site.js?v=20260812d" defer></script>
+<script src="casa.js?v=20260813g" defer></script>
+<script src="site.js?v=20260813g" defer></script>
 
 <script type="application/ld+json">
 {

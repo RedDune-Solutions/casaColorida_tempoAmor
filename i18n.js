@@ -87,6 +87,7 @@
       'ph.terrace': 'Terraço com vista',
       'ph.patio': 'Pátio com churrasqueira',
       'ph.exterior': 'Pátio de entrada e escadas',
+      'ph.view': 'Vista da janela',
       'lb.close': 'Fechar',
       'lb.prev': 'Anterior',
       'lb.next': 'Seguinte',
@@ -97,6 +98,9 @@
       'discover.title': 'Os nossos lugares favoritos',
       'discover.body': 'No extremo sudoeste de Portugal, onde o Algarve encontra o Atlântico bravo, Vila do Bispo é um refúgio entre falésias, praias selvagens e o silêncio da Costa Vicentina. Toque em cada lugar para saber mais.',
       'collection.body': 'Uma coleção de lugares, experiências e pequenos momentos que tornam a nossa região tão acolhedora e típica.',
+      'recs.intro': 'De praias selvagens a aldeias tranquilas, descubra os lugares que merecem o seu tempo.',
+      'food.note1': 'Não há pressa nenhuma. Comece com um café quente e algo acabado de sair do forno.',
+      'food.note2': 'Comida portuguesa reconfortante e um ambiente descontraído para uma refeição em conjunto.',
 
       /* index — redesign 2026-07 (novo mockup Figma) */
       'nav.book': 'Reservar',
@@ -124,6 +128,10 @@
       'amn.handsoap': 'Sabonete',
       'amn.wc': 'Papel higiénico',
       'amn.clean': 'Produtos de limpeza',
+      'amn.microwave': 'Micro-ondas',
+      'amn.utensils': 'Utensílios de cozinha',
+      'amn.washer': 'Máquina de lavar roupa',
+      'amn.oven': 'Forno',
 
       /* redesign completo Figma (2026-07-31) */
       'welcome.l1': 'abrande',
@@ -347,8 +355,9 @@
       /* privacidade */
       'page.title.priv': 'Política de Privacidade · Casa Colorida · Tempo & Amor',
       'priv.back.top': '← Voltar ao pedido de reserva',
+      'priv.back.short': 'Voltar',
       'priv.h1': 'política de privacidade',
-      'priv.updated': 'Última atualização: 17 de junho de 2026',
+      'priv.updated': 'Última atualização: 12 de agosto de 2026',
       'priv.intro': 'Esta política explica como tratamos os dados pessoais recolhidos através do formulário de pedido de reserva deste site, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).',
       'priv.h2.1': '1. Responsável pelo tratamento',
       'priv.p.1': 'As casas <strong>Casa Colorida</strong> e <strong>Tempo &amp; Amor</strong>, em Vila do Bispo (Algarve), geridas por Andrea e Mató. Site mantido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a> &amp; Sacra Design.<br>Contacto: <a href="mailto:reddunesolutions@gmail.com">reddunesolutions@gmail.com</a> · Andrea (+351) 967 443 791 · Mató (+351) 961 470 100.',
@@ -441,6 +450,7 @@
       'ph.terrace': 'Terrace with a view',
       'ph.patio': 'Patio with barbecue',
       'ph.exterior': 'Entrance patio and stairs',
+      'ph.view': 'Window view',
       'lb.close': 'Close',
       'lb.prev': 'Previous',
       'lb.next': 'Next',
@@ -450,6 +460,9 @@
       'discover.title': 'Our favourite places',
       'discover.body': 'On Portugal\u2019s far southwest tip, where the Algarve meets the wild Atlantic, Vila do Bispo is a retreat among cliffs, untamed beaches and the stillness of the Vicentine Coast. Tap each place to learn more.',
       'collection.body': 'A collection of places, experiences and small moments that make our region so welcoming and typical.',
+      'recs.intro': 'From wild beaches to quiet villages, discover the places worth taking your time for.',
+      'food.note1': 'There is no need to rush here. Start with a warm coffee and something freshly baked.',
+      'food.note2': 'Comforting Portuguese food and a relaxed atmosphere for a meal together.',
 
       /* index — redesign 2026-07 (novo mockup Figma) */
       'nav.book': 'Book now',
@@ -477,6 +490,10 @@
       'amn.handsoap': 'Hand soap',
       'amn.wc': 'Toilet paper',
       'amn.clean': 'Cleaning products',
+      'amn.microwave': 'Microwave',
+      'amn.utensils': 'Kitchen utensils',
+      'amn.washer': 'Washing machine',
+      'amn.oven': 'Oven',
 
       /* redesign completo Figma (2026-07-31) — copy do Figma */
       'welcome.l1': 'stay slow',
@@ -694,8 +711,9 @@
 
       'page.title.priv': 'Privacy Policy · Casa Colorida · Tempo & Amor',
       'priv.back.top': '← Back to booking request',
+      'priv.back.short': 'Back',
       'priv.h1': 'privacy policy',
-      'priv.updated': 'Last updated: 17 June 2026',
+      'priv.updated': 'Last updated: 12 August 2026',
       'priv.intro': 'This policy explains how we handle the personal data collected through the booking request form on this site, in line with the General Data Protection Regulation (GDPR).',
       'priv.h2.1': '1. Data controller',
       'priv.p.1': 'The houses <strong>Casa Colorida</strong> and <strong>Tempo &amp; Amor</strong>, in Vila do Bispo (Algarve), run by Andrea and Mató. Site maintained by <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a> &amp; Sacra Design.<br>Contact: <a href="mailto:reddunesolutions@gmail.com">reddunesolutions@gmail.com</a> · Andrea (+351) 967 443 791 · Mató (+351) 961 470 100.',

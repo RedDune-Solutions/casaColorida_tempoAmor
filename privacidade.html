@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-</script>
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="robots" content="noindex" />
 <title data-i18n="page.title.priv">Política de Privacidade · Casa Colorida · Tempo &amp; Amor</title>
-<script src="i18n.js?v=20260812d" defer></script>
+<script src="i18n.js?v=20260813g" defer></script>
 <meta name="description" content="Como tratamos os dados pessoais do formulário de pedido de reserva." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/privacidade.html" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -20,37 +18,111 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260812d" />
+<link rel="stylesheet" href="styles.css?v=20260813g" />
 <style>
-/* HEADER fixo; sem hero atrás, mantém fundo sólido para o texto branco ler bem */
-body { padding-top: clamp(76px,6.8vw,97px); }
+/* HEADER fixo, igual ao das páginas das casas; sem hero atrás, por isso o fundo
+   fica sempre no estado "scrolled" para o texto branco ler bem */
+body { padding-top: var(--bar-h); }
 .bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 60;
   background: rgba(38,34,30,.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   color: #fff;
 }
-.bar-inner { position: relative; max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px); height: clamp(76px,6.8vw,97px); display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.bar-inner {
+  position: relative; max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
+  height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 18px;
+}
 .bar .home { display: inline-flex; align-items: center; }
-.mark-box {
-  width: clamp(56px,4.8vw,68px); height: auto; display: block;
-}
+.mark-box { width: clamp(56px,4.8vw,66px); height: auto; display: block; }
 .bar nav { display: flex; gap: clamp(20px,4.6vw,88px); }
-.bar nav a { color: #fff; font-size: clamp(11.5px,1vw,13.5px); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .95; transition: opacity .2s; }
-.bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
-
-.legal { max-width: 760px; margin: clamp(40px,6vw,72px) auto clamp(56px,8vw,96px); padding-inline: clamp(32px,8vw,40px); }
-.legal h1 { font-size: clamp(30px,4vw,44px); font-weight: 700; letter-spacing: .03em; color: var(--sage); text-transform: lowercase; }
-.legal h1::first-letter { text-transform: uppercase; }
-.legal .updated { margin-top: 8px; font-size: 13px; color: var(--slate); }
-.legal h2 { margin-top: 34px; font-size: 19px; font-weight: 600; color: var(--ink); }
-.legal p, .legal li { margin-top: 12px; font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--ink-soft); }
-.legal ul { list-style: disc; padding-left: 22px; }
-.legal a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 3px; }
-.legal .back { display: inline-block; margin-top: 40px; }
-
-@media (max-width: 700px) {
-  .legal { padding-inline: clamp(40px, 11vw, 64px); }
+.bar nav a {
+  color: #fff; font-size: clamp(11.5px,1vw,14px); font-weight: 400; letter-spacing: .05em;
+  text-transform: uppercase; opacity: .95; transition: opacity .2s;
 }
+.bar nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+.bar nav a.is-current { font-weight: 700; }
+
+/* a .page vive no index.html e no casa.css; esta página não carrega nenhum dos
+   dois, por isso precisa da sua cópia — sem ela a linha de topo e a banda
+   ficavam coladas às bordas do ecrã */
+.page { max-width: 1196px; margin-inline: auto; padding-inline: clamp(32px, 8vw, 60px); }
+@media (max-width: 700px) { .page { padding-inline: clamp(24px, 7vw, 48px); } }
+
+/* Linha de topo: voltar à esquerda, data da última revisão à direita */
+.legal-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-top: clamp(26px,3.4vw,44px); padding-bottom: clamp(22px,3vw,38px);
+  font-size: clamp(11px,1vw,13px); letter-spacing: .09em; text-transform: uppercase;
+}
+.lt-back { display: inline-flex; align-items: center; gap: 10px; color: var(--slate); transition: color .2s; }
+.lt-back svg { width: 16px; height: 16px; transition: transform .25s ease; }
+.lt-back:hover { color: var(--sage-deep); }
+.lt-back:hover svg, .lt-back:focus-visible svg { transform: translateX(-4px); }
+.lt-updated { color: var(--slate); }
+@media (prefers-reduced-motion: reduce) { .lt-back svg { transition: none; } }
+
+/* Banda dos azulejos com o título e a introdução por cima (Figma).
+   O scrim é forte de propósito: o azulejo é quase branco e sem ele o texto
+   branco não chega perto do contraste mínimo. */
+.legal-band {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(44px,5.6vw,80px) 0 clamp(48px,6vw,86px); text-align: center;
+}
+.legal-band::before {
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background: url("assets/fig/photo-c.webp") center / cover no-repeat;
+}
+.legal-band::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: rgba(38,34,30,.82);
+}
+.legal-band h1 {
+  display: inline-block;
+  font-size: clamp(24px,2.8vw,40px); font-weight: 700; letter-spacing: .02em;
+  color: #fff; text-transform: uppercase; line-height: 1.15;
+  text-decoration: underline; text-underline-offset: 10px; text-decoration-thickness: 1px;
+}
+.legal-band p {
+  margin: clamp(20px,2.6vw,36px) auto 0; max-width: 640px;
+  font-size: clamp(15px,1.35vw,19px); font-weight: 400; line-height: 1.7; color: #fff;
+}
+
+/* Corpo legal com a estrutura do Figma: títulos numerados em sage sublinhado
+   (o mesmo tipo das FAQ da home), texto corrido grande e alinhado à esquerda,
+   tudo encostado à goteira da página em vez de centrado. */
+.legal {
+  max-width: 1196px; margin: 0 auto;
+  padding: clamp(48px,9.8vw,141px) clamp(32px,8vw,60px) clamp(56px,8vw,116px);
+}
+.legal > * { max-width: 720px; }
+/* secções colapsáveis, iguais às FAQ da home (o número vem já nas strings do
+   i18n, por isso aqui NÃO se usa contador CSS — duplicaria) */
+.legal .acc-list { display: flex; flex-direction: column; gap: clamp(38px,4.7vw,68px); }
+.legal .acc { border: 0; background: none; box-shadow: none; }
+.legal .acc summary {
+  list-style: none; cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: flex-start; gap: clamp(14px,1.8vw,26px);
+  font-size: clamp(19px,2vw,29px); font-weight: 400; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--sage);
+}
+.legal .acc summary::-webkit-details-marker { display: none; }
+.legal .acc summary > span {
+  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px;
+}
+.legal .acc summary .chev {
+  width: clamp(20px,1.8vw,26px); height: clamp(20px,1.8vw,26px);
+  color: var(--sage); transition: transform .25s; flex: none;
+}
+.legal .acc[open] summary .chev { transform: rotate(180deg); }
+.legal .acc .ans { margin-top: clamp(26px,3.7vw,53px); }
+.legal p, .legal li {
+  margin-top: clamp(16px,1.8vw,26px); max-width: 640px;
+  font-size: clamp(16px,1.35vw,20px); font-weight: 400; line-height: 1.75; color: var(--ink);
+}
+.legal .ans > :first-child { margin-top: 0; }
+.legal ul { list-style: disc; padding-left: 22px; max-width: 640px; }
+.legal li { margin-top: clamp(8px,1vw,14px); }
+.legal a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 3px; }
 
 </style>
 </head>
@@ -64,8 +136,8 @@ body { padding-top: clamp(76px,6.8vw,97px); }
       <img class="mark-box" src="assets/icons/logo-ctea.svg?v=2" alt="Casa CT&amp;A" width="66" height="60" />
     </a>
     <nav aria-label="Principal">
-      <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
-      <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+      <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+      <a href="casa-colorida.html" data-i18n="nav.colorida">Casa Colorida</a>
       <a href="index.html#local" data-i18n="nav.local">Local</a>
     </nav>
     <div class="bar-right">
@@ -82,8 +154,8 @@ body { padding-top: clamp(76px,6.8vw,97px); }
 
 <div class="mobile-drawer" id="mobileMenu">
   <nav aria-label="Menu mobile">
-    <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
-    <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+    <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+    <a href="casa-colorida.html" data-i18n="nav.colorida">Casa Colorida</a>
     <a href="index.html#local" data-i18n="nav.local">Local</a>
     <a href="index.html#tempo" data-i18n="foot.book">Reservar</a>
   </nav>
@@ -96,39 +168,76 @@ body { padding-top: clamp(76px,6.8vw,97px); }
   </div>
 </div>
 
-<main class="legal" id="main">
-  <h1 data-i18n="priv.h1">política de privacidade</h1>
-  <p class="updated" data-i18n="priv.updated">Última atualização: 17 de junho de 2026</p>
+<main id="main">
 
-  <p data-i18n="priv.intro">Esta política explica como tratamos os dados pessoais recolhidos através do formulário de pedido de reserva deste site, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
+  <!-- linha de topo: voltar à esquerda, data à direita (Figma) -->
+  <div class="page legal-top">
+    <a class="lt-back" href="index.html#tempo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      <span data-i18n="priv.back.short">Voltar</span>
+    </a>
+    <span class="lt-updated" data-i18n="priv.updated">Última atualização: 12 de agosto de 2026</span>
+  </div>
 
-  <h2 data-i18n="priv.h2.1">1. Responsável pelo tratamento</h2>
-  <p data-i18n-html="priv.p.1">As casas <strong>Casa Colorida</strong> e <strong>Tempo &amp; Amor</strong>, em Vila do Bispo (Algarve), geridas por Andrea e Mató. Site mantido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a> &amp; Sacra Design.<br>
-  Contacto: <a href="mailto:reddunesolutions@gmail.com">reddunesolutions@gmail.com</a> · Andrea (+351) 967 443 791 · Mató (+351) 961 470 100.</p>
+  <!-- banda com os azulejos: título e introdução por cima (Figma) -->
+  <section class="legal-band">
+    <div class="page">
+      <h1 data-i18n="priv.h1">política de privacidade</h1>
+      <p data-i18n="priv.intro">Esta política explica como tratamos os dados pessoais recolhidos através do formulário de pedido de reserva deste site, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
+    </div>
+  </section>
 
-  <h2 data-i18n="priv.h2.2">2. Que dados recolhemos</h2>
-  <ul>
+  <div class="legal">
+  <div class="acc-list">
+    <details class="acc" open>
+      <summary><span data-i18n="priv.h2.1">1. Responsável pelo tratamento</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n-html="priv.p.1">As casas <strong>Casa Colorida</strong> e <strong>Tempo &amp; Amor</strong>, em Vila do Bispo (Algarve), geridas por Andrea e Mató. Site mantido por <a href="https://reddunesolutions.pt" target="_blank" rel="noopener noreferrer" class="reddune-link">RedDune Solutions</a> &amp; Sacra Design.<br>
+    Contacto: <a href="mailto:reddunesolutions@gmail.com">reddunesolutions@gmail.com</a> · Andrea (+351) 967 443 791 · Mató (+351) 961 470 100.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.2">2. Que dados recolhemos</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <ul>
     <li data-i18n="priv.li.1">Nome completo, email e telefone (obrigatórios para podermos responder);</li>
     <li data-i18n="priv.li.2">NIF (opcional);</li>
     <li data-i18n="priv.li.3">Detalhes do pedido: datas, número de hóspedes, casa pretendida, extras (bebé/animal) e como soube de nós.</li>
-  </ul>
-
-  <h2 data-i18n="priv.h2.3">3. Finalidade e base legal</h2>
-  <p data-i18n-html="priv.p.3">Os dados são usados <strong>exclusivamente</strong> para responder ao seu pedido de reserva e verificar disponibilidade. A base legal é o seu <strong>consentimento</strong> e as <strong>diligências pré-contratuais</strong> a seu pedido. Não fazemos marketing nem partilha com terceiros para esse fim.</p>
-
-  <h2 data-i18n="priv.h2.4">4. Como são enviados</h2>
-  <p data-i18n-html="priv.p.4">O formulário é processado pelo serviço <a href="https://formsubmit.co" target="_blank" rel="noopener noreferrer">FormSubmit</a>, que reencaminha a submissão por email para os responsáveis. A ligação é cifrada (HTTPS). Contra spam usamos um campo-armadilha invisível e um limite de envios, sem recolher dados adicionais sobre si. As páginas usam ainda tipos de letra do <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Fonts</a> — ao carregar o site, o navegador contacta servidores da Google, que recebem o endereço IP.</p>
-
-  <h2 data-i18n="priv.h2.5">5. Conservação</h2>
-  <p data-i18n="priv.p.5">Guardamos os dados apenas o tempo necessário para tratar o pedido e a eventual estadia. Pode pedir a eliminação a qualquer momento.</p>
-
-  <h2 data-i18n="priv.h2.6">6. Os seus direitos</h2>
-  <p data-i18n-html="priv.p.6">Tem direito de aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados, e de retirar o consentimento. Para exercer, contacte-nos pelos meios acima. Tem ainda o direito de apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
-
-  <h2 data-i18n="priv.h2.7">7. Créditos de imagens</h2>
-  <p data-i18n-html="priv.p.7">As fotografias dos lugares de Vila do Bispo usadas na página inicial provêm do <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>: Cabo de São Vicente — Ana Rey (CC BY-SA 2.0); Farol de São Vicente — Auvideo (CC BY-SA 4.0); Fortaleza de Sagres — Monika Hoerath (CC BY-SA 4.0); Praia do Castelejo e Praia da Cordoama — manjerix (CC BY-SA 2.0); Igreja de Vila do Bispo — Elingunnur (CC BY 3.0).</p>
-
-  <a class="back" href="index.html#tempo" style="color:var(--sage-deep);font-weight:600" data-i18n="priv.back">&larr; Voltar às casas</a>
+    </ul>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.3">3. Finalidade e base legal</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n-html="priv.p.3">Os dados são usados <strong>exclusivamente</strong> para responder ao seu pedido de reserva e verificar disponibilidade. A base legal é o seu <strong>consentimento</strong> e as <strong>diligências pré-contratuais</strong> a seu pedido. Não fazemos marketing nem partilha com terceiros para esse fim.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.4">4. Como são enviados</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n-html="priv.p.4">O formulário é processado pelo serviço <a href="https://formsubmit.co" target="_blank" rel="noopener noreferrer">FormSubmit</a>, que reencaminha a submissão por email para os responsáveis. A ligação é cifrada (HTTPS). Contra spam usamos um campo-armadilha invisível e um limite de envios, sem recolher dados adicionais sobre si. As páginas usam ainda tipos de letra do <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Fonts</a> — ao carregar o site, o navegador contacta servidores da Google, que recebem o endereço IP.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.5">5. Conservação</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n="priv.p.5">Guardamos os dados apenas o tempo necessário para tratar o pedido e a eventual estadia. Pode pedir a eliminação a qualquer momento.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.6">6. Os seus direitos</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n-html="priv.p.6">Tem direito de aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados, e de retirar o consentimento. Para exercer, contacte-nos pelos meios acima. Tem ainda o direito de apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
+      </div>
+    </details>
+    <details class="acc">
+      <summary><span data-i18n="priv.h2.7">7. Créditos de imagens</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="ans">
+    <p data-i18n-html="priv.p.7">As fotografias dos lugares de Vila do Bispo usadas na página inicial provêm do <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>: Cabo de São Vicente — Ana Rey (CC BY-SA 2.0); Farol de São Vicente — Auvideo (CC BY-SA 4.0); Fortaleza de Sagres — Monika Hoerath (CC BY-SA 4.0); Praia do Castelejo e Praia da Cordoama — manjerix (CC BY-SA 2.0); Igreja de Vila do Bispo — Elingunnur (CC BY 3.0).</p>
+      </div>
+    </details>
+  </div>
+  </div>
 </main>
 
 <footer class="foot-site">
@@ -140,8 +249,8 @@ body { padding-top: clamp(76px,6.8vw,97px); }
     </div>
     <nav class="fs-col" data-i18n-attr="aria-label:foot.nav" aria-label="Explorar">
       <span class="fs-h" data-i18n="foot.nav">Explorar</span>
-      <a href="index.html#tempo" data-i18n="nav.tempo">Tempo &amp; Amor</a>
-      <a href="index.html#colorida" data-i18n="nav.colorida">Casa Colorida</a>
+      <a href="tempo-amor.html" data-i18n="nav.tempo">Tempo &amp; Amor</a>
+      <a href="casa-colorida.html" data-i18n="nav.colorida">Casa Colorida</a>
       <a href="index.html#local" data-i18n="nav.local">Local</a>
       <a href="index.html#tempo" data-i18n="foot.book">Reservar</a>
       <a href="privacidade.html" data-i18n="foot.privacidade">Política de Privacidade</a>
@@ -160,6 +269,6 @@ body { padding-top: clamp(76px,6.8vw,97px); }
   </div>
 </footer>
 
-<script src="site.js?v=20260812d" defer></script>
+<script src="site.js?v=20260813g" defer></script>
 </body>
 </html>
