@@ -65,13 +65,27 @@ body { background: var(--paper); }
 .cs-nav.next { right: clamp(4px,1.6vw,26px); }
 .cs-nav svg { width: 34px; height: 34px; }
 .cs-nav:focus-visible { outline: 3px solid var(--peach); outline-offset: 2px; }
+/* 17 bolinhas fixas de 11px + 12px de intervalo dão 379px: mais do que a
+   largura de um telemóvel. Tamanho e intervalo encolhem com o ecrã, a caixa
+   nunca passa o espaço livre entre as setas e, se um dia a casa levar mais
+   fotos do que cabem, passam para a linha de baixo em vez de saírem fora. */
 .cs-dots {
-  position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(14px,2.4vw,32px); z-index: 3;
-  display: flex; gap: 12px;
+  --dot: clamp(7px,1.2vw,11px);
+  --dot-gap: clamp(5px,1.4vw,12px);
+  /* de margem a margem com padding em vez de left:50%: assim a linha centra-se
+     na foto toda e o espaço das setas fica reservado dos dois lados */
+  position: absolute; left: 0; right: 0; bottom: clamp(14px,2.4vw,32px); z-index: 3;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--dot-gap);
+  padding-inline: clamp(52px,9vw,80px);
 }
 .cs-dots button {
-  width: 11px; height: 11px; border-radius: 50%; cursor: pointer; padding: 0;
+  position: relative; flex: none;
+  width: var(--dot); height: var(--dot); border-radius: 50%; cursor: pointer; padding: 0;
   border: 1.5px solid #fff; background: none; transition: background .2s;
+}
+/* área de toque maior do que o ponto, sem sobrepor a do ponto ao lado */
+.cs-dots button::before {
+  content: ''; position: absolute; inset-block: -9px; inset-inline: calc(var(--dot-gap) / -2);
 }
 .cs-dots button[aria-selected="true"] { background: #fff; }
 
