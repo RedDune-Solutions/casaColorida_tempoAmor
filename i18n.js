@@ -142,7 +142,7 @@
       'sit.l1': 'o sítio ideal para',
       'sit.l2': 'sentar e não ter pressa',
       'faq.l1': 'as nossas',
-      'faq.l2': 'perguntas frequentes',
+      'faq.l2': 'FAQ’s',
       'faq.intro': 'Perguntas frequentes a que teremos todo o gosto em responder.',
       'rec.prev': 'Anterior',
       'rec.next': 'Seguinte',

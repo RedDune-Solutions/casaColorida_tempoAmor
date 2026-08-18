@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260818b" defer></script>
+<script src="i18n.js?v=20260818c" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -20,11 +20,11 @@
 <meta property="og:description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260818b" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260818c" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260818b" />
+<link rel="stylesheet" href="styles.css?v=20260818c" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -116,7 +116,7 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 1; background: rgba(20,17,
   display: flex; align-items: flex-end;
 }
 .hero-clip { position: absolute; inset: 0; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260818b") center / cover no-repeat; }
+.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260818c") center / cover no-repeat; }
 .hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.12) 0%, rgba(20,18,14,0) 30%, rgba(20,18,14,0) 62%, rgba(20,18,14,.18) 100%); }
 .hero-wrap {
   position: relative; z-index: 2; width: 100%;
@@ -454,8 +454,9 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 /* ---- carrossel de recomendações ---- */
 .recs { padding: clamp(44px,6vw,84px) var(--gut) clamp(40px,5vw,70px); text-align: center; }
 /* os slides ocupam a MESMA célula da grelha: a altura fica presa ao maior
-   e a secção deixa de saltar quando se muda de slide */
-.rec-stage { display: grid; }
+   e a secção deixa de saltar quando se muda de slide. `align-items: center`
+   centra os slides curtos nessa altura, em vez de os encostar ao topo */
+.rec-stage { display: grid; align-items: center; }
 .rec-slide { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; }
 .rec-slide.on { opacity: 1; visibility: visible; pointer-events: auto; animation: recIn .45s ease both; }
 @keyframes recIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -496,9 +497,13 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
   text-transform: uppercase; color: var(--sage);
   text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
+/* duas colunas com a mesma medida em todas as páginas do carrossel e o par
+   centrado: com `1fr 1fr` uma página de 3 sítios deixava metade do cartão
+   vazia à direita e o bloco lia-se descentrado */
 .rec-grid {
   margin: 0 auto; max-width: 780px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px,2.8vw,34px) clamp(24px,4vw,60px);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 330px));
+  justify-content: center; gap: clamp(20px,2.8vw,34px) clamp(24px,4vw,60px);
   text-align: left;
 }
 .rec-item .n { display: block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
@@ -507,7 +512,7 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 a.n { text-decoration: none; transition: color .2s; }
 a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 5px; }
 .rec-item .tags { display: block; margin-top: 5px; font-size: clamp(11.5px,1.2vw,14px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
-@media (max-width: 620px) { .rec-grid { grid-template-columns: 1fr; text-align: center; } }
+@media (max-width: 620px) { .rec-grid { grid-template-columns: minmax(0, 330px); text-align: center; } }
 /* comer e beber — duas colunas com a linha ao meio (Figma) */
 .food-cols {
   padding: clamp(44px,6vw,86px) var(--gut) clamp(40px,5vw,70px);
@@ -515,10 +520,16 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
   gap: clamp(24px,4.5vw,64px); align-items: start; text-align: left;
 }
 .food-cols .vline { width: 4px; align-self: stretch; background: var(--line); }
+/* arrastar o rato sobre a secção deixa de seleccionar o bloco inteiro:
+   só o texto é seleccionável */
+.food-cols { -webkit-user-select: none; user-select: none; }
+.food-cols p, .food-cols span, .food-cols a {
+  -webkit-user-select: text; user-select: text;
+}
 /* cada coluna centra o seu bloco na respectiva metade, com a mesma medida
    para a nota e para as listas */
 .food-col { width: 100%; max-width: 360px; margin-inline: auto; }
-.food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); }
+.food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); max-width: 18em; }   /* medida em `em`: 3 linhas em PT e EN */
 .food-col > .food-note + .sec-title { margin-top: clamp(36px,5vw,80px); }
 .food-note.last { margin-top: clamp(32px,4.5vw,70px); }
 .food-list { margin-top: clamp(22px,3vw,40px); display: grid; gap: clamp(16px,2vw,26px); }
@@ -539,7 +550,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 .faq-band .l1 { display: block; font-size: clamp(24px,3vw,40px); font-weight: 300; color: rgba(255,255,255,.68); }
 .faq-band .l2 { display: block; margin-top: 1px; font-size: clamp(28px,3.6vw,48px); font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .01em; }
 .faq-band .vline { width: 4px; align-self: stretch; background: rgba(255,255,255,.6); }
-.faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 360px; }
+.faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 15em; }   /* 3 linhas em PT e EN */
 @media (max-width: 860px) { .faq-band-inner { grid-template-columns: 1fr; } .faq-band .vline { display: none; } }
 
 /* lista numerada, sem cartões — os títulos são o mesmo tipo sublinhado teal
@@ -738,7 +749,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
     <a class="btn-book" href="tempo-amor.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
   <!-- galeria fixa: estas 3 fotos não rodam; clicar abre a galeria completa -->
-  <div class="trio reveal" data-house="tempo" data-static="tempo-06,tempo-02,tempo-03"></div>
+  <div class="trio reveal" data-house="tempo" data-static="colorida-06,colorida-01,colorida-05"></div>
 </section>
 
 <!-- ===================== CASA COLORIDA ===================== -->
@@ -769,7 +780,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
     <a class="btn-book" href="casa-colorida.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
   <!-- galeria fixa: estas 3 fotos não rodam; clicar abre a galeria completa -->
-  <div class="trio reveal" data-house="colorida" data-static="colorida-06,colorida-01,colorida-05"></div>
+  <div class="trio reveal" data-house="colorida" data-static="tempo-16,tempo-17,tempo-18"></div>
 </section>
 
 
@@ -920,7 +931,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
   <div class="page faq-band-inner">
     <h2>
       <span class="l1" data-i18n="faq.l1">as nossas</span>
-      <span class="l2" data-i18n="faq.l2">perguntas frequentes</span>
+      <span class="l2" data-i18n="faq.l2">FAQ’s</span>
     </h2>
     <span class="vline" aria-hidden="true"></span>
     <p data-i18n="faq.intro">Perguntas frequentes a que teremos todo o gosto em responder.</p>
@@ -1179,15 +1190,13 @@ function ccDateRange(ids) {
 (function () {
   var strip = document.querySelector('.strip[data-strip="intro"]');
   if (!strip) return;
+  /* fila parada: exactamente estas 3 fotos, por esta ordem */
   var SHOTS = [
     ['assets/casas/tempo/tempo-02.webp', 'ph.living'],
-    ['assets/casas/colorida/colorida-03.webp', 'ph.bedroom'],
-    ['assets/casas/tempo/tempo-06.webp', 'ph.living'],
-    ['assets/casas/colorida/colorida-09.webp', 'ph.kitchen'],
-    ['assets/casas/tempo/tempo-04.webp', 'ph.bedroom'],
-    ['assets/casas/colorida/colorida-06.webp', 'ph.living']
+    ['assets/casas/tempo/tempo-03.webp', 'ph.bathroom'],
+    ['assets/casas/tempo/tempo-06.webp', 'ph.living']
   ];
-  var FB = { 'ph.living': 'Sala de estar', 'ph.bedroom': 'Quarto de casal', 'ph.kitchen': 'Cozinha equipada' };
+  var FB = { 'ph.living': 'Sala de estar', 'ph.bedroom': 'Quarto de casal', 'ph.kitchen': 'Cozinha equipada', 'ph.bathroom': 'Casa de banho' };
   function label(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (FB[k] || ''); }
   /* a lightbox é a mesma dos trios: enquanto estiver aberta, a tira pára */
   var lb = document.getElementById('trioLb');
@@ -1226,7 +1235,7 @@ function ccDateRange(ids) {
   }
   cells.forEach(function (c) {
     paint(c, false);
-    c._layers[1 - c._top].src = SHOTS[(c._index + 1) % SHOTS.length][0];
+    if (SHOTS.length > 3) c._layers[1 - c._top].src = SHOTS[(c._index + 1) % SHOTS.length][0];
     c.addEventListener('mouseenter', function () { hovered = true; });
     c.addEventListener('mouseleave', function () { hovered = false; });
     c.addEventListener('focusin',  function () { hovered = true; });
@@ -1242,6 +1251,8 @@ function ccDateRange(ids) {
   SHOTS.forEach(function (s) { var im = new Image(); im.src = s[0]; });
 
   function step() {
+    /* com 3 fotos para 3 celulas nao ha nada para rodar */
+    if (SHOTS.length <= cells.length) return;
     if (reduce || hovered || !onScreen || (lb && !lb.hidden)) return;
     offset = (offset + 1) % SHOTS.length;
     cells.forEach(function (c) { paint(c, true); });
@@ -1277,7 +1288,10 @@ function ccDateRange(ids) {
       ['tempo-07', 'ph.terrace'],  ['tempo-01', 'ph.kitchen'],  ['tempo-06', 'ph.living'],
       ['tempo-04', 'ph.bedroom'],  ['tempo-03', 'ph.bathroom'], ['tempo-13', 'ph.view'],
       ['tempo-09', 'ph.kitchen'],  ['tempo-12', 'ph.bedroom'],  ['tempo-15', 'ph.terrace'],
-      ['tempo-10', 'ph.living'],   ['tempo-11', 'ph.bathroom'], ['tempo-14', 'ph.bedroom']
+      ['tempo-10', 'ph.living'],   ['tempo-11', 'ph.bathroom'], ['tempo-14', 'ph.bedroom'],
+      /* fotos novas (WeTransfer 2026-08-18): tecto/candeeiro, espelho da casa
+         de banho e a osga da entrada */
+      ['tempo-16', 'ph.living'],   ['tempo-17', 'ph.bathroom'], ['tempo-18', 'ph.living']
     ]},
     colorida: { dir: 'assets/casas/colorida/', shots: [
       ['colorida-11', 'ph.patio'],    ['colorida-07', 'ph.living'],   ['colorida-05', 'ph.twin'],
@@ -1306,15 +1320,20 @@ function ccDateRange(ids) {
   Array.prototype.forEach.call(document.querySelectorAll('.trio[data-house]'), function (trio) {
     var house = HOUSES[trio.getAttribute('data-house')];
     if (!house) return;
-    /* trio parado: os nomes de `data-static` viram índices na lista da casa,
-       para a lightbox continuar a abrir na foto certa */
+    /* trio parado: cada nome de `data-static` vira [caminho, chave de alt].
+       O prefixo do nome (`tempo-` / `colorida-`) diz de que pasta vem, por
+       isso um trio pode mostrar fotos da outra casa. */
     var fixed = null, fx = trio.getAttribute('data-static');
     if (fx) {
       fixed = fx.split(',').map(function (name) {
         name = name.trim();
-        for (var i = 0; i < house.shots.length; i++) if (house.shots[i][0] === name) return i;
-        return 0;
-      });
+        var casa = HOUSES[name.split('-')[0]] || house;
+        for (var i = 0; i < casa.shots.length; i++) {
+          if (casa.shots[i][0] === name) return [casa.dir + name + '.webp', casa.shots[i][1]];
+        }
+        return null;
+      }).filter(Boolean);
+      if (!fixed.length) fixed = null;
     }
     var cells = [];
     for (var slot = 0; slot < 3; slot++) {
@@ -1332,18 +1351,25 @@ function ccDateRange(ids) {
       cell._layers = [a, b]; cell._top = 0; cell._count = cnt;
       cells.push(cell);
     }
-    /* a lightbox de um trio parado só leva as fotos que estão à vista */
-    var group = fixed
-      ? { dir: house.dir, shots: fixed.map(function (i) { return house.shots[i]; }) }
-      : house;
+    /* a lightbox de um trio parado só leva as fotos que estão à vista
+       (`_flat`: os caminhos já vêm completos) */
+    var group = fixed ? { dir: '', shots: fixed, _flat: true } : house;
     trios.push({ house: house, cells: cells, offset: 0, fixed: fixed, group: group });
   });
   if (!trios.length) return;
 
   function paint(t, cell, fade) {
     var slot = parseInt(cell.dataset.slot, 10);
-    var i = t.fixed ? t.fixed[slot % t.fixed.length] : (slot + t.offset) % t.house.shots.length;
-    var shot = t.house.shots[i];
+    var i, shot, src;
+    if (t.fixed) {
+      i = slot % t.fixed.length;
+      shot = t.fixed[i];
+      src = shot[0];
+    } else {
+      i = (slot + t.offset) % t.house.shots.length;
+      shot = t.house.shots[i];
+      src = t.house.dir + shot[0] + '.webp';
+    }
     cell._index = i;
     /* num trio parado o contador conta as 3 que estão à vista (= as da lightbox) */
     cell._count.textContent = t.fixed
@@ -1351,7 +1377,7 @@ function ccDateRange(ids) {
       : (i + 1) + '/' + t.house.shots.length;
     var next = fade ? 1 - cell._top : cell._top;
     var im = cell._layers[next];
-    im.src = t.house.dir + shot[0] + '.webp';
+    im.src = src;
     im.alt = label(shot[1]);
     im.setAttribute('data-i18n-attr', 'alt:' + shot[1]);
     if (fade) {
@@ -1397,7 +1423,7 @@ function ccDateRange(ids) {
     warmed = true;
     var queue = [];
     trios.forEach(function (t) {
-      t.group.shots.forEach(function (s) { queue.push(t.group.dir + s[0] + '.webp'); });
+      t.group.shots.forEach(function (s) { queue.push(t.group._flat ? s[0] : t.group.dir + s[0] + '.webp'); });
     });
     (function next() {
       var url = queue.shift();
@@ -1429,7 +1455,7 @@ function ccDateRange(ids) {
   document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   window.addEventListener('langchange', function () {
     trios.forEach(function (t) { t.cells.forEach(function (c) {
-      var shot = t.house.shots[c._index];
+      var shot = t.fixed ? t.fixed[c._index] : t.house.shots[c._index];
       c._layers[c._top].alt = label(shot[1]);
     }); });
   });
@@ -1503,7 +1529,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260818b" defer></script>
+<script src="site.js?v=20260818c" defer></script>
 
 <script type="application/ld+json">
 {
