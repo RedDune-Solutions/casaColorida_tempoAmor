@@ -188,7 +188,8 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .foot-site::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(38,32,30,.78); }
 .fs-grid {
   max-width: 1196px; margin-inline: auto;
-  padding: clamp(40px,6vw,64px) clamp(32px,8vw,60px) clamp(30px,4vw,44px);
+  /* mesma goteira do header (.bar-inner): o rodapé alinha com o logótipo */
+  padding: clamp(40px,6vw,64px) clamp(20px,5vw,60px) clamp(30px,4vw,44px);
   display: grid; grid-template-columns: 1.5fr 1fr 1fr;
   gap: clamp(30px,5vw,70px); align-items: start;
 }
@@ -206,7 +207,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; text-
 .fs-btm { border-top: 1px solid rgba(255,255,255,.18); }
 .fs-btm-inner {
   max-width: 1196px; margin-inline: auto;
-  padding: 16px clamp(32px,8vw,60px);
+  padding: 16px clamp(20px,5vw,60px);
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center; text-align: center;
   gap: 8px 24px; font-size: 13px;
 }

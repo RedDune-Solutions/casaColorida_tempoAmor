@@ -214,6 +214,15 @@
       'stay.nights': 'Mínimo 3 noites',
       'stay.times': 'Check-in 15h | Check-out 11h',
       'stay.pets': 'Animais bem-vindos (extra de 20€ para limpeza)',
+
+      /* tarifas por época (Figma, frames 13 e 15) */
+      'rates.title': 'Tarifas por época',
+      'rates.s1': '1 out – 15 mar',
+      'rates.s2': '16 mar – 15 mai',
+      'rates.s3a': '16 mai – 15 jun',
+      'rates.s3b': '15 set – 30 set',
+      'rates.s3c': '20 dez – 6 jan',
+      'rates.s4': '16 jun – 14 set',
       'req.title': 'Pedido',
       'req.contact': 'Contacto',
       'req.name': 'Nome',
@@ -576,6 +585,15 @@
       'stay.nights': '3 nights minimum',
       'stay.times': 'Check-in 3PM | Check-out 11AM',
       'stay.pets': 'Pets are welcome (extra 20€ cleaning fee)',
+
+      /* seasonal rates (Figma, frames 13 and 15) */
+      'rates.title': 'Seasonal rates',
+      'rates.s1': '1 Oct – 15 Mar',
+      'rates.s2': '16 Mar – 15 May',
+      'rates.s3a': '16 May – 15 Jun',
+      'rates.s3b': '15 Sep – 30 Sep',
+      'rates.s3c': '20 Dec – 6 Jan',
+      'rates.s4': '16 Jun – 14 Sep',
       'req.title': 'Request',
       'req.contact': 'Contact',
       'req.name': 'Name',

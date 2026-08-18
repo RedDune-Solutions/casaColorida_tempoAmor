@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260813g" defer></script>
+<script src="i18n.js?v=20260818a" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -20,11 +20,11 @@
 <meta property="og:description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260813g" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260818a" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260813g" />
+<link rel="stylesheet" href="styles.css?v=20260818a" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -32,9 +32,15 @@
    · casas c/ trio de fotos · form "Pedido" · discover mosaico · FAQ
    ============================================================ */
 
-.page { max-width: 1196px; margin-inline: auto; padding-inline: clamp(32px, 8vw, 60px); }
+/* mesma goteira do header (.bar-inner) e do hero (.hero-wrap): assim o texto
+   de todas as secções alinha com o logótipo e o menu em qualquer largura */
+.page { max-width: 1196px; margin-inline: auto; padding-inline: var(--gut); }
 
-:root { --sage-band: #C5DEDC; --step: #C3D8CF; --ico-teal: #6FADA8; --ico-or: #F9A971; }
+:root {
+  --sage-band: #C5DEDC; --step: #C3D8CF; --ico-teal: #6FADA8; --ico-or: #F9A971;
+  /* goteira lateral única: header, hero e todas as secções alinham por ela */
+  --gut: clamp(20px, 5vw, 60px);
+}
 
 /* botão coral (accent do Figma) */
 .btn-book {
@@ -53,25 +59,33 @@
 .btn-book:focus-visible .btn-arrow { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) { .btn-arrow { transition: none; } }
 
-/* ================= HEADER transparente por cima do conteúdo =================
-   Sem imagem própria: deixa ver o que está por trás (hero). Um scrim escuro
-   muito leve garante que o texto branco continua legível sobre fotos claras;
-   ao rolar ganha fundo translúcido para não perder contraste no corpo da página. */
+/* ================= HEADER com o mural por fundo =================
+   O mural (`mural.jpg`, 1440×172 — a mesma faixa da banda das casas) é o fundo
+   FIXO do header, em todos os estados: já não é transparente por cima do hero.
+   Por isso o corpo abre com `padding-top: var(--bar-h)` e o hero começa
+   exatamente onde o header acaba, em vez de passar por baixo dele. */
+body { padding-top: var(--bar-h); }
 .bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-  background: transparent; color: #fff;
-  transition: background .35s ease, backdrop-filter .35s ease;
+  background: #1b1a19 url("assets/fig/mural.jpg") center / cover no-repeat;
+  color: #fff;
 }
+/* scrim leve por cima do mural: a fotografia já vem escura, só precisa de
+   fechar a zona mais clara (a flor branca à direita) para o texto branco
+   passar os 4,5:1 sem apagar o desenho */
 .bar::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(180deg, rgba(24,20,16,.52) 0%, rgba(24,20,16,.22) 60%, rgba(24,20,16,0) 100%);
-  transition: opacity .35s ease;
+  background: rgba(20,17,14,.45);
 }
-.bar.scrolled { background: rgba(38,34,30,.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.bar.scrolled::before { opacity: 0; }
+/* o fundo já é opaco: rolar (.scrolled) só acrescenta a linha de separação */
+.bar.scrolled { box-shadow: 0 1px 0 rgba(255,255,255,.12); }
+/* styles.css escurece o header com o menu mobile aberto — aqui mantém-se o
+   mural por baixo desse escurecimento */
+body:has(.mobile-drawer.open) .bar { background: #1b1a19 url("assets/fig/mural.jpg") center / cover no-repeat; }
+body:has(.mobile-drawer.open) .bar::before { opacity: 1; background: rgba(20,17,14,.82); }
 .bar-inner {
-  position: relative; max-width: 1196px; margin-inline: auto; padding: 0 clamp(20px,5vw,60px);
-  height: clamp(76px, 6.8vw, 97px); display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  position: relative; max-width: 1196px; margin-inline: auto; padding: 0 var(--gut);
+  height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 18px;
 }
 .bar .home { display: inline-flex; align-items: center; }
 /* logótipo: caixa quadrada com borda branca, "CASA" fino + "CT&A" bold */
@@ -94,18 +108,19 @@
 .backlink svg { width: 18px; height: 18px; }
 
 /* ================= HERO — widget encostado em baixo ================= */
-/* começa no topo da página: o header transparente assenta por cima */
+/* começa logo abaixo do header (o body já abre com padding-top: var(--bar-h)),
+   por isso a foto deixa de ficar tapada pela barra */
 .hero {
   position: relative; min-height: clamp(560px, 66vw, 780px);
   display: flex; align-items: flex-end;
 }
 .hero-clip { position: absolute; inset: 0; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260813g") center / cover no-repeat; }
+.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260818a") center / cover no-repeat; }
 .hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.12) 0%, rgba(20,18,14,0) 30%, rgba(20,18,14,0) 62%, rgba(20,18,14,.18) 100%); }
 .hero-wrap {
   position: relative; z-index: 2; width: 100%;
   max-width: 1196px; margin-inline: auto;
-  padding: 0 clamp(20px,5vw,60px) clamp(22px,3.4vw,44px);
+  padding: 0 var(--gut) clamp(22px,3.4vw,44px);
 }
 /* Com um popover aberto, o bloco que o contém sobe acima do header (60).
    Sem isto, o stacking context do pai (z-index no hero, transform da animação
@@ -194,7 +209,7 @@
 @media (prefers-reduced-motion: reduce){ .cue { animation: none; } }
 
 /* ================= WELCOME ================= */
-.welcome { text-align: center; padding: clamp(44px,5.5vw,76px) 0 clamp(48px,6vw,80px); }
+.welcome { text-align: center; padding: clamp(44px,5.5vw,76px) var(--gut) clamp(48px,6vw,80px); }
 .wel-title {
   display: inline-block; font-size: clamp(15px,1.5vw,19px); font-weight: 600; letter-spacing: .12em;
   text-transform: uppercase; color: var(--peach);
@@ -274,15 +289,20 @@ img.amn-ico { filter: brightness(0) invert(1); }
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
 }
-.house-title .script { display: block; font-size: clamp(26px,3.2vw,40px); color: #D9CFC6; }
+.house-title .script {
+  display: block; font-family: var(--font-sans); font-weight: 400;
+  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color: var(--peach); filter: brightness(50%);
+}
 .house-title h2 {
   margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
   letter-spacing: .01em; text-transform: uppercase; color: var(--peach); line-height: 1.08;
   white-space: nowrap;
 }
 @media (max-width: 520px) { .house-title h2 { white-space: normal; } }
-.house-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(214,190,167,.55); }
-.house-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
+.house-head .vline { width: 4px; height: clamp(90px,10vw,150px); background: var(--peach-deep); filter: brightness(50%); }
+/* medida em `em` (≈19 caracteres por linha): aperta o parágrafo para 4 linhas
+   em PT e EN, e mantém-nas quando o corpo encolhe com o viewport */
+.house-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 300; line-height: 1.5; color: #fff; max-width: 19em; }
 .house-copy .more-row { margin-top: clamp(24px,3.4vw,44px); display: flex; align-items: center; gap: 16px; }
 .house-more { font-size: clamp(15px,1.5vw,18px); font-weight: 600; letter-spacing: .01em; color: var(--peach); }
 .house-more:hover { text-decoration: underline; text-underline-offset: 5px; }
@@ -343,15 +363,15 @@ img.amn-ico { filter: brightness(0) invert(1); }
   color: rgba(255,255,255,.85); pointer-events: none;
 }
 
-/* âncoras não ficam por baixo do header sticky */
-section[id], form[id] { scroll-margin-top: 80px; }
+/* âncoras não ficam por baixo do header fixo */
+section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 @media (max-width: 720px) {
   .trio { grid-template-columns: 1fr 1fr; }
   /* as células são <button>, não <img>: o alvo é a célula (igual à tira de cima) */
   .trio .trio-cell:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
 }
 
-.stay-info { text-align: center; padding: clamp(48px,7vw,92px) 0 clamp(40px,5vw,70px); }
+.stay-info { text-align: center; padding: clamp(48px,7vw,92px) var(--gut) clamp(40px,5vw,70px); }
 .si-cap {
   font-size: clamp(17px,2vw,26px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: #F6C4A2;
@@ -370,14 +390,13 @@ section[id], form[id] { scroll-margin-top: 80px; }
   background: #2b3b3d;
   padding: clamp(44px,6vw,86px) 0;
 }
-/* fotografia ao fundo: o FILL ORIGINAL do Figma (1200×800), descarregado com
-   download_assets e recortado a 1200×560 — cobre a banda tanto em desktop
-   (4,5:1) como em mobile sem ampliar. A faixa que estava exportada do render
-   (`surf-band.jpg`) trazia o texto "descubra Vila do Bispo" impresso na
-   fotografia, que aparecia duplicado por trás do texto real do HTML. */
+/* fotografia ao fundo: a versão SEM gradiente da onda (1600×898). O escuro
+   por cima vem do ::after, por isso aqui entra a fotografia crua.
+   Ancorada em BAIXO: esta banda fica só com a água da frente, sem a crista —
+   assim não repete o enquadramento da banda da onda mais abaixo. */
 .disc-band::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: url("assets/fig/surf-band.webp") center / cover no-repeat;
+  background: url("assets/fig/descubra.webp") center bottom / cover no-repeat;
 }
 /* escurecimento por cima da foto. Mais forte do que os .58 do Figma — aquele
    valor era para o render já escurecido, o fill original é a fotografia crua e
@@ -391,12 +410,15 @@ section[id], form[id] { scroll-margin-top: 80px; }
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
 }
-.disc-title .script { display: block; font-size: clamp(26px,3.2vw,40px); color: #A9CFCB; }
+.disc-title .script {
+  display: block; font-family: var(--font-sans); font-weight: 400;
+  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color:var(--sage); filter: brightness(50%);
+}
 .disc-title h2 {
   margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
-  letter-spacing: .01em; text-transform: uppercase; color: var(--sage); line-height: 1.08;
+  letter-spacing: .01em; text-transform: uppercase; color: var(--sage-deep); line-height: 1.08;
 }
-.disc-head .vline { width: 1px; height: clamp(90px,10vw,150px); background: rgba(255,255,255,.5); }
+.disc-head .vline { width: 4px; height: clamp(90px,10vw,150px); background: var(--sage); filter: brightness(50%); }
 .disc-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
 
 /* banda da onda: a fotografia passa a levar o título por cima, em branco,
@@ -404,14 +426,15 @@ section[id], form[id] { scroll-margin-top: 80px; }
    água sozinha não chega aos 4,5:1 para o texto branco). */
 .wave-band { position: relative; isolation: isolate; }
 .wave-band .wave-img {
-  width: 100%; display: block; object-fit: cover;
-  /* 34vw ≈ o rácio nativo da fotografia (2200×733, 3:1): mais baixa do que o
-     2:1 do Figma — a 2:1 a banda ficava alta demais e cortava a foto */
-  height: clamp(220px, 34vw, 560px);
-  /* só o topo desvanece para o branco da secção de cima; em baixo fecha o gradiente */
-  --fade: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.55) 4%, #000 13%, #000 100%);
-  -webkit-mask-image: var(--fade);
-          mask-image: var(--fade);
+  width: 100%; display: block;
+  /* `onda-grad.webp` já traz o desvanecimento no próprio ficheiro (alpha: o
+     terço de cima funde com o branco da secção anterior), por isso não leva
+     máscara CSS e mostra-se no rácio nativo — cortá-la comeria o gradiente. */
+  height: auto;
+  /* só abaixo dos ~355px de largura o rácio nativo fica curto demais para o
+     título: aí entra o mínimo e o corte é pelo topo (pelo fade), nunca pela água */
+  min-height: 200px;
+  object-fit: cover; object-position: center bottom;
 }
 .wave-band::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -424,7 +447,7 @@ section[id], form[id] { scroll-margin-top: 80px; }
 .duo.on-photo .l2 { color: #fff; }
 
 /* ---- carrossel de recomendações ---- */
-.recs { padding: clamp(44px,6vw,84px) 0 clamp(40px,5vw,70px); text-align: center; }
+.recs { padding: clamp(44px,6vw,84px) var(--gut) clamp(40px,5vw,70px); text-align: center; }
 /* os slides ocupam a MESMA célula da grelha: a altura fica presa ao maior
    e a secção deixa de saltar quando se muda de slide */
 .rec-stage { display: grid; }
@@ -482,11 +505,11 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 @media (max-width: 620px) { .rec-grid { grid-template-columns: 1fr; text-align: center; } }
 /* comer e beber — duas colunas com a linha ao meio (Figma) */
 .food-cols {
-  padding: clamp(44px,6vw,86px) 0 clamp(40px,5vw,70px);
+  padding: clamp(44px,6vw,86px) var(--gut) clamp(40px,5vw,70px);
   display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
   gap: clamp(24px,4.5vw,64px); align-items: start; text-align: left;
 }
-.food-cols .vline { width: 1px; align-self: stretch; background: var(--line); }
+.food-cols .vline { width: 4px; align-self: stretch; background: var(--line); }
 .food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); max-width: 340px; }
 .food-col > .food-note + .sec-title { margin-top: clamp(36px,5vw,80px); }
 .food-note.last { margin-top: clamp(32px,4.5vw,70px); }
@@ -507,7 +530,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 }
 .faq-band .l1 { display: block; font-size: clamp(24px,3vw,40px); font-weight: 300; color: rgba(255,255,255,.68); }
 .faq-band .l2 { display: block; margin-top: 1px; font-size: clamp(28px,3.6vw,48px); font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .01em; }
-.faq-band .vline { width: 1px; height: clamp(70px,8vw,110px); background: rgba(255,255,255,.6); }
+.faq-band .vline { width: 4px; height: clamp(70px,8vw,110px); background: rgba(255,255,255,.6); }
 .faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 360px; }
 @media (max-width: 860px) { .faq-band-inner { grid-template-columns: 1fr; } .faq-band .vline { display: none; } }
 
@@ -548,7 +571,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
   .bar-fields, .bar-extras { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
-  .page { padding-inline: clamp(24px, 7vw, 48px); }
+  /* .page mantém a goteira do header também aqui — não a redefinir */
   .booking-bar { padding: 20px 18px; }
 }
 </style>
@@ -705,7 +728,8 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
     <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
     <a class="btn-book" href="tempo-amor.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
-  <div class="trio reveal" data-house="tempo"></div>
+  <!-- galeria fixa: estas 3 fotos não rodam; clicar abre a galeria completa -->
+  <div class="trio reveal" data-house="tempo" data-static="tempo-06,tempo-02,tempo-03"></div>
 </section>
 
 <!-- ===================== CASA COLORIDA ===================== -->
@@ -735,7 +759,8 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
     <p class="si-line" data-i18n="stay.pets">Animais bem-vindos (extra de 20€ para limpeza)</p>
     <a class="btn-book" href="casa-colorida.html#pedido" data-i18n="hero.book">Verificar disponibilidade</a>
   </div>
-  <div class="trio reveal" data-house="colorida"></div>
+  <!-- galeria fixa: estas 3 fotos não rodam; clicar abre a galeria completa -->
+  <div class="trio reveal" data-house="colorida" data-static="colorida-06,colorida-01,colorida-05"></div>
 </section>
 
 
@@ -846,7 +871,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 
   <!-- fotografia de largura total, com o título por cima (Figma) -->
   <div class="wave-band reveal">
-    <img class="wave-img" src="assets/fig/onda.webp" alt="" aria-hidden="true" loading="lazy" />
+    <img class="wave-img" src="assets/fig/onda-grad.webp" alt="" aria-hidden="true" loading="lazy" width="2000" height="1125" />
     <div class="page wave-head">
       <h2 class="duo on-photo">
         <span class="l1" data-i18n="sit.l1">o sítio ideal para</span>
@@ -1178,7 +1203,8 @@ function ccDateRange(ids) {
     var i = (c._slot + offset) % SHOTS.length;
     var s = SHOTS[i];
     c._index = i;
-    c._count.textContent = (i + 1) + '/' + SHOTS.length;
+    /* conta as 3 que estão à vista — são exatamente as que a lightbox leva */
+    c._count.textContent = (c._slot + 1) + '/' + cells.length;
     var next = fade ? 1 - c._top : c._top;
     var im = c._layers[next];
     im.src = s[0]; im.alt = label(s[1]);
@@ -1196,9 +1222,12 @@ function ccDateRange(ids) {
     c.addEventListener('mouseleave', function () { hovered = false; });
     c.addEventListener('focusin',  function () { hovered = true; });
     c.addEventListener('focusout', function () { hovered = false; });
-    /* clicar abre em grande, tal como nos trios das casas */
+    /* clicar abre em grande, tal como nos trios das casas: a lightbox leva só
+       as 3 fotos que estão à vista neste momento, não as 6 da lista */
     c.addEventListener('click', function () {
-      if (window.ccOpenStrip) window.ccOpenStrip(SHOTS, c._index, label);
+      if (!window.ccOpenStrip) return;
+      var vis = cells.map(function (x) { return SHOTS[x._index]; });
+      window.ccOpenStrip(vis, cells.indexOf(c), label);
     });
   });
   SHOTS.forEach(function (s) { var im = new Image(); im.src = s[0]; });
@@ -1229,7 +1258,9 @@ function ccDateRange(ids) {
 /* Carrossel + lightbox dos trios das casas.
    Cada uma das 3 células roda por TODAS as fotos da casa, em ciclo desfasado
    (nunca mostra a mesma foto em duas células). O alt acompanha sempre a foto.
-   Clicar abre a galeria completa a partir da foto que está visível. */
+   Clicar abre a galeria completa a partir da foto que está visível.
+   Com `data-static="foto-a,foto-b,foto-c"` o trio fica parado nessas três
+   fotos — a única interação passa a ser abrir a lightbox. */
 (function () {
   var HOUSES = {
     tempo: { dir: 'assets/casas/tempo/', shots: [
@@ -1266,6 +1297,16 @@ function ccDateRange(ids) {
   Array.prototype.forEach.call(document.querySelectorAll('.trio[data-house]'), function (trio) {
     var house = HOUSES[trio.getAttribute('data-house')];
     if (!house) return;
+    /* trio parado: os nomes de `data-static` viram índices na lista da casa,
+       para a lightbox continuar a abrir na foto certa */
+    var fixed = null, fx = trio.getAttribute('data-static');
+    if (fx) {
+      fixed = fx.split(',').map(function (name) {
+        name = name.trim();
+        for (var i = 0; i < house.shots.length; i++) if (house.shots[i][0] === name) return i;
+        return 0;
+      });
+    }
     var cells = [];
     for (var slot = 0; slot < 3; slot++) {
       var cell = document.createElement('button');
@@ -1282,16 +1323,23 @@ function ccDateRange(ids) {
       cell._layers = [a, b]; cell._top = 0; cell._count = cnt;
       cells.push(cell);
     }
-    trios.push({ house: house, cells: cells, offset: 0 });
+    /* a lightbox de um trio parado só leva as fotos que estão à vista */
+    var group = fixed
+      ? { dir: house.dir, shots: fixed.map(function (i) { return house.shots[i]; }) }
+      : house;
+    trios.push({ house: house, cells: cells, offset: 0, fixed: fixed, group: group });
   });
   if (!trios.length) return;
 
   function paint(t, cell, fade) {
     var slot = parseInt(cell.dataset.slot, 10);
-    var i = (slot + t.offset) % t.house.shots.length;
+    var i = t.fixed ? t.fixed[slot % t.fixed.length] : (slot + t.offset) % t.house.shots.length;
     var shot = t.house.shots[i];
     cell._index = i;
-    cell._count.textContent = (i + 1) + '/' + t.house.shots.length;
+    /* num trio parado o contador conta as 3 que estão à vista (= as da lightbox) */
+    cell._count.textContent = t.fixed
+      ? (slot + 1) + '/' + t.fixed.length
+      : (i + 1) + '/' + t.house.shots.length;
     var next = fade ? 1 - cell._top : cell._top;
     var im = cell._layers[next];
     im.src = t.house.dir + shot[0] + '.webp';
@@ -1313,8 +1361,9 @@ function ccDateRange(ids) {
   trios.forEach(function (t) {
     t.cells.forEach(function (c) {
       paint(t, c, false);
-      /* a camada escondida arranca com a foto seguinte (evita <img src="">) */
-      (function () {
+      /* a camada escondida arranca com a foto seguinte (evita <img src="">);
+         num trio parado não há cross-fade, por isso não se carrega nada */
+      if (!t.fixed) (function () {
         var nxt = t.house.shots[(c._index + 1) % t.house.shots.length];
         c._layers[1 - c._top].src = t.house.dir + nxt[0] + '.webp';
       })();
@@ -1322,20 +1371,24 @@ function ccDateRange(ids) {
       c.addEventListener('mouseleave', function () { hovered = false; });
       c.addEventListener('focusin',  function () { hovered = true; });
       c.addEventListener('focusout', function () { hovered = false; });
-      c.addEventListener('click', function () { openLb(t.house, c._index); });
+      c.addEventListener('click', function () {
+        openLb(t.group, t.fixed ? parseInt(c.dataset.slot, 10) : c._index);
+      });
     });
   });
 
   /* Pré-carregamento das restantes fotos (o cross-fade não pode piscar), mas
      só depois de a tira aparecer no ecrã e uma a uma: com 15 e 17 fotos por
-     casa, disparar tudo no arranque punha ~6 MB à frente do LCP. */
+     casa, disparar tudo no arranque punha ~6 MB à frente do LCP.
+     Num trio parado só há as 3 fotos do grupo — as outras da casa não são
+     mostradas em lado nenhum desta página, por isso não se carregam. */
   var warmed = false;
   function warm() {
     if (warmed) return;
     warmed = true;
     var queue = [];
     trios.forEach(function (t) {
-      t.house.shots.forEach(function (s) { queue.push(t.house.dir + s[0] + '.webp'); });
+      t.group.shots.forEach(function (s) { queue.push(t.group.dir + s[0] + '.webp'); });
     });
     (function next() {
       var url = queue.shift();
@@ -1349,6 +1402,7 @@ function ccDateRange(ids) {
   function step() {
     if (reduce || hovered || !onScreen || lbOpen) return;
     trios.forEach(function (t) {
+      if (t.fixed) return;
       t.offset = (t.offset + 1) % t.house.shots.length;
       t.cells.forEach(function (c) { paint(t, c, true); });
     });
@@ -1440,7 +1494,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260813g" defer></script>
+<script src="site.js?v=20260818a" defer></script>
 
 <script type="application/ld+json">
 {

@@ -126,6 +126,35 @@ body { background: var(--paper); }
 .cb-line { margin-top: clamp(12px,1.6vw,20px); font-size: clamp(12px,1.3vw,16px); letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.92); }
 .cb-line + .cb-line { margin-top: 6px; }
 
+/* ---------- TARIFAS POR ÉPOCA (Figma) ----------
+   Duas colunas de tarifas separadas por um filete, centradas na página; o
+   preço em pêssego e o intervalo de datas por baixo, em maiúsculas. */
+.rates { padding: clamp(40px,5.5vw,80px) clamp(20px,5vw,60px) clamp(8px,1vw,16px); text-align: center; }
+.rates-title {
+  display: inline-block; font-size: clamp(18px,2.2vw,30px); font-weight: 400; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--peach);
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+}
+.rates-cols {
+  margin-top: clamp(28px,4vw,52px);
+  display: grid; grid-template-columns: max-content 1px max-content;
+  gap: clamp(24px,5vw,72px); justify-content: center; text-align: left;
+}
+.rates-vline { background: rgba(240,138,36,.45); }
+.rate + .rate { margin-top: clamp(20px,2.6vw,34px); }
+.rate-price {
+  font-size: clamp(17px,1.9vw,23px); font-weight: 400; letter-spacing: .02em; color: var(--peach);
+}
+.rate-when {
+  margin-top: 8px; font-size: clamp(12px,1.3vw,16px); font-weight: 400;
+  letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; line-height: 1.9;
+}
+@media (max-width: 620px) {
+  /* o filete não faz sentido com uma coluna só */
+  .rates-cols { grid-template-columns: max-content; gap: clamp(20px,3vw,34px); }
+  .rates-vline { display: none; }
+}
+
 /* ---------- FORMULÁRIO ---------- */
 .casa-form { padding: clamp(44px,6vw,88px) clamp(20px,5vw,60px) clamp(48px,6vw,90px); text-align: center; }
 .cf-title {
