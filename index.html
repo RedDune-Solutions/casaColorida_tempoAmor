@@ -497,13 +497,17 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
   text-transform: uppercase; color: var(--sage);
   text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
-/* duas colunas com a mesma medida em todas as páginas do carrossel e o par
-   centrado: com `1fr 1fr` uma página de 3 sítios deixava metade do cartão
-   vazia à direita e o bloco lia-se descentrado */
+/* Estrutura do Figma: as páginas de 3 sítios são UMA coluna centrada; as de
+   4 ou mais são duas colunas (marcadas com `.two` no markup), com o par
+   centrado no cartão. */
 .rec-grid {
   margin: 0 auto; max-width: 780px;
-  display: grid; grid-template-columns: repeat(2, minmax(0, 330px));
+  display: grid; grid-template-columns: minmax(0, 620px);
   justify-content: center; gap: clamp(20px,2.8vw,34px) clamp(24px,4vw,60px);
+  text-align: center;
+}
+.rec-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 330px));
   text-align: left;
 }
 .rec-item .n { display: block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
@@ -512,7 +516,7 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 a.n { text-decoration: none; transition: color .2s; }
 a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 5px; }
 .rec-item .tags { display: block; margin-top: 5px; font-size: clamp(11.5px,1.2vw,14px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
-@media (max-width: 620px) { .rec-grid { grid-template-columns: minmax(0, 330px); text-align: center; } }
+@media (max-width: 620px) { .rec-grid.two { grid-template-columns: minmax(0, 330px); text-align: center; } }
 /* comer e beber — duas colunas com a linha ao meio (Figma) */
 .food-cols {
   padding: clamp(44px,6vw,86px) var(--gut) clamp(40px,5vw,70px);
@@ -863,7 +867,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
       </div>
     </div>
     <div class="rec-slide">
-      <div class="rec-grid">
+      <div class="rec-grid two">
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Fortaleza%20de%20Sagres" target="_blank" rel="noopener noreferrer">Fortaleza de Sagres ~15 km</a><span class="tags" data-i18n="tag.history3">história | arquitetura | oceano</span></p>
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Aldeia%20da%20Pedralva%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Aldeia da Pedralva ~12 km</a><span class="tags" data-i18n="tag.slow">viagem lenta | comida | família</span></p>
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Forte%20do%20Beliche%2C%20Sagres" target="_blank" rel="noopener noreferrer">Forte de Santo António do Beliche ~12 km</a><span class="tags" data-i18n="tag.viewhist">vista | história | fotografia</span></p>
@@ -871,7 +875,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
       </div>
     </div>
     <div class="rec-slide">
-      <div class="rec-grid">
+      <div class="rec-grid two">
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20do%20Castelejo%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Castelejo ~5 km</a><span class="tags" data-i18n="tag.surf1">surf | pôr do sol | natureza</span></p>
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20do%20Zavial%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Zavial ~10 km</a><span class="tags" data-i18n="tag.surf2">surf | natureza | pôr do sol</span></p>
         <p class="rec-item"><a class="n" href="https://www.google.com/maps/search/?api=1&amp;query=Praia%20da%20Cordoama%2C%20Vila%20do%20Bispo" target="_blank" rel="noopener noreferrer">Cordoama ~5 km</a><span class="tags" data-i18n="tag.surf3">surf | caminhada | natureza</span></p>
