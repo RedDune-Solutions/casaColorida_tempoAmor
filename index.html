@@ -456,7 +456,7 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 /* os slides ocupam a MESMA célula da grelha: a altura fica presa ao maior
    e a secção deixa de saltar quando se muda de slide. `align-items: center`
    centra os slides curtos nessa altura, em vez de os encostar ao topo */
-.rec-stage { display: grid; align-items: center; }
+.rec-stage { display: grid; align-items: center; padding-block: clamp(14px,1.8vw,26px); }
 .rec-slide { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; }
 .rec-slide.on { opacity: 1; visibility: visible; pointer-events: auto; animation: recIn .45s ease both; }
 @keyframes recIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
