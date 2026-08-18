@@ -511,7 +511,9 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
   grid-template-columns: repeat(2, minmax(0, 330px));
   text-align: left;
 }
-.rec-item .n { display: block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
+/* inline-block: a área clicável é só a caixa do texto, não a largura toda da
+   coluna (a etiqueta por baixo é block, por isso a quebra de linha mantém-se) */
+.rec-item .n { display: inline-block; font-size: clamp(14px,1.5vw,18px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); line-height: 1.25; }
 /* o nome abre o sítio no Google Maps: sublinhado só no hover/foco para não
    competir com os títulos sublinhados das secções */
 a.n { text-decoration: none; transition: color .2s; }
