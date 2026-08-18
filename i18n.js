@@ -216,7 +216,8 @@
       'stay.pets': 'Animais bem-vindos (extra de 20€ para limpeza)',
 
       /* tarifas por época (Figma, frames 13 e 15) */
-      'rates.title': 'Tarifas por época',
+      'stay.extra': 'Mais de 2 pessoas: acresce 10€ por pessoa.',
+      'rates.title': 'Tarifas por época (por noite)',
       'rates.s1': '1 out – 15 mar',
       'rates.s2': '16 mar – 15 mai',
       'rates.s3a': '16 mai – 15 jun',
@@ -587,7 +588,8 @@
       'stay.pets': 'Pets are welcome (extra 20€ cleaning fee)',
 
       /* seasonal rates (Figma, frames 13 and 15) */
-      'rates.title': 'Seasonal rates',
+      'stay.extra': 'More than 2 people, an additional €10 per person will be charged.',
+      'rates.title': 'Seasonal rates (per night)',
       'rates.s1': '1 Oct – 15 Mar',
       'rates.s2': '16 Mar – 15 May',
       'rates.s3a': '16 May – 15 Jun',

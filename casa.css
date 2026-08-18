@@ -65,19 +65,25 @@ body { background: var(--paper); }
 .cs-nav.next { right: clamp(4px,1.6vw,26px); }
 .cs-nav svg { width: 34px; height: 34px; }
 .cs-nav:focus-visible { outline: 3px solid var(--peach); outline-offset: 2px; }
-/* 17 bolinhas fixas de 11px + 12px de intervalo dão 379px: mais do que a
-   largura de um telemóvel. Tamanho e intervalo encolhem com o ecrã, a caixa
-   nunca passa o espaço livre entre as setas e, se um dia a casa levar mais
-   fotos do que cabem, passam para a linha de baixo em vez de saírem fora. */
+/* Bolinhas em janela: no máximo 5 à vista, as outras vão entrando à medida
+   que as fotos passam (com 15 e 17 fotos, a fila inteira não cabia num
+   telemóvel). Tamanho e intervalo encolhem com o ecrã e o espaço das setas
+   fica reservado dos dois lados. */
 .cs-dots {
   --dot: clamp(7px,1.2vw,11px);
   --dot-gap: clamp(5px,1.4vw,12px);
-  /* de margem a margem com padding em vez de left:50%: assim a linha centra-se
-     na foto toda e o espaço das setas fica reservado dos dois lados */
+  --dot-vis: 5;
   position: absolute; left: 0; right: 0; bottom: clamp(14px,2.4vw,32px); z-index: 3;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--dot-gap);
+  display: flex; justify-content: center;
   padding-inline: clamp(52px,9vw,80px);
 }
+/* a janela corta o que passa das 5; o carril desliza por baixo dela */
+.cs-dots-win {
+  overflow: hidden;
+  max-width: calc(var(--dot-vis) * var(--dot) + (var(--dot-vis) - 1) * var(--dot-gap));
+}
+.cs-dots-track { display: flex; gap: var(--dot-gap); transition: transform .28s ease; }
+@media (prefers-reduced-motion: reduce) { .cs-dots-track { transition: none; } }
 .cs-dots button {
   position: relative; flex: none;
   width: var(--dot); height: var(--dot); border-radius: 50%; cursor: pointer; padding: 0;
@@ -120,11 +126,17 @@ body { background: var(--paper); }
 .cb-cap {
   display: inline-block; margin-top: clamp(24px,3.4vw,46px);
   font-size: clamp(16px,1.9vw,24px); font-weight: 400; letter-spacing: .03em; text-transform: uppercase; color: #fff;
-  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
 .cb-nights { margin-top: clamp(20px,2.8vw,36px); font-size: clamp(13px,1.5vw,19px); letter-spacing: .04em; text-transform: uppercase; color: var(--peach); }
 .cb-line { margin-top: clamp(12px,1.6vw,20px); font-size: clamp(12px,1.3vw,16px); letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.92); }
 .cb-line + .cb-line { margin-top: 6px; }
+/* nota do extra por pessoa (Figma, frame 15): caixa baixa, sem maiúsculas */
+.cb-note {
+  margin: clamp(22px,3vw,38px) auto 0; max-width: 26em;
+  font-size: clamp(12px,1.25vw,15px); font-weight: 300; line-height: 1.5;
+  color: rgba(255,255,255,.86);
+}
 
 /* ---------- TARIFAS POR ÉPOCA (Figma) ----------
    Duas colunas de tarifas separadas por um filete, centradas na página; o
@@ -133,12 +145,15 @@ body { background: var(--paper); }
 .rates-title {
   display: inline-block; font-size: clamp(18px,2.2vw,30px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: var(--peach);
-  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
+/* o bloco encolhe ao maior dos dois (titulo ou tabela) e a tabela ocupa-o
+   todo: assim a tabela fica com a mesma largura do titulo */
+.rates-inner { display: inline-block; }
 .rates-cols {
-  margin-top: clamp(28px,4vw,52px);
+  margin-top: clamp(28px,4vw,52px); width: 100%;
   display: grid; grid-template-columns: max-content 1px max-content;
-  gap: clamp(24px,5vw,72px); justify-content: center; text-align: left;
+  gap: clamp(24px,5vw,72px); justify-content: space-between; text-align: left;
 }
 .rates-vline { background: rgba(240,138,36,.45); }
 .rate + .rate { margin-top: clamp(20px,2.6vw,34px); }
@@ -151,7 +166,7 @@ body { background: var(--paper); }
 }
 @media (max-width: 620px) {
   /* o filete não faz sentido com uma coluna só */
-  .rates-cols { grid-template-columns: max-content; gap: clamp(20px,3vw,34px); }
+  .rates-cols { grid-template-columns: max-content; gap: clamp(20px,3vw,34px); justify-content: center; }
   .rates-vline { display: none; }
 }
 
@@ -160,7 +175,7 @@ body { background: var(--paper); }
 .cf-title {
   display: inline-block; font-size: clamp(18px,2.2vw,30px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: #BBD8D4;
-  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
 /* o `display` acima é regra de autor e ganha ao `[hidden]` do browser (que é do
    agente): sem isto o título "Preencha e envie o pedido" continuava por cima do
@@ -219,8 +234,8 @@ body { background: var(--paper); }
 }
 .check .box svg { width: 12px; height: 12px; color: #fff; opacity: 0; }
 .check input { position: absolute; opacity: 0; width: 0; height: 0; }
-/* mesmo laranja do widget do hero — antes era #1F1F1F e ficava preto, fora da paleta */
-.check input:checked + .box { background: var(--peach-deep); box-shadow: inset 0 0 0 1.5px var(--peach-deep); }
+/* caixa marcada em sage-deep (o pêssego perdia-se sobre o cartão claro) */
+.check input:checked + .box { background: var(--sage-deep); box-shadow: inset 0 0 0 1.5px var(--sage-deep); }
 .check input:checked + .box svg { opacity: 1; }
 .check .lbl b { display: block; font-size: clamp(14px,1.3vw,16px); font-weight: 400; color: var(--ink); }
 .check .lbl small { font-size: 13.5px; color: #8A8A8A; }

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title data-i18n="page.title.index">Casa Colorida &amp; Tempo &amp; Amor · Casas de férias em Vila do Bispo, Algarve</title>
-<script src="i18n.js?v=20260818a" defer></script>
+<script src="i18n.js?v=20260818b" defer></script>
 <meta name="description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <link rel="canonical" href="https://reddune-solutions.github.io/casaColorida_tempoAmor/" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3" />
@@ -20,11 +20,11 @@
 <meta property="og:description" content="Duas casas de férias acolhedoras e típicas no coração de Vila do Bispo, Algarve, junto à Costa Vicentina. Abrande, sinta-se em casa." />
 <meta property="og:image" content="https://reddune-solutions.github.io/casaColorida_tempoAmor/assets/fig/photo-b.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260818a" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/fig/hero.webp?v=20260818b" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bad+Script&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=20260818a" />
+<link rel="stylesheet" href="styles.css?v=20260818b" />
 <style>
 /* ============================================================
    HOME — redesign fiel ao novo mockup do Figma (Sacra Design)
@@ -42,15 +42,16 @@
   --gut: clamp(20px, 5vw, 60px);
 }
 
-/* botão coral (accent do Figma) */
+/* botão pêssego — o mesmo `--peach` das bandas (.band-peach / .access) e dos
+   botões das páginas das casas (.btn-send) */
 .btn-book {
   display: inline-flex; align-items: center; justify-content: center;
-  background: rgb(240,138,36); color: #fff; border: 0; cursor: pointer;
+  background: var(--peach); color: #fff; border: 0; cursor: pointer;
   border-radius: 8px; padding: 0 clamp(28px,3vw,48px); height: 44px;
   font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   white-space: nowrap; transition: background .2s ease, transform .2s ease;
 }
-.btn-book:hover { background: rgb(222,124,28); transform: translateY(-1px); }
+.btn-book:hover { background: #F79E63; transform: translateY(-1px); }
 .btn-book.full { width: 100%; }
 /* setinha a seguir ao texto: desliza para a direita no hover/foco */
 .btn-book { gap: 10px; }
@@ -115,7 +116,7 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 1; background: rgba(20,17,
   display: flex; align-items: flex-end;
 }
 .hero-clip { position: absolute; inset: 0; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260818a") center / cover no-repeat; }
+.hero-bg { position: absolute; inset: 0; background: url("assets/fig/hero.jpg?v=20260818b") center / cover no-repeat; }
 .hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(20,18,14,.12) 0%, rgba(20,18,14,0) 30%, rgba(20,18,14,0) 62%, rgba(20,18,14,.18) 100%); }
 .hero-wrap {
   position: relative; z-index: 2; width: 100%;
@@ -158,7 +159,7 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 1; background: rgba(20,17,
 }
 .check .box svg { width: 13px; height: 13px; color: #fff; opacity: 0; }
 .check input { position: absolute; opacity: 0; width: 0; height: 0; }
-.check input:checked + .box { background: var(--peach-deep); box-shadow: inset 0 0 0 1.5px var(--peach-deep); }
+.check input:checked + .box { background: var(--sage-deep); box-shadow: inset 0 0 0 1.5px var(--sage-deep); }
 .check input:checked + .box svg { opacity: 1; }
 .check .lbl b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
 .check .lbl small { font-size: 12.5px; color: var(--slate); }
@@ -213,7 +214,7 @@ body:has(.mobile-drawer.open) .bar::before { opacity: 1; background: rgba(20,17,
 .wel-title {
   display: inline-block; font-size: clamp(15px,1.5vw,19px); font-weight: 600; letter-spacing: .12em;
   text-transform: uppercase; color: var(--peach);
-  text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 1.5px;
+  text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 2px;
 }
 /* par de títulos: linha fina clara + linha bold (padrão repetido em todo o site) */
 .duo { margin-top: clamp(26px,3.4vw,44px); line-height: 1.12; }
@@ -286,12 +287,13 @@ img.amn-ico { filter: brightness(0) invert(1); }
   background: rgba(24,21,19,.72);
 }
 .house-head {
-  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  display: grid; grid-template-columns: minmax(0,1fr) 4px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
 }
 .house-title .script {
   display: block; font-family: var(--font-sans); font-weight: 400;
-  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color: var(--peach); filter: brightness(50%);
+  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color: var(--peach);
+  filter: brightness(50%); opacity: .5;
 }
 .house-title h2 {
   margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
@@ -299,7 +301,10 @@ img.amn-ico { filter: brightness(0) invert(1); }
   white-space: nowrap;
 }
 @media (max-width: 520px) { .house-title h2 { white-space: normal; } }
-.house-head .vline { width: 4px; height: clamp(90px,10vw,150px); background: var(--peach-deep); filter: brightness(50%); }
+/* o filete acompanha a altura da linha da grelha (do topo ao fundo da caixa
+   mais alta), em vez de uma altura fixa a meio */
+/* mesma cor e mesma opacidade da palavra "casa" ao lado */
+.house-head .vline { width: 4px; align-self: stretch; background: var(--peach); filter: brightness(50%); opacity: .5; }
 /* medida em `em` (≈19 caracteres por linha): aperta o parágrafo para 4 linhas
    em PT e EN, e mantém-nas quando o corpo encolhe com o viewport */
 .house-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 300; line-height: 1.5; color: #fff; max-width: 19em; }
@@ -375,13 +380,12 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 .si-cap {
   font-size: clamp(17px,2vw,26px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: #F6C4A2;
-  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
 .si-sub { margin-top: clamp(22px,3vw,38px); font-size: clamp(13px,1.4vw,17px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: var(--peach); }
 .si-line { margin-top: clamp(14px,1.8vw,22px); font-size: clamp(12px,1.2vw,15px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; color: #6E6E6E; }
 .si-line + .si-line { margin-top: 6px; }
-.stay-info .btn-book { margin-top: clamp(26px,3.4vw,42px); background: var(--peach); }
-.stay-info .btn-book:hover { background: #F79E63; }
+.stay-info .btn-book { margin-top: clamp(26px,3.4vw,42px); }
 
 
 /* ================= DISCOVER — banda com foto + carrossel ================= */
@@ -407,18 +411,19 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
   background: linear-gradient(90deg, rgba(26,42,44,.82) 0%, rgba(26,42,44,.76) 45%, rgba(26,42,44,.66) 100%);
 }
 .disc-head {
-  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  display: grid; grid-template-columns: minmax(0,1fr) 4px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
 }
 .disc-title .script {
   display: block; font-family: var(--font-sans); font-weight: 400;
-  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color:var(--sage); filter: brightness(50%);
+  font-size: clamp(26px,3.2vw,40px); letter-spacing: .01em; color:var(--sage);
+  filter: brightness(50%); opacity: .5;
 }
 .disc-title h2 {
   margin-top: 2px; font-size: clamp(26px,3.8vw,50px); font-weight: 700;
   letter-spacing: .01em; text-transform: uppercase; color: var(--sage-deep); line-height: 1.08;
 }
-.disc-head .vline { width: 4px; height: clamp(90px,10vw,150px); background: var(--sage); filter: brightness(50%); }
+.disc-head .vline { width: 4px; align-self: stretch; background: var(--sage); filter: brightness(50%); opacity: .5; }
 .disc-copy p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 420px; }
 
 /* banda da onda: a fotografia passa a levar o título por cima, em branco,
@@ -489,7 +494,7 @@ section[id], form[id] { scroll-margin-top: calc(var(--bar-h) + 8px); }
 .sec-title {
   display: inline-block; font-size: clamp(16px,1.9vw,24px); font-weight: 400; letter-spacing: .04em;
   text-transform: uppercase; color: var(--sage);
-  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 9px; text-decoration-thickness: 2px;
 }
 .rec-grid {
   margin: 0 auto; max-width: 780px;
@@ -506,11 +511,14 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 /* comer e beber — duas colunas com a linha ao meio (Figma) */
 .food-cols {
   padding: clamp(44px,6vw,86px) var(--gut) clamp(40px,5vw,70px);
-  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  display: grid; grid-template-columns: minmax(0,1fr) 4px minmax(0,1fr);
   gap: clamp(24px,4.5vw,64px); align-items: start; text-align: left;
 }
 .food-cols .vline { width: 4px; align-self: stretch; background: var(--line); }
-.food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); max-width: 340px; }
+/* cada coluna centra o seu bloco na respectiva metade, com a mesma medida
+   para a nota e para as listas */
+.food-col { width: 100%; max-width: 360px; margin-inline: auto; }
+.food-note { font-size: clamp(15px,1.5vw,18px); line-height: 1.5; color: var(--ink); }
 .food-col > .food-note + .sec-title { margin-top: clamp(36px,5vw,80px); }
 .food-note.last { margin-top: clamp(32px,4.5vw,70px); }
 .food-list { margin-top: clamp(22px,3vw,40px); display: grid; gap: clamp(16px,2vw,26px); }
@@ -525,12 +533,12 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 /* cabeçalho em banda teal, como no Figma */
 .faq-band { background: var(--sage); padding: clamp(40px,5.5vw,76px) 0; }
 .faq-band-inner {
-  display: grid; grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  display: grid; grid-template-columns: minmax(0,1fr) 4px minmax(0,1fr);
   gap: clamp(22px,4vw,52px); align-items: center;
 }
 .faq-band .l1 { display: block; font-size: clamp(24px,3vw,40px); font-weight: 300; color: rgba(255,255,255,.68); }
 .faq-band .l2 { display: block; margin-top: 1px; font-size: clamp(28px,3.6vw,48px); font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .01em; }
-.faq-band .vline { width: 4px; height: clamp(70px,8vw,110px); background: rgba(255,255,255,.6); }
+.faq-band .vline { width: 4px; align-self: stretch; background: rgba(255,255,255,.6); }
 .faq-band p { font-size: clamp(15px,1.5vw,18px); font-weight: 400; line-height: 1.5; color: #fff; max-width: 360px; }
 @media (max-width: 860px) { .faq-band-inner { grid-template-columns: 1fr; } .faq-band .vline { display: none; } }
 
@@ -548,7 +556,7 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 }
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary > span {
-  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px;
+  text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px;
 }
 .acc summary > span::before { counter-increment: faq; content: counter(faq) ". "; }
 .acc summary .chev { width: clamp(20px,1.8vw,26px); height: clamp(20px,1.8vw,26px); color: var(--sage); transition: transform .25s; flex: none; stroke-width: 2.4; }
@@ -559,8 +567,9 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
 }
 @media (max-width: 620px) { .acc summary { align-items: flex-start; } }
 
-/* texto corrido justificado como no resto do site */
-.welcome p, .house-copy p, .disc-copy p, .pm-text { text-align: justify; hyphens: auto; }
+/* texto corrido alinhado à esquerda (sem justificar: os buracos entre
+   palavras nas medidas estreitas não compensavam) */
+.house-copy p, .disc-copy p, .pm-text, .food-note { text-align: left; }
 .welcome p { text-align: center; }
 
 @media (max-width: 860px) {
@@ -774,31 +783,31 @@ a.n:hover, a.n:focus-visible { color: var(--sage-deep); text-decoration: underli
     </h2>
     <div class="amn-grid">
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/wifi.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/wifi.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.wifi">Wi-Fi grátis</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/tv.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/tv.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.tv">Smart TV</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/games.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/games.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.bbq2">Jogos</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/bbq.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/bbq.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.bbq">Churrasqueira</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/heater.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/heater.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.heater">Aquecedor</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/fan.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/fan.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.fan">Ventoinha</span>
       </div>
       <div class="amn">
-        <img class="amn-ico" src="assets/icons/dehumidifier.svg?v=2" alt="" aria-hidden="true" />
+        <img class="amn-ico" src="assets/icons/dehumidifier.png?v=5" alt="" aria-hidden="true" />
         <span data-i18n="amn.dehum">Desumidificador</span>
       </div>
     </div>
@@ -1494,7 +1503,7 @@ function ccDateRange(ids) {
 
 
 
-<script src="site.js?v=20260818a" defer></script>
+<script src="site.js?v=20260818b" defer></script>
 
 <script type="application/ld+json">
 {

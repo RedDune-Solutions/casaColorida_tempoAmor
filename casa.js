@@ -170,6 +170,15 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
   var house = CASA_SHOTS[host.getAttribute('data-house')];
   if (!house) return;
   var dotsBox = host.querySelector('.cs-dots');
+  /* janela de 5 bolinhas: o carril vai deslizando conforme a foto muda.
+     Os dois invólucros levam role=presentation para os `tab` continuarem a
+     contar como filhos do `tablist` na árvore de acessibilidade. */
+  var DOTS_VIS = 5;
+  var dotsWin = document.createElement('div');
+  var dotsTrack = document.createElement('div');
+  dotsWin.className = 'cs-dots-win'; dotsWin.setAttribute('role', 'presentation');
+  dotsTrack.className = 'cs-dots-track'; dotsTrack.setAttribute('role', 'presentation');
+  dotsWin.appendChild(dotsTrack); dotsBox.appendChild(dotsWin);
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var imgs = [], dots = [], i = 0, timer = null, hovered = false, lbOpen = false;
 
@@ -193,7 +202,7 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
     d.setAttribute('aria-selected', n === 0 ? 'true' : 'false');
     d.setAttribute('aria-label', String(n + 1));
     d.addEventListener('click', function () { stop(); show(n); });
-    dotsBox.appendChild(d);
+    dotsTrack.appendChild(d);
     dots.push(d);
   });
 
@@ -206,7 +215,19 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
       else im.setAttribute('aria-hidden', 'true');
     });
     dots.forEach(function (d, k) { d.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    slideDots();
   }
+  /* mantém a bolinha activa ao centro da janela, sem passar das pontas */
+  function slideDots() {
+    if (dots.length <= DOTS_VIS) { dotsTrack.style.transform = 'none'; return; }
+    var step = dots[1].offsetLeft - dots[0].offsetLeft;   /* bolinha + intervalo */
+    if (!step) return;
+    var meio = Math.floor(DOTS_VIS / 2);
+    var ini = Math.min(Math.max(i - meio, 0), dots.length - DOTS_VIS);
+    dotsTrack.style.transform = 'translateX(' + (-ini * step) + 'px)';
+  }
+  /* o passo vem do clamp() do CSS: muda com a largura do ecrã */
+  window.addEventListener('resize', slideDots);
   function start() { if (!timer && !reduce) timer = setInterval(function () { if (!hovered && !lbOpen && !document.hidden) show(i + 1); }, 6000); }
   function stop() { if (timer) { clearInterval(timer); timer = null; } }
 
