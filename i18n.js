@@ -120,7 +120,6 @@
       'amn.coffee': 'Máquina de café',
       'amn.cooktop': 'Placa de fogão',
       'amn.dishwasher': 'Máquina de lavar louça',
-      'amn.fridge': 'Frigorífico',
       'amn.toaster': 'Torradeira',
       'amn.towels': 'Toalhas',
       'amn.hair': 'Secador de cabelo',
@@ -131,7 +130,6 @@
       'amn.microwave': 'Micro-ondas',
       'amn.utensils': 'Utensílios de cozinha',
       'amn.washer': 'Máquina de lavar roupa',
-      'amn.oven': 'Forno',
 
       /* redesign completo Figma (2026-07-31) */
       'welcome.l1': 'abrande',
@@ -492,7 +490,6 @@
       'amn.coffee': 'Coffee machine',
       'amn.cooktop': 'Cooktop',
       'amn.dishwasher': 'Dishwasher',
-      'amn.fridge': 'Fridge',
       'amn.toaster': 'Toaster',
       'amn.towels': 'Towels',
       'amn.hair': 'Hair dryer',
@@ -503,7 +500,6 @@
       'amn.microwave': 'Microwave',
       'amn.utensils': 'Kitchen utensils',
       'amn.washer': 'Washing machine',
-      'amn.oven': 'Oven',
 
       /* redesign completo Figma (2026-07-31) — copy do Figma */
       'welcome.l1': 'stay slow',

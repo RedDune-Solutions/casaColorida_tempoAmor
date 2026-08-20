@@ -21,5 +21,6 @@ HTML/CSS/JS estático puro, sem build. Deploy automático via GitHub Pages (bran
 
 - **Cache-busting:** ao alterar `styles.css` / `i18n.js` / `site.js` / `casa.js`, bumpar o `?v=` nas 5 páginas — senão os visitantes ficam presos à versão antiga.
 - **Antes de commit:** `grep -l "omelette-injected" *.html` tem de devolver vazio (artefacto do preview do Claude Design; não pode ir para produção).
-- **Imagens:** WebP (convertidas com sharp, q78-80). Os 3 JPG restantes (`photo-b`, `colorida-10`, `tempo-07`) são para og:image/JSON-LD — não apagar.
+- **Imagens:** WebP (convertidas com sharp, q78-80). Os 3 JPG restantes (`hero`, `colorida-10`, `tempo-07`) são para og:image/JSON-LD — não apagar. O `hero.jpg` acumula os dois papéis: fundo do hero e og:image do index.
+- **Ícones:** as amenities usam PNG, excepto 9 (`bbq`, `cooktop`, `dehumidifier`, `dishwasher`, `fan`, `games`, `heater`, `tv`, `wifi`) que já têm SVG idêntico ao PNG e foram migradas. Os restantes SVG do Figma desenhavam outra coisa e foram descartados.
 - **Créditos:** fotos do local vêm do Wikimedia Commons (CC) — a linha de créditos no rodapé do index é obrigatória.
