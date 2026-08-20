@@ -2,7 +2,7 @@
 
 Site das duas casas de férias **Casa Colorida** (T2) e **Tempo & Amor** (T1) em Vila do Bispo, Algarve. Donos: Andrea & Mató. Desenvolvido por [RedDune Solutions](https://reddunesolutions.pt) & Sacra Design.
 
-**Live:** https://reddune-solutions.github.io/casaColorida_tempoAmor/
+**Live:** https://casas-coloridas.pt/
 
 ## Stack
 

@@ -440,7 +440,7 @@ function casaLabel(k) { return (window.t && window.t(k) !== k) ? window.t(k) : (
      deles e não à vista no JS, onde os robôs de spam o apanhavam.
      Destino provisório (caixa da RedDune) até à entrega do site; para mudar,
      gerar um token novo para o email dos donos em formsubmit.co e trocar aqui. */
-  var FORM_TOKEN = '342b026a7f6df8779c1d7da396754ed6';
+  var FORM_TOKEN = 'casascoloridasvila@gmail.com';
   var ENDPOINT   = 'https://formsubmit.co/ajax/' + FORM_TOKEN;
   var form = document.getElementById('casaForm');
   if (!form) return;
